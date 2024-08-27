@@ -29,9 +29,9 @@ app.get('/', (request, response) => {
 
 //routes
 app.use('/books', booksRoute);
-
 app.use('/auth',authRoute);
 
+//databse connection
 mongoose
   .connect(mongoDBURL)
   .then(() => {
