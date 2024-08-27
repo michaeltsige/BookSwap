@@ -3,8 +3,9 @@ import axios from 'axios';
 import Spinner from '../components/Spinner';
 import { Link } from 'react-router-dom';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
-import BooksTable from '../components/home/BooksTable';
+// import BooksTable from '../components/home/BooksTable';
 import BooksCard from '../components/home/BooksCard';
+import UserBooksCard from '../components/home/UserBooksCard';
 import { UserContext } from '../context/UserContext';
 
 const Home = () => {
@@ -53,9 +54,9 @@ const Home = () => {
       {loading ? (
         <Spinner />
       ) : showType === 'table' ? (
-        <BooksTable books={books} />
-      ) : (
         <BooksCard books={books} />
+      ) : (
+        <UserBooksCard books={books} user={userData} />
       )}
     </div>
   );

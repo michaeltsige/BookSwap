@@ -14,6 +14,9 @@ const bookSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    ownerUsername:{
+      type: String,
+    },
   },
   {
     timestamps: true,
