@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
+import { UserContext } from '../context/UserContext';
 
 const CreateBooks = () => {
   const [title, setTitle] = useState('');
@@ -12,12 +13,21 @@ const CreateBooks = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const { userData } = useContext(UserContext);
+
 
   const handleSaveBook = () => {
+
+    // assumed frontend user wont be able to access
+    // this page directly and first will have to go through
+    // the home page, in which the userData is obtained for this page/component
+
+    const ownerUsername = userData.username;
     const data = {
       title,
       author,
       publishYear,
+      ownerUsername,
     };
     setLoading(true);
     axios
@@ -29,7 +39,6 @@ const CreateBooks = () => {
       })
       .catch((error) => {
         setLoading(false);
-        // alert('An error happened. Please Chack console');
         enqueueSnackbar('Error', { variant: 'error' });
         console.log(error);
       });

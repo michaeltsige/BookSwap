@@ -7,14 +7,26 @@ import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 import BooksCard from '../components/home/BooksCard';
 import UserBooksCard from '../components/home/UserBooksCard';
 import { UserContext } from '../context/UserContext';
+import { jwtDecode } from 'jwt-decode';
 
 const Home = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showType, setShowType] = useState('table');
-  const { userData } = useContext(UserContext);
+  const [showType, setShowType] = useState('allBooks');
+  const { userData, setUserData } = useContext(UserContext);
 
   useEffect(() => {
+
+    const token = sessionStorage.getItem('token');
+
+    if (!token) {
+      navigate('/login'); // Redirect to login if no token found
+      return;
+    }
+    
+    const decodedUser = jwtDecode(token);
+    setUserData(decodedUser);
+
     setLoading(true);
     axios
       .get('http://localhost:5555/books')
@@ -34,15 +46,15 @@ const Home = () => {
       <div className='flex justify-center items-center gap-x-4'>
         <button
           className='bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg'
-          onClick={() => setShowType('table')}
+          onClick={() => setShowType('allBooks')}
         >
-          Table
+          All Books
         </button>
         <button
           className='bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg'
-          onClick={() => setShowType('card')}
+          onClick={() => setShowType('myBooks')}
         >
-          Card
+          My Books
         </button>
       </div>
       <div className='flex justify-between items-center'>
@@ -53,7 +65,7 @@ const Home = () => {
       </div>
       {loading ? (
         <Spinner />
-      ) : showType === 'table' ? (
+      ) : showType === 'allBooks' ? (
         <BooksCard books={books} />
       ) : (
         <UserBooksCard books={books} user={userData} />

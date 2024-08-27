@@ -1,5 +1,5 @@
 
-import BookSingleCard from './BookSingleCard';
+import UserBookSingleCard from './UserBookSingleCard';
 
 const UserBooksCard = ({ books, user }) => {
   
@@ -13,7 +13,7 @@ const UserBooksCard = ({ books, user }) => {
     
     <div className='grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
       {filteredBooks.map((item) => (
-        <BookSingleCard key={item._id} book={item} />
+        <UserBookSingleCard key={item._id} book={item} />
       ))}
     </div>
   );

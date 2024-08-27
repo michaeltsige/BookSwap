@@ -37,7 +37,7 @@ const Login = () => {
           } else {
             const { userPageData, token } = response.data;
             setUserData(userPageData);
-            console.log(token);
+            // console.log(token);
             sessionStorage.setItem('token',token);// stores token
             enqueueSnackbar('Logged In Successfully', { variant: 'success'});
             navigate('/');
