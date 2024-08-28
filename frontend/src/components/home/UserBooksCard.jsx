@@ -4,10 +4,6 @@ import UserBookSingleCard from './UserBookSingleCard';
 const UserBooksCard = ({ books, user }) => {
   
   const filteredBooks = books.filter((book)=>book.ownerUsername === user.username);
-
-  console.log(user);
-  console.log(books);
-  console.log(filteredBooks);
   
   return (
     

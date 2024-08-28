@@ -5,13 +5,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { MdOutlineAddBox } from 'react-icons/md';
 import BooksCard from '../components/home/BooksCard';
 import UserBooksCard from '../components/home/UserBooksCard';
-import SwapsCard from '../components/home/SwapsCard'; // Import SwapsCard component
+import SwapPage from '../components/home/SwapPage'; // Import SwapPage component
 import { UserContext } from '../context/UserContext';
 import { jwtDecode } from 'jwt-decode';
 
 const Home = () => {
   const [books, setBooks] = useState([]);
-  const [swaps, setSwaps] = useState([]); // State for swaps
   const [loading, setLoading] = useState(false);
   const [showType, setShowType] = useState('allBooks');
   const [prevShowType, setPrevShowType] = useState('allBooks');
@@ -26,7 +25,7 @@ const Home = () => {
       navigate('/login'); // Redirect to login if no token found
       return;
     }
-    
+
     try {
       const decodedUser = jwtDecode(token);
       setUserData(decodedUser);
@@ -37,23 +36,12 @@ const Home = () => {
     }
 
     setAuthChecked(true);
-
     setLoading(true);
+
     axios
       .get('http://localhost:5555/books')
       .then((response) => {
         setBooks(response.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-
-    axios
-      .get('http://localhost:5555/swaps') // Fetch swaps data
-      .then((response) => {
-        setSwaps(response.data.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -75,8 +63,8 @@ const Home = () => {
   }
 
   return (
-    <div className='p-6 bg-[#EAEAEA] min-h-screen'>
-      <div className='flex justify-center items-center gap-x-6 mb-6'>
+    <div className="p-6 bg-[#EAEAEA] min-h-screen">
+      <div className="flex justify-center items-center gap-x-6 mb-6">
         <button
           className={`px-6 py-2 rounded-t-lg transition duration-300 ${
             showType === 'allBooks' ? 'bg-[#4A5568] text-white' : 'bg-[#EAEAEA] text-[#4A5568]'
@@ -102,13 +90,13 @@ const Home = () => {
           Swaps
         </button>
       </div>
-      <div className='flex justify-between items-center mb-8'>
-        <h1 className='text-4xl font-bold text-[#2D3748]'>Books List</h1>
-        <Link to='/books/create'>
-          <MdOutlineAddBox className='text-[#4A5568] text-5xl hover:text-[#2D3748] transition duration-300' />
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold text-[#2D3748]">Books List</h1>
+        <Link to="/books/create">
+          <MdOutlineAddBox className="text-[#4A5568] text-5xl hover:text-[#2D3748] transition duration-300" />
         </Link>
       </div>
-      <div className='relative'>
+      <div className="relative">
         {loading ? (
           <Spinner />
         ) : (
@@ -122,7 +110,7 @@ const Home = () => {
             ) : showType === 'myBooks' ? (
               <UserBooksCard books={books} user={userData} />
             ) : showType === 'swaps' ? (
-              <SwapsCard swaps={swaps} /> // Render SwapsCard component
+              <SwapPage /> // Render SwapPage component
             ) : null}
           </div>
         )}
