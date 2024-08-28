@@ -24,41 +24,44 @@ const ShowBook = () => {
   }, []);
 
   return (
-    <div className='p-4'>
+    <div className='p-6 bg-[#F8F8F9] min-h-screen'>
       <BackButton />
-      <h1 className='text-3xl my-4'>Show Book</h1>
+      <h1 className='text-4xl font-semibold text-[#111439] mb-6'>Show Book</h1>
       {loading ? (
         <Spinner />
       ) : (
-        <div className='flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4'>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Id</span>
-            <span>{book._id}</span>
+        <div className='flex flex-col border border-[#1A237E] rounded-lg shadow-md p-6 bg-[#F1F5F9] w-full max-w-lg mx-auto'>
+          <div className='mb-4'>
+            <span className='text-lg font-medium text-gray-700'>Id:</span>
+            <span className='ml-2 text-lg text-gray-900'>{book._id}</span>
           </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Title</span>
-            <span>{book.title}</span>
+          <div className='mb-4'>
+            <span className='text-lg font-medium text-gray-700'>Title:</span>
+            <span className='ml-2 text-lg text-gray-900'>{book.title}</span>
           </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Author</span>
-            <span>{book.author}</span>
+          <div className='mb-4'>
+            <span className='text-lg font-medium text-gray-700'>Author:</span>
+            <span className='ml-2 text-lg text-gray-900'>{book.author}</span>
           </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Publish Year</span>
-            <span>{book.publishYear}</span>
+          <div className='mb-4'>
+            <span className='text-lg font-medium text-gray-700'>Publish Year:</span>
+            <span className='ml-2 text-lg text-gray-900'>{book.publishYear}</span>
           </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Create Time</span>
-            <span>{new Date(book.createdAt).toString()}</span>
+          <div className='mb-4'>
+            <span className='text-lg font-medium text-gray-700'>Create Time:</span>
+            <span className='ml-2 text-lg text-gray-900'>{new Date(book.createdAt).toLocaleString()}</span>
           </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Last Update Time</span>
-            <span>{new Date(book.updatedAt).toString()}</span>
+          <div className='mb-4'>
+            <span className='text-lg font-medium text-gray-700'>Last Update Time:</span>
+            <span className='ml-2 text-lg text-gray-900'>{new Date(book.updatedAt).toLocaleString()}</span>
           </div>
         </div>
       )}
     </div>
   );
+  
+ 
 };
+
 
 export default ShowBook;

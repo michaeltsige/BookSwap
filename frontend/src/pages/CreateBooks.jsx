@@ -45,44 +45,49 @@ const CreateBooks = () => {
   };
 
   return (
-    <div className='p-4'>
+    <div className='p-6 bg-[#F0F4F8] min-h-screen'>
       <BackButton />
-      <h1 className='text-3xl my-4'>Create Book</h1>
-      {loading ? <Spinner /> : ''}
-      <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
+      <h1 className='text-3xl font-bold text-[#2D3748] my-4'>Create Book</h1>
+      {loading && <Spinner />}
+      <div className='flex flex-col border border-[#E2E8F0] rounded-lg shadow-sm w-[600px] p-6 mx-auto bg-white'>
         <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Title</label>
+          <label className='block text-lg font-medium text-[#2D3748] mb-2'>Title</label>
           <input
             type='text'
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
+            className='border border-[#E2E8F0] rounded-lg px-4 py-2 w-full bg-[#F7FAFC] focus:outline-none focus:ring-1 focus:ring-[#2B6CB0] focus:border-transparent'
           />
         </div>
         <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Author</label>
+          <label className='block text-lg font-medium text-[#2D3748] mb-2'>Author</label>
           <input
             type='text'
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2  w-full '
+            className='border border-[#E2E8F0] rounded-lg px-4 py-2 w-full bg-[#F7FAFC] focus:outline-none focus:ring-1 focus:ring-[#2B6CB0] focus:border-transparent'
           />
         </div>
         <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Publish Year</label>
+          <label className='block text-lg font-medium text-[#2D3748] mb-2'>Publish Year</label>
           <input
             type='number'
             value={publishYear}
             onChange={(e) => setPublishYear(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2  w-full '
+            className='border border-[#E2E8F0] rounded-lg px-4 py-2 w-full bg-[#F7FAFC] focus:outline-none focus:ring-1 focus:ring-[#2B6CB0] focus:border-transparent'
           />
         </div>
-        <button className='p-2 bg-sky-300 m-8' onClick={handleSaveBook}>
+        <button
+          className='mt-6 bg-[#4A5568] text-white px-4 py-2 rounded-lg hover:bg-[#2D3748] focus:outline-none focus:ring-1 focus:ring-[#2B6CB0] focus:ring-opacity-50'
+          onClick={handleSaveBook}
+        >
           Save
         </button>
       </div>
     </div>
   );
+  
+  
 }
 
 export default CreateBooks
