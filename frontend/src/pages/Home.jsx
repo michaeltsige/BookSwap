@@ -7,10 +7,11 @@ import BooksCard from '../components/home/booksPage/BooksCard';
 import UserBooksCard from '../components/home/booksPage/UserBooksCard';
 import SwapPage from '../components/home/swapRequestsPage/SwapPage'; // Import SwapPage component
 import { UserContext } from '../context/UserContext';
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
 
 const Home = () => {
   const [books, setBooks] = useState([]);
+  const [userBooks, setUserBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showType, setShowType] = useState('allBooks');
   const [prevShowType, setPrevShowType] = useState('allBooks');
@@ -49,6 +50,25 @@ const Home = () => {
         setLoading(false);
       });
   }, [navigate, setUserData]);
+
+  useEffect(() => {
+    if (userData.username) {
+      setLoading(true);
+      console.log('Username:', userData.username);
+      
+      axios
+        .get(`http://localhost:5555/books/user/${userData.username}`)
+        .then((response) => {
+          setUserBooks(response.data.data);
+          console.log(response.data.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+    }
+  }, [userData.username]);
 
   useEffect(() => {
     // Update prevShowType when showType changes
@@ -108,7 +128,7 @@ const Home = () => {
             {showType === 'allBooks' ? (
               <BooksCard books={books} />
             ) : showType === 'myBooks' ? (
-              <UserBooksCard books={books} user={userData} />
+              <UserBooksCard books={userBooks} />
             ) : showType === 'swaps' ? (
               <SwapPage /> // Render SwapPage component
             ) : null}

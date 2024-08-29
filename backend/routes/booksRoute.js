@@ -54,8 +54,6 @@ router.get('/:id', async (request, response) => {
 
     const book = await Book.findById(id);
 
-    console.log(book._id);
-
     return response.status(200).json(book);
   } catch (error) {
     console.log(error.message);
@@ -105,6 +103,24 @@ router.delete('/:id', async (request, response) => {
     return response.status(200).send({ message: 'Book deleted successfully' });
   } catch (error) {
     console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
+
+//route for getting all books of a single user
+
+router.get('/user/:username', async (request, response)=>{
+  try {
+
+    const { username } = request.params;
+    const userBooks = await Book.find({ownerUsername: username});
+    return response.status(200).json({
+      count: userBooks.length,
+      data: userBooks,
+    });
+
+  } catch(error) {
+    console.log(error);
     response.status(500).send({ message: error.message });
   }
 });
