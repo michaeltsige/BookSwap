@@ -4,6 +4,7 @@ import { BiUserCircle, BiShow } from 'react-icons/bi';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { BsInfoCircle } from 'react-icons/bs';
 import { MdOutlineDelete } from 'react-icons/md';
+import { RiSwapLine } from "react-icons/ri";
 import { useState } from 'react';
 import BookModal from './BookModal';
 
@@ -29,6 +30,9 @@ const UserBookSingleCard = ({ book }) => {
             className='text-3xl text-blue-600 hover:text-blue-800 cursor-pointer'
             onClick={() => setShowModal(true)}
           />
+          <Link to={`/requestBookSwap/${book._id}`}>
+            <RiSwapLine className='text-2xl text-yellow-600 hover:text-yellow-800' />
+          </Link>
           <Link to={`/books/details/${book._id}`}>
             <BsInfoCircle className='text-2xl text-green-600 hover:text-green-800' />
           </Link>

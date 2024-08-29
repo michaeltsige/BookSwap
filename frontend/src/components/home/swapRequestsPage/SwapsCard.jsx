@@ -19,9 +19,7 @@ const SwapsCard = ({ swaps, type, onAccept, onReject }) => {
           key={swap._id} 
           swap={swap} 
           type={type} 
-          onAccept={onAccept(swap._id)}
-          onReject={onReject(swap._id)}
-          />)
+        />)
       ) : (
         <p className="text-gray-500">No accepted swaps.</p>
       )}
@@ -33,8 +31,6 @@ const SwapsCard = ({ swaps, type, onAccept, onReject }) => {
           key={swap._id} 
           swap={swap} 
           type={type} 
-          onAccept={() => onAccept(swap._id)}
-          onReject={() => onReject(swap._id)}
         />)
       ) : (
         <p className="text-gray-500">No rejected swaps.</p>
@@ -47,8 +43,8 @@ const SwapsCard = ({ swaps, type, onAccept, onReject }) => {
           key={swap._id} 
           swap={swap} 
           type={type} 
-          onAccept={() => onAccept(swap._id)}
-          onReject={() => onReject(swap._id)} 
+          onAccept={()=> onAccept(swap._id)}
+          onReject={()=> onReject(swap._id)} 
         />)
       ) : (
         <p className="text-gray-500">No pending swaps.</p>

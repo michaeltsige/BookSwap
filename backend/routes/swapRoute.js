@@ -101,4 +101,24 @@ router.put('/accept/:id',async (request,response)=>{
     }
 });
 
+//reject request
+router.put('/reject/:id',async (request,response)=>{
+    try {
+
+        const { id } = request.params;
+        const result = await Swap.findByIdAndUpdate(id, {status: 'rejected'}, { new: true } );
+        console.log(result);
+
+        if (!result) {
+            return response.status(404).json({ message: 'Swap Request not found' });
+          }
+      
+        return response.status(200).send({ message: 'Swap Request rejected successfully' });
+
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({ message: error.message });
+    }
+});
+
 export default router;
