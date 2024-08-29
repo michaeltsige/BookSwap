@@ -3,7 +3,7 @@ import { Swap } from '../models/swapModel.js';
 
 const router = express.Router();
 
-
+// get all swap requests
 router.get('/',async(request, response)=>{
     try {
         const swaps = await Swap.find({});
@@ -22,12 +22,15 @@ router.get('/',async(request, response)=>{
 router.post('/',async (request, response)=>{
     try {
 
-        const {requester, requestee, bookRequested, bookOffered} = request.body;
+        const {requester, requestee, bookRequestedId, bookOfferedId, bookRequestedName, bookOfferedName, status } = request.body;
         const newSwap = {
             requester: requester,
             requestee: requestee,
-            bookRequested: bookRequested,
-            bookOffered: bookOffered
+            bookRequestedId: bookRequestedId,
+            bookOfferedId: bookOfferedId,
+            bookRequestedName: bookRequestedName, 
+            bookOfferedName: bookOfferedName,
+            status: status
         }
         
         const swap = await Swap.create(newSwap);
@@ -58,7 +61,7 @@ router.get('/requestsMade/:requester',async (request,response)=>{
     }
 });
 
-//route to get requests made, using the requester
+//route to get requests made, using the requestee
 
 router.get('/seeRequests/:requestee', async(request, response)=>{
 
@@ -75,6 +78,26 @@ router.get('/seeRequests/:requestee', async(request, response)=>{
     } catch(error) {
         console.log(error);
         return response.status(500).send({ message: error.message });
+    }
+});
+
+//accept request
+router.put('/accept/:id',async (request,response)=>{
+    try {
+
+        const { id } = request.params;
+        const result = await Swap.findByIdAndUpdate(id, {status: 'accepted'}, { new: true } );
+        console.log(result);
+
+        if (!result) {
+            return response.status(404).json({ message: 'Swap Request not found' });
+          }
+      
+        return response.status(200).send({ message: 'Swap Request accepted successfully' });
+
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({ message: error.message });
     }
 });
 

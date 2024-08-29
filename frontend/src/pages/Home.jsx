@@ -3,9 +3,9 @@ import axios from 'axios';
 import Spinner from '../components/Spinner';
 import { Link, useNavigate } from 'react-router-dom';
 import { MdOutlineAddBox } from 'react-icons/md';
-import BooksCard from '../components/home/BooksCard';
-import UserBooksCard from '../components/home/UserBooksCard';
-import SwapPage from '../components/home/SwapPage'; // Import SwapPage component
+import BooksCard from '../components/home/booksPage/BooksCard';
+import UserBooksCard from '../components/home/booksPage/UserBooksCard';
+import SwapPage from '../components/home/swapRequestsPage/SwapPage'; // Import SwapPage component
 import { UserContext } from '../context/UserContext';
 import { jwtDecode } from 'jwt-decode';
 

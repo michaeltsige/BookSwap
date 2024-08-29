@@ -15,18 +15,29 @@ const swapSchema = Schema({
         required: true
       },
 
-      bookRequested: {
+      bookRequestedId: {
         type: Schema.Types.ObjectId, 
         // ref: 'Book',
         required: true
       },
 
-      bookOffered: {
+      bookOfferedId: {
         type: Schema.Types.ObjectId, 
         // ref: 'Book',
         required: true
       },
 
+      bookRequestedName: {
+        type: String, 
+        // ref: 'Book',
+        required: true
+      },
+
+      bookOfferedName: {
+        type: String, 
+        // ref: 'Book',
+        required: true
+      },
       status: {
         type: String,
         enum: ['pending', 'accepted', 'rejected', 'completed'],

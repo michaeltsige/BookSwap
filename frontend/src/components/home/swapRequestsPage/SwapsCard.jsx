@@ -1,7 +1,7 @@
 import React from 'react';
 import SingleSwapCard from './SingleSwapCard';
 
-const SwapsCard = ({ swaps, type }) => {
+const SwapsCard = ({ swaps, type, onAccept, onReject }) => {
   const acceptedSwaps = swaps.filter(swap => swap.status === 'accepted');
   const rejectedSwaps = swaps.filter(swap => swap.status === 'rejected');
   const pendingSwaps = swaps.filter(swap => swap.status === 'pending');
@@ -14,21 +14,42 @@ const SwapsCard = ({ swaps, type }) => {
 
       <h3 className="text-xl font-semibold mt-4">Accepted</h3>
       {acceptedSwaps.length > 0 ? (
-        acceptedSwaps.map(swap => <SingleSwapCard key={swap._id} swap={swap} type={type} />)
+        acceptedSwaps.map(swap => 
+        <SingleSwapCard 
+          key={swap._id} 
+          swap={swap} 
+          type={type} 
+          onAccept={onAccept(swap._id)}
+          onReject={onReject(swap._id)}
+          />)
       ) : (
         <p className="text-gray-500">No accepted swaps.</p>
       )}
 
       <h3 className="text-xl font-semibold mt-4">Rejected</h3>
       {rejectedSwaps.length > 0 ? (
-        rejectedSwaps.map(swap => <SingleSwapCard key={swap._id} swap={swap} type={type} />)
+        rejectedSwaps.map(swap => 
+        <SingleSwapCard 
+          key={swap._id} 
+          swap={swap} 
+          type={type} 
+          onAccept={() => onAccept(swap._id)}
+          onReject={() => onReject(swap._id)}
+        />)
       ) : (
         <p className="text-gray-500">No rejected swaps.</p>
       )}
 
       <h3 className="text-xl font-semibold mt-4">Pending</h3>
       {pendingSwaps.length > 0 ? (
-        pendingSwaps.map(swap => <SingleSwapCard key={swap._id} swap={swap} type={type} />)
+        pendingSwaps.map(swap => 
+        <SingleSwapCard 
+          key={swap._id} 
+          swap={swap} 
+          type={type} 
+          onAccept={() => onAccept(swap._id)}
+          onReject={() => onReject(swap._id)} 
+        />)
       ) : (
         <p className="text-gray-500">No pending swaps.</p>
       )}

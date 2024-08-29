@@ -2,8 +2,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import SwapsCard from './SwapsCard';
-import { UserContext } from '../../context/UserContext';
-import Spinner from '../Spinner';
+import { UserContext } from '../../../context/UserContext';
+import Spinner from '../../Spinner';
 
 const SwapPage = () => {
   const { userData } = useContext(UserContext);
@@ -20,7 +20,8 @@ const SwapPage = () => {
                 
                 setSwapsSent(allSwaps.filter(swap => swap.requester === userData.username));
                 setSwapsReceived(allSwaps.filter(swap => swap.requestee === userData.username));
-                // console.log(allSwaps);
+                console.log(allSwaps);
+                
                 setLoading(false);
             })
             .catch((error)=>{
@@ -30,6 +31,25 @@ const SwapPage = () => {
     
   }, [userData.username]);
 
+  const onAccept = (swapId) => {
+    
+    // Handle accept logic, send a request to update the swap status to "accepted"
+    axios
+            .put(`http://localhost:5555/swapRequest/accept/${swapId}`)
+            .then((response)=>{
+                
+                setLoading(false);
+            })
+            .catch((error)=>{
+                setLoading(false);
+                console.log(error);
+            });
+  };
+
+  const onReject = (swapId) => {
+    // Handle reject logic, send a request to update the swap status to "rejected"
+    console.log(`Rejecting swap with ID: ${swapId}`);
+  }
 
   if (loading) return <div> <Spinner /> </div>;
 
@@ -37,7 +57,7 @@ const SwapPage = () => {
     <div className="p-6 bg-[#EAEAEA] min-h-screen">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <SwapsCard swaps={swapsSent} type="sent" />
-        <SwapsCard swaps={swapsReceived} type="received" />
+        <SwapsCard swaps={swapsReceived} type="received" onAccept={onAccept} onReject={onReject}  />
       </div>
     </div>
   );
