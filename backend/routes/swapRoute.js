@@ -13,7 +13,7 @@ router.get('/',async(request, response)=>{
             data: swaps,
         });
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         return response.status(500).send({ message: error.message });
     }
 });
@@ -50,7 +50,7 @@ router.post('/', async (request, response) => {
       return response.status(201).json({ message: 'Swap request created successfully.' });
   
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return response.status(500).send({ message: error.message });
     }
   });
@@ -69,7 +69,7 @@ router.get('/requestsMade/:requester',async (request,response)=>{
           });
 
     } catch(error){
-        console.log(error);
+        //console.log(error);
         return response.status(500).send({ message: error.message });
     }
 });
@@ -89,7 +89,7 @@ router.get('/seeRequests/:requestee', async(request, response)=>{
           });
 
     } catch(error) {
-        console.log(error);
+        //console.log(error);
         return response.status(500).send({ message: error.message });
     }
 });
@@ -100,7 +100,7 @@ router.put('/accept/:id',async (request,response)=>{
 
         const { id } = request.params;
         const result = await Swap.findByIdAndUpdate(id, {status: 'accepted'}, { new: true } );
-        console.log(result);
+        //console.log(result);
 
         if (!result) {
             return response.status(404).json({ message: 'Swap Request not found' });
@@ -109,7 +109,7 @@ router.put('/accept/:id',async (request,response)=>{
         return response.status(200).send({ message: 'Swap Request accepted successfully' });
 
     } catch (error) {
-        console.log(error.message);
+        //console.log(error.message);
         response.status(500).send({ message: error.message });
     }
 });
@@ -120,7 +120,7 @@ router.put('/reject/:id',async (request,response)=>{
 
         const { id } = request.params;
         const result = await Swap.findByIdAndUpdate(id, {status: 'rejected'}, { new: true } );
-        console.log(result);
+        //console.log(result);
 
         if (!result) {
             return response.status(404).json({ message: 'Swap Request not found' });
@@ -129,7 +129,7 @@ router.put('/reject/:id',async (request,response)=>{
         return response.status(200).send({ message: 'Swap Request rejected successfully' });
 
     } catch (error) {
-        console.log(error.message);
+        //console.log(error.message);
         response.status(500).send({ message: error.message });
     }
 });

@@ -33,13 +33,13 @@ const SingleSwapCard = ({ swap, type, onAccept, onReject }) => {
       <div className="flex items-center">
         <StatusIcon status={status} />
         <div>
-          <h3 className="text-lg font-semibold">
+          <h3 className="text-lg font-semibold mb-2" style={{ fontFamily: "'Roboto Slab', sans-serif" }}>
             {type === 'sent' ? `Requested: ${bookRequestedName}` : `Offered: ${bookOfferedName}`}
           </h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 mb-1" style={{ fontFamily: "'Roboto', sans-serif" }}>
             {type === 'sent' ? `Offered: ${bookOfferedName}` : `Requested: ${bookRequestedName}`}
           </p>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600" style={{ fontFamily: "'Roboto', sans-serif" }}>
             {type === 'sent' ? `Requestee: ${requestee}` : `Requester: ${requester}`}
           </p>
           {status === 'accepted' && (

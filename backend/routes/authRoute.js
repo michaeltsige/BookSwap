@@ -12,7 +12,7 @@ router.post('/signup',async (request,response)=>{
         const userCheck = await User.findOne({email: email});
     
         if(userCheck){
-            console.log(userCheck);
+            
             return response.json({message: "user already exist"});
         }
     
@@ -25,7 +25,7 @@ router.post('/signup',async (request,response)=>{
         const user = await User.create(newUser);
         return response.status(201).json({message: 'created'});
     } catch (error) {
-        console.log(error);
+        
         return response.status(500).json({message: error.message});
     }
 
@@ -66,7 +66,7 @@ router.post('/login',async (request,response)=>{
         return response.status(200).json({ userPageData, token });
 
     } catch (error) {
-        console.log(error);
+        
         return response.status(500).json({ message: error.message })
     }
 });

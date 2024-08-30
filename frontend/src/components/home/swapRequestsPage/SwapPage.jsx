@@ -78,7 +78,7 @@ const SwapPage = () => {
   if (loading) return <div><Spinner /></div>;
 
   return (
-    <div className="p-6 bg-[#EAEAEA] min-h-screen">
+    <div className="p-6  min-h-screen">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <SwapsCard swaps={swapsSent} type="sent" />
         <SwapsCard swaps={swapsReceived} type="received" onAccept={onAccept} onReject={onReject} />

@@ -23,11 +23,6 @@ app.use(cors());
 //   })
 // );
 
-app.get('/', (request, response) => {
-  console.log(request);
-  return response.status(234).send('Welcome');
-});
-
 //routes
 app.use('/books', booksRoute);
 app.use('/auth',authRoute);

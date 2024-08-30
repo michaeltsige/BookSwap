@@ -15,13 +15,7 @@ const CreateBooks = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { userData } = useContext(UserContext);
 
-
   const handleSaveBook = () => {
-
-    // assumed frontend user wont be able to access
-    // this page directly and first will have to go through
-    // the home page, in which the userData is obtained for this page/component
-
     const ownerUsername = userData.username;
     const data = {
       title,
@@ -30,64 +24,65 @@ const CreateBooks = () => {
       ownerUsername,
     };
     setLoading(true);
-    axios
-      .post('http://localhost:5555/books', data)
+    axios.post('http://localhost:5555/books', data)
       .then(() => {
         setLoading(false);
-        enqueueSnackbar('Book Created successfully', { variant: 'success' });
+        enqueueSnackbar('Book created successfully', { variant: 'success' });
         navigate('/');
       })
       .catch((error) => {
         setLoading(false);
-        enqueueSnackbar('Error', { variant: 'error' });
+        enqueueSnackbar('Error creating book', { variant: 'error' });
         console.log(error);
       });
   };
 
   return (
-    <div className='p-6 bg-[#F0F4F8] min-h-screen'>
+    <div className='p-6 bg-[#F0F4F8] min-h-screen' style={{ fontFamily: "'Roboto', sans-serif" }}>
       <BackButton />
-      <h1 className='text-3xl font-bold text-[#2D3748] my-4'>Create Book</h1>
+      <h1 className='text-3xl font-bold text-[#2D3748] my-4' style={{ fontFamily: "'Poppins', sans-serif" }}>Create Book</h1>
       {loading && <Spinner />}
       <div className='flex flex-col border border-[#E2E8F0] rounded-lg shadow-sm w-[600px] p-6 mx-auto bg-white'>
         <div className='my-4'>
-          <label className='block text-lg font-medium text-[#2D3748] mb-2'>Title</label>
+          <label className='block text-lg font-medium text-[#2D3748] mb-2' style={{ fontFamily: "'Roboto', sans-serif" }}>Title</label>
           <input
             type='text'
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className='border border-[#E2E8F0] rounded-lg px-4 py-2 w-full bg-[#F7FAFC] focus:outline-none focus:ring-1 focus:ring-[#2B6CB0] focus:border-transparent'
+            style={{ fontFamily: "'Roboto', sans-serif" }}
           />
         </div>
         <div className='my-4'>
-          <label className='block text-lg font-medium text-[#2D3748] mb-2'>Author</label>
+          <label className='block text-lg font-medium text-[#2D3748] mb-2' style={{ fontFamily: "'Roboto', sans-serif" }}>Author</label>
           <input
             type='text'
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
             className='border border-[#E2E8F0] rounded-lg px-4 py-2 w-full bg-[#F7FAFC] focus:outline-none focus:ring-1 focus:ring-[#2B6CB0] focus:border-transparent'
+            style={{ fontFamily: "'Roboto', sans-serif" }}
           />
         </div>
         <div className='my-4'>
-          <label className='block text-lg font-medium text-[#2D3748] mb-2'>Publish Year</label>
+          <label className='block text-lg font-medium text-[#2D3748] mb-2' style={{ fontFamily: "'Roboto', sans-serif" }}>Publish Year</label>
           <input
             type='number'
             value={publishYear}
             onChange={(e) => setPublishYear(e.target.value)}
             className='border border-[#E2E8F0] rounded-lg px-4 py-2 w-full bg-[#F7FAFC] focus:outline-none focus:ring-1 focus:ring-[#2B6CB0] focus:border-transparent'
+            style={{ fontFamily: "'Roboto', sans-serif" }}
           />
         </div>
         <button
           className='mt-6 bg-[#4A5568] text-white px-4 py-2 rounded-lg hover:bg-[#2D3748] focus:outline-none focus:ring-1 focus:ring-[#2B6CB0] focus:ring-opacity-50'
           onClick={handleSaveBook}
+          style={{ fontFamily: "'Roboto', sans-serif" }}
         >
           Save
         </button>
       </div>
     </div>
   );
-  
-  
-}
+};
 
-export default CreateBooks
+export default CreateBooks;

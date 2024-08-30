@@ -17,12 +17,11 @@ const UserBookSingleCard = ({ book }) => {
   const { userData } = useContext(UserContext);
 
   const handleConfirmSwap = async (selectedBookId) => {
-    if (!selectedBookId) return; // Early return if no bookId provided
+    if (!selectedBookId) return;
 
     setLoading(true);
 
     try {
-      // Fetch selected book details (your book, which you offer for the swap)
       const { data: selectedBook } = await axios.get(`http://localhost:5555/books/${selectedBookId.toString()}`);
 
       if (book.ownerUsername === userData.username) {
@@ -31,21 +30,17 @@ const UserBookSingleCard = ({ book }) => {
         return;
       }
 
-      // Prepare swap request object
       const newSwapRequest = {
-        requester: userData.username, // Current user is the requester
-        requestee: book.ownerUsername, // Owner of the book you want is the requestee
-        bookRequestedId: book._id, // ID of the book you want
-        bookOfferedId: selectedBookId, // ID of your book you are offering
+        requester: userData.username,
+        requestee: book.ownerUsername,
+        bookRequestedId: book._id,
+        bookOfferedId: selectedBookId,
         bookRequestedName: book.title,
         bookOfferedName: selectedBook.title,
         status: 'pending',
       };
 
-      // Send swap request
       const response = await axios.post('http://localhost:5555/swapRequest', newSwapRequest);
-
-      // Check for duplicate request
 
       enqueueSnackbar('Request Sent successfully', { variant: 'success' });
     } catch (error) {
@@ -61,19 +56,33 @@ const UserBookSingleCard = ({ book }) => {
   };
 
   return (
-    <div className='border border-gray-300 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out m-4 relative'>
-      <h2 className='absolute top-2 right-2 px-4 py-1 bg-[#F9FAFB] text-[#1A202C] rounded-lg shadow-sm'>
+    <div className='relative border border-gray-300 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out m-4'>
+      
+      {/* Publish Year */}
+      <div className='absolute top-2 right-2 px-3 py-1 bg-[#F9FAFB] text-[#1A202C] rounded-lg shadow-sm text-sm whitespace-nowrap'
+           style={{ fontFamily: "'Lato', sans-serif", zIndex: 10 }}
+      >
         {book.publishYear}
-      </h2>
+      </div>
+  
       <div className='p-4'>
-        <div className='flex items-center gap-x-2 mb-2'>
-          <PiBookOpenTextLight className='text-[#1A202C] text-2xl' />
-          <h3 className='text-xl font-semibold text-[#1A202C]'>{book.title}</h3>
+        {/* Book Title */}
+        <div className='flex items-center mb-2'>
+          <div className='flex items-center gap-x-2 flex-grow' style={{ fontFamily: "'Roboto Slab', sans-serif" }}>
+            <PiBookOpenTextLight className='text-[#1A202C] text-2xl' />
+            <h3 className='text-xl font-semibold text-[#1A202C] truncate' style={{ maxWidth: 'calc(100% - 80px)' }}>
+              {book.title}
+            </h3>
+          </div>
         </div>
-        <div className='flex items-center gap-x-2 mb-4'>
+        
+        {/* Book Author */}
+        <div className='flex items-center gap-x-2 mb-4' style={{ fontFamily: "'Roboto', sans-serif" }}>
           <BiUserCircle className='text-[#1A202C] text-2xl' />
           <h4 className='text-lg text-gray-700'>{book.author}</h4>
         </div>
+  
+        {/* Action Icons */}
         <div className='flex justify-between items-center gap-x-2 mt-4'>
           <BiShow
             className='text-3xl text-blue-600 hover:text-blue-800 cursor-pointer'
@@ -88,12 +97,12 @@ const UserBookSingleCard = ({ book }) => {
           </Link>
         </div>
       </div>
-
+  
       {/* Book Modal */}
       {showBookModal && (
         <BookModal book={book} onClose={() => setShowBookModal(false)} />
       )}
-
+  
       {/* Swap Modal */}
       {showSwapModal && (
         <SwapModal
@@ -109,6 +118,8 @@ const UserBookSingleCard = ({ book }) => {
       )}
     </div>
   );
+  
+  
 };
 
 export default UserBookSingleCard;
