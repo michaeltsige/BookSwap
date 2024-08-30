@@ -12,7 +12,7 @@ const SwapModal = ({ onClose, onConfirm, visible }) => {
   useEffect(() => {
     if (visible) {
       // Fetch user's books when the modal is visible
-      axios.get(`http://localhost:5555/books/user/${userData.username}`)
+      axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books/user/${userData.username}`)
         .then((response) => {
             setUserBooks(response.data.data);
         })

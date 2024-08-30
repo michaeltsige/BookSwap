@@ -24,7 +24,7 @@ const CreateBooks = () => {
       ownerUsername,
     };
     setLoading(true);
-    axios.post('http://localhost:5555/books', data)
+    axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books`, data)
       .then(() => {
         setLoading(false);
         enqueueSnackbar('Book created successfully', { variant: 'success' });

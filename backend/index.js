@@ -1,10 +1,10 @@
 import express from 'express';
-import { PORT, mongoDBURL } from './config.js';
 import mongoose from 'mongoose';
 import booksRoute from './routes/booksRoute.js';
 import authRoute from './routes/authRoute.js';
 import swapRoute from './routes/swapRoute.js';
 import cors from 'cors';
+import dotenv from 'dotenv';
 
 const app = express();
 
@@ -22,6 +22,11 @@ app.use(cors());
 //     allowedHeaders: ['Content-Type'],
 //   })
 // );
+
+dotenv.config();
+
+const PORT = process.env.PORT;
+const mongoDBURL = process.env.MONGODB_URL;
 
 //routes
 app.use('/books', booksRoute);

@@ -13,7 +13,7 @@ const SwapPage = () => {
   const fetchSwaps = () => {
     setLoading(true);
     axios
-      .get('http://localhost:5555/swapRequest')
+      .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/swapRequest`)
       .then(async (response) => {
         const allSwaps = response.data.data;
         const swapsSent = allSwaps.filter((swap) => swap.requester === userData.username);
@@ -22,8 +22,8 @@ const SwapPage = () => {
         // Fetch email addresses for the requester and requestee
         const swapsWithEmails = await Promise.all(
           allSwaps.map(async (swap) => {
-            const requester = await axios.get(`http://localhost:5555/auth/getContact/${swap.requester}`);
-            const requestee = await axios.get(`http://localhost:5555/auth/getContact/${swap.requestee}`);
+            const requester = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/auth/getContact/${swap.requester}`);
+            const requestee = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/auth/getContact/${swap.requestee}`);
             return {
               ...swap,
               requesterEmail: requester.data.contact,
@@ -52,7 +52,7 @@ const SwapPage = () => {
   const onAccept = (swapId) => {
     setLoading(true);
     axios
-      .put(`http://localhost:5555/swapRequest/accept/${swapId}`)
+      .put(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/swapRequest/accept/${swapId}`)
       .then(() => {
         fetchSwaps(); // Refetch the data to update UI
       })
@@ -65,7 +65,7 @@ const SwapPage = () => {
   const onReject = (swapId) => {
     setLoading(true);
     axios
-      .put(`http://localhost:5555/swapRequest/reject/${swapId}`)
+      .put(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/swapRequest/reject/${swapId}`)
       .then(() => {
         fetchSwaps(); // Refetch the data to update UI
       })

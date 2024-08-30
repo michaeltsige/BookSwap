@@ -26,7 +26,7 @@ const SignUp = () => {
 
     setLoading(true);
     axios
-      .post('http://localhost:5555/auth/signup', data)
+      .post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/auth/signup`, data)
       .then(()=>{
         setLoading(false);
         enqueueSnackbar('Signed Up successfully', { variant: 'success' });

@@ -1,6 +1,11 @@
 import express, { response } from 'express';
 import { User } from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const router = express.Router();
 
@@ -55,7 +60,7 @@ router.post('/login',async (request,response)=>{
         }
 
         // store in config file the process env later
-        const JWT_SECRET = 'your_jwt_secret_key';
+        
 
         const token = jwt.sign(
             { username: user.username, email: user.email },

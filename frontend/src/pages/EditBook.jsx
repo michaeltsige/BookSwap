@@ -16,7 +16,7 @@ const EditBook = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:5555/books/${id}`)
+    axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books/${id}`)
       .then((response) => {
         setAuthor(response.data.author);
         setPublishYear(response.data.publishYear);
@@ -36,7 +36,7 @@ const EditBook = () => {
       publishYear,
     };
     setLoading(true);
-    axios.put(`http://localhost:5555/books/${id}`, data)
+    axios.put(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books/${id}`, data)
       .then(() => {
         setLoading(false);
         enqueueSnackbar('Book edited successfully', { variant: 'success' });

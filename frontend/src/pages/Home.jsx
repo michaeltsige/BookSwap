@@ -41,7 +41,7 @@ const Home = () => {
     setLoading(true);
 
     axios
-      .get('http://localhost:5555/books')
+      .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books`)
       .then((response) => {
         setBooks(response.data.data);
         setLoading(false);
@@ -57,7 +57,7 @@ const Home = () => {
       setLoading(true);
 
       axios
-        .get(`http://localhost:5555/books/user/${userData.username}`)
+        .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books/user/${userData.username}`)
         .then((response) => {
           setUserBooks(response.data.data);
           setLoading(false);

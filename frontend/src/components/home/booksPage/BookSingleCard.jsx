@@ -22,7 +22,7 @@ const UserBookSingleCard = ({ book }) => {
     setLoading(true);
 
     try {
-      const { data: selectedBook } = await axios.get(`http://localhost:5555/books/${selectedBookId.toString()}`);
+      const { data: selectedBook } = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books/${selectedBookId.toString()}`);
 
       if (book.ownerUsername === userData.username) {
         enqueueSnackbar('You cannot swap with your own book.', { variant: 'warning' });
@@ -40,7 +40,7 @@ const UserBookSingleCard = ({ book }) => {
         status: 'pending',
       };
 
-      const response = await axios.post('http://localhost:5555/swapRequest', newSwapRequest);
+      const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/swapRequest`, newSwapRequest);
 
       enqueueSnackbar('Request Sent successfully', { variant: 'success' });
     } catch (error) {

@@ -25,7 +25,7 @@ const Login = () => {
 
       setLoading(true);
       axios
-        .post('http://localhost:5555/auth/login', data)
+        .post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/auth/login`, data)
         .then((response)=>{
           setLoading(false);
           console.log(response);
