@@ -82,6 +82,11 @@ const Home = () => {
     return <Spinner />;
   }
 
+  // books that do not belong to the user
+  const filteredBooks = books.filter(
+    (book) => book.ownerUsername !== userData.username
+  );
+
   return (
     <div className="p-6 bg-[#EAEAEA] min-h-screen">
       <div className="flex justify-center items-center gap-x-6 mb-6">
@@ -126,7 +131,7 @@ const Home = () => {
             }`}
           >
             {showType === 'allBooks' ? (
-              <BooksCard books={books} />
+              <BooksCard books={filteredBooks} />
             ) : showType === 'myBooks' ? (
               <UserBooksCard books={userBooks} />
             ) : showType === 'swaps' ? (

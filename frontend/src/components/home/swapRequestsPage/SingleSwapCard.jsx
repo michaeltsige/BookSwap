@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import StatusIcon from './StatusIcon';
+import ContactModal from './ContactModal'; // Import the modal component
 
 const SingleSwapCard = ({ swap, type, onAccept, onReject }) => {
-  const { requester, requestee, bookRequestedId, bookOfferedId, bookRequestedName, bookOfferedName, status } = swap;
-
+  const [showModal, setShowModal] = useState(false);
+  const { requester, requestee, bookRequestedName, bookOfferedName, status, requesterEmail, requesteeEmail } = swap;
 
   const renderActionButtons = () => {
     if (status === 'pending' && type === 'received') {
@@ -41,11 +42,26 @@ const SingleSwapCard = ({ swap, type, onAccept, onReject }) => {
           <p className="text-sm text-gray-600">
             {type === 'sent' ? `Requestee: ${requestee}` : `Requester: ${requester}`}
           </p>
+          {status === 'accepted' && (
+            <button
+              onClick={() => setShowModal(true)}
+              className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg mt-2"
+            >
+              View Contact Info
+            </button>
+          )}
         </div>
       </div>
       <div className="flex items-center">
         {renderActionButtons()}
       </div>
+      {showModal && (
+        <ContactModal
+          onClose={() => setShowModal(false)}
+          requesterEmail={requesterEmail}
+          requesteeEmail={requesteeEmail}
+        />
+      )}
     </div>
   );
 };

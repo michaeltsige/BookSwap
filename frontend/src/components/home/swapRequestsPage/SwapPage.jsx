@@ -14,21 +14,40 @@ const SwapPage = () => {
     setLoading(true);
     axios
       .get('http://localhost:5555/swapRequest')
-      .then((response) => {
+      .then(async (response) => {
         const allSwaps = response.data.data;
-        setSwapsSent(allSwaps.filter((swap) => swap.requester === userData.username));
-        setSwapsReceived(allSwaps.filter((swap) => swap.requestee === userData.username));
+        const swapsSent = allSwaps.filter((swap) => swap.requester === userData.username);
+        const swapsReceived = allSwaps.filter((swap) => swap.requestee === userData.username);
+  
+        // Fetch email addresses for the requester and requestee
+        const swapsWithEmails = await Promise.all(
+          allSwaps.map(async (swap) => {
+            const requester = await axios.get(`http://localhost:5555/auth/getContact/${swap.requester}`);
+            const requestee = await axios.get(`http://localhost:5555/auth/getContact/${swap.requestee}`);
+            return {
+              ...swap,
+              requesterEmail: requester.data.contact,
+              requesteeEmail: requestee.data.contact,
+            };
+          })
+        );
+  
+        setSwapsSent(swapsWithEmails.filter((swap) => swap.requester === userData.username));
+        setSwapsReceived(swapsWithEmails.filter((swap) => swap.requestee === userData.username));
         setLoading(false);
       })
       .catch((error) => {
         setLoading(false);
         console.log(error);
+        
       });
   };
+  
 
   useEffect(() => {
     fetchSwaps();
   }, [userData.username]);
+
 
   const onAccept = (swapId) => {
     setLoading(true);

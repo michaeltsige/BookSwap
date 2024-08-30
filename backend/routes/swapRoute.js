@@ -19,28 +19,41 @@ router.get('/',async(request, response)=>{
 });
 
 //route to add swap request
-router.post('/',async (request, response)=>{
+router.post('/', async (request, response) => {
     try {
-
-        const {requester, requestee, bookRequestedId, bookOfferedId, bookRequestedName, bookOfferedName, status } = request.body;
-        const newSwap = {
-            requester: requester,
-            requestee: requestee,
-            bookRequestedId: bookRequestedId,
-            bookOfferedId: bookOfferedId,
-            bookRequestedName: bookRequestedName, 
-            bookOfferedName: bookOfferedName,
-            status: status
-        }
-        
-        const swap = await Swap.create(newSwap);
-        return response.status(201).json({message: 'created'});
-
-    } catch (error){
-        console.log(error);
-        return response.status(500).send({ message: error.message });
+      const { requester, requestee, bookRequestedId, bookOfferedId, bookRequestedName, bookOfferedName, status } = request.body;
+  
+      // Check if a similar request already exists
+      const existingSwap = await Swap.findOne({
+        requester,
+        requestee,
+        bookRequestedId,
+        bookOfferedId,
+      });
+  
+      if (existingSwap) {
+        return response.status(409).json({ message: 'A similar swap request already exists.' });
+      }
+  
+      // Create a new swap request
+      const newSwap = {
+        requester,
+        requestee,
+        bookRequestedId,
+        bookOfferedId,
+        bookRequestedName,
+        bookOfferedName,
+        status,
+      };
+  
+      const swap = await Swap.create(newSwap);
+      return response.status(201).json({ message: 'Swap request created successfully.' });
+  
+    } catch (error) {
+      console.log(error);
+      return response.status(500).send({ message: error.message });
     }
-});
+  });
 
 //route to get requests made, using the requester
 

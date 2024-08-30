@@ -14,36 +14,47 @@ const UserBookSingleCard = ({ book }) => {
   const [showBookModal, setShowBookModal] = useState(false);
   const [showSwapModal, setShowSwapModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [selectedBookId, setSelectedBookId] = useState(null); // Track only the ID here
   const { userData } = useContext(UserContext);
 
-  const handleConfirmSwap = async (bookId) => {
-    if (!bookId) return; // Early return if no bookId provided
+  const handleConfirmSwap = async (selectedBookId) => {
+    if (!selectedBookId) return; // Early return if no bookId provided
 
     setLoading(true);
 
     try {
-      // Fetch selected book details
-      const { data: selectedBook } = await axios.get(`http://localhost:5555/books/${bookId.toString()}`);
+      // Fetch selected book details (your book, which you offer for the swap)
+      const { data: selectedBook } = await axios.get(`http://localhost:5555/books/${selectedBookId.toString()}`);
+
+      if (book.ownerUsername === userData.username) {
+        enqueueSnackbar('You cannot swap with your own book.', { variant: 'warning' });
+        setLoading(false);
+        return;
+      }
 
       // Prepare swap request object
       const newSwapRequest = {
-        requester: userData.username,
-        requestee: selectedBook.ownerUsername,
-        bookRequestedId: book._id,
-        bookOfferedId: bookId,
+        requester: userData.username, // Current user is the requester
+        requestee: book.ownerUsername, // Owner of the book you want is the requestee
+        bookRequestedId: book._id, // ID of the book you want
+        bookOfferedId: selectedBookId, // ID of your book you are offering
         bookRequestedName: book.title,
         bookOfferedName: selectedBook.title,
         status: 'pending',
       };
 
       // Send swap request
-      await axios.post('http://localhost:5555/swapRequest', newSwapRequest);
+      const response = await axios.post('http://localhost:5555/swapRequest', newSwapRequest);
+
+      // Check for duplicate request
 
       enqueueSnackbar('Request Sent successfully', { variant: 'success' });
     } catch (error) {
-      console.error('Error handling swap request:', error);
-      enqueueSnackbar('Failed to send request', { variant: 'error' });
+      if (error.response && error.response.status === 409) {
+        enqueueSnackbar('A similar request already exists!', { variant: 'warning' });
+      } else {
+        console.error('Error handling swap request:', error);
+        enqueueSnackbar('Failed to send request', { variant: 'error' });
+      }
     } finally {
       setLoading(false);
     }
@@ -87,9 +98,9 @@ const UserBookSingleCard = ({ book }) => {
       {showSwapModal && (
         <SwapModal
           onClose={() => setShowSwapModal(false)}
-          onConfirm={(selectedBook) => {
-            if (selectedBook) {
-              handleConfirmSwap(selectedBook);
+          onConfirm={(selectedBookId) => {
+            if (selectedBookId) {
+              handleConfirmSwap(selectedBookId);
             }
             setShowSwapModal(false);
           }}

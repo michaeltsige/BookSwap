@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { response } from 'express';
 import { User } from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
 
@@ -68,6 +68,23 @@ router.post('/login',async (request,response)=>{
     } catch (error) {
         console.log(error);
         return response.status(500).json({ message: error.message })
+    }
+});
+
+//route for getting contact details/email from username
+//Maybe make it into a post request later for better security
+
+router.get('/getContact/:username', async (request,response)=>{
+    try {
+
+        const { username } = request.params;
+        
+        const user = await User.findOne({username: username});
+        const contact = user.email; 
+        response.status(201).json({contact: contact});
+
+    } catch (error) {
+        return response.json({message: error.message});
     }
 });
 
