@@ -155,9 +155,9 @@ const Home = () => {
   }, [showType, swapsLoaded]);
 
   //loading spinner
-  if (!authChecked || loading) {
-    return <Spinner />;
-  }
+  // if (!authChecked || loading) {
+  //   return <Spinner />;
+  // }
 
   //handle logout
   const handleLogOut = ()=>{
@@ -225,6 +225,7 @@ const Home = () => {
         </Link>
         <span className="text-sm text-[#2B6CB0] mt-1">Add Book</span>
       </div>
+      
       <div className="relative">
         {loading ? (
           <Spinner />
