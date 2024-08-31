@@ -7,17 +7,34 @@ import { PiBookOpenTextBold } from "react-icons/pi";
 const SwapModal = ({ onClose, onConfirm, visible }) => {
   const [userBooks, setUserBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { userData } = useContext(UserContext);
 
   useEffect(() => {
     if (visible) {
+      // Disable scrolling when modal is visible
+      document.body.style.overflow = 'hidden';
+
       // Fetch user's books when the modal is visible
+      setLoading(true);
       axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books/user/${userData.username}`)
         .then((response) => {
-            setUserBooks(response.data.data);
+          setUserBooks(response.data.data);
+          setLoading(false);
         })
-        .catch(error => console.log('Error fetching books:', error));
+        .catch(error => {
+          console.log('Error fetching books:', error);
+          setLoading(false);
+        });
+    } else {
+      // Re-enable scrolling when modal is not visible
+      document.body.style.overflow = 'auto';
     }
+
+    // Cleanup on component unmount
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
   }, [visible, userData.username]);
 
   if (!visible) return null;
@@ -32,24 +49,30 @@ const SwapModal = ({ onClose, onConfirm, visible }) => {
         <h2 className="text-2xl font-bold mb-6 text-center text-[#2B6CB0]">
           Select a Book to Swap
         </h2>
-        <ul className="space-y-3">
-          {userBooks.map(book => (
-            <li key={book._id} className="flex items-center p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition duration-200">
-              <label className="flex items-center w-full cursor-pointer">
-                <input
-                  type="radio"
-                  name="swapBook"
-                  value={book._id}
-                  checked={selectedBook === book._id}
-                  onChange={() => setSelectedBook(book._id)}
-                  className="mr-3 accent-[#2B6CB0]"
-                />
-                <PiBookOpenTextBold className="mr-2 text-[#2B6CB0]" />
-                <span className="text-sm text-gray-800">{book.title}</span>
-              </label>
-            </li>
-          ))}
-        </ul>
+        {loading ? (
+          <p className="text-center text-gray-600">Loading...</p>
+        ) : userBooks.length === 0 ? (
+          <p className="text-center text-gray-600">No books available</p>
+        ) : (
+          <ul className="space-y-3">
+            {userBooks.map(book => (
+              <li key={book._id} className="flex items-center p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition duration-200">
+                <label className="flex items-center w-full cursor-pointer">
+                  <input
+                    type="radio"
+                    name="swapBook"
+                    value={book._id}
+                    checked={selectedBook === book._id}
+                    onChange={() => setSelectedBook(book._id)}
+                    className="mr-3 accent-[#2B6CB0]"
+                  />
+                  <PiBookOpenTextBold className="mr-2 text-[#2B6CB0]" />
+                  <span className="text-sm text-gray-800">{book.title}</span>
+                </label>
+              </li>
+            ))}
+          </ul>
+        )}
         <div className="flex justify-end space-x-4 mt-6">
           <button
             className="bg-[#2B6CB0] hover:bg-[#1A202C] text-white px-4 py-2 rounded-md shadow-md transition duration-200 disabled:opacity-50"
