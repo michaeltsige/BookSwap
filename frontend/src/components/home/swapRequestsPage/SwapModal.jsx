@@ -16,7 +16,7 @@ const SwapModal = ({ onClose, onConfirm, visible }) => {
         .then((response) => {
             setUserBooks(response.data.data);
         })
-        .catch(error => console.error('Error fetching books:', error));
+        .catch(error => console.log('Error fetching books:', error));
     }
   }, [visible, userData.username]);
 

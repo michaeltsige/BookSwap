@@ -1,5 +1,7 @@
 import express, { response } from 'express';
 import { User } from '../models/userModel.js';
+import { Book } from '../models/bookModel.js';
+import { Swap } from '../models/swapModel.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
@@ -14,11 +16,18 @@ router.post('/signup',async (request,response)=>{
 
     try{
         const {username, email, password} =  request.body;
-        const userCheck = await User.findOne({email: email});
+        const emailCheck = await User.findOne({email: email});
     
-        if(userCheck){
+        if(emailCheck){
             
-            return response.json({message: "user already exist"});
+            return response.status(409).json({message: "email exists"});
+        }
+
+        const usernameCheck = await User.findOne({username: username});
+
+        if(usernameCheck){
+            
+            return response.status(409).json({message: "username exists"});
         }
     
         const newUser = new User({
@@ -90,6 +99,31 @@ router.get('/getContact/:username', async (request,response)=>{
 
     } catch (error) {
         return response.json({message: error.message});
+    }
+});
+
+
+router.delete('/delete/:username', async (req, res) => {    
+    const { username } = req.params;
+  
+    try {
+      // Delete the user's books
+      await Book.deleteMany({ ownerUsername: username });
+  
+      // Delete the user's swap requests
+      await Swap.deleteMany({ $or: [{ requester: username }, { requestee: username }] });
+  
+      // Delete the user
+      const result = await User.findOneAndDelete({ username: username });
+  
+      if (result) {
+        res.status(200).json({ message: 'User and related documents deleted', result });
+      } else {
+        res.status(404).json({ message: 'No user found with that username' });
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    //   console.log(error.message);
     }
 });
 

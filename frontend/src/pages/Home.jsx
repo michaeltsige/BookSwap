@@ -4,6 +4,12 @@ import Spinner from '../components/Spinner';
 import { Link, useNavigate } from 'react-router-dom';
 import { LuBookPlus } from "react-icons/lu";
 import { SiBookstack } from "react-icons/si";
+import { BiLogOut } from 'react-icons/bi';
+import { FaUserCircle } from 'react-icons/fa';
+import { HiOutlineMail } from 'react-icons/hi';
+import { FaGithub } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
+
 import BooksCard from '../components/home/booksPage/BooksCard';
 import UserBooksCard from '../components/home/booksPage/UserBooksCard';
 import SwapPage from '../components/home/swapRequestsPage/SwapPage';
@@ -36,7 +42,7 @@ const Home = () => {
       const decodedUser = jwtDecode(token);
       setUserData(decodedUser);
     } catch (error) {
-      console.error('Invalid token', error);
+      console.log('Invalid token', error);
       navigate('/login');
       return;
     }
@@ -62,7 +68,7 @@ const Home = () => {
       setLoading(true);
 
       axios
-        .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user/${userData.username}`)
+        .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books/user/${userData.username}`)
         .then((response) => {
           setUserBooks(response.data.data);
           setLoading(false);
@@ -153,8 +159,11 @@ const Home = () => {
     return <Spinner />;
   }
 
-  // filter out books that don't belong to the user
-  
+  //handle logout
+  const handleLogOut = ()=>{
+    sessionStorage.removeItem('token');
+    navigate('/login');
+  }
 
   return (
     <div className="p-6 bg-[#F5F5F5] min-h-screen flex flex-col">
@@ -164,6 +173,20 @@ const Home = () => {
           <h1 className="text-4xl font-semibold text-[#2B6CB0]" style={{ fontFamily: "'Montserrat', sans-serif" }}>
             BookSwap
           </h1>
+        </div>
+        <div className="flex items-center gap-x-4">
+          <Link to="/t" className="text-black hover:text-gray-700 transition duration-300 flex items-center">
+            <FaGithub className="text-3xl" />
+            <span className="ml-2 text-sm">More Projects</span>
+          </Link>
+          <Link to="/" className="text-[#28a745] hover:text-[#218838] transition duration-300 flex items-center">
+            <HiOutlineMail className="text-3xl" />
+            <span className="ml-2 text-sm">Contact</span>
+          </Link>
+            <Link to="/profile" className="text-slate-600 hover:text-slate-500 transition duration-300 flex items-center">
+              <FaUserCircle className="text-3xl" />
+              <span className="ml-2 text-sm">Logout</span>
+            </Link>
         </div>
       </div>
 

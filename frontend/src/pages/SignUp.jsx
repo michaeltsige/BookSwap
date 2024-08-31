@@ -32,12 +32,37 @@ const SignUp = () => {
         enqueueSnackbar('Signed Up successfully', { variant: 'success' });
         navigate('/login');
       })
-      .catch((error)=>{
+      .catch((error) => {
         setLoading(false);
-        console.log("here");
-        enqueueSnackbar('Error, Could not Sign Up', { variant: 'error' });
+      
+        if (error.response) {
+          // Server responded with a status other than 2xx
+          const status = error.response.status;
+          const data = error.response.data;
+      
+          if (status === 409) {
+            if (data.message === 'email exists') {
+              enqueueSnackbar('Email already in use', { variant: 'error' });
+            } else if (data.message === 'username exists') {
+              enqueueSnackbar('Username already in use', { variant: 'error' });
+            }
+          } else {
+            // Handle other statuses if necessary
+            enqueueSnackbar('An error occurred', { variant: 'error' });
+          }
+        } else if (error.request) {
+          // No response received
+          console.log('Error Request:', error.request);
+          enqueueSnackbar('Network Error', { variant: 'error' });
+        } else {
+          // Error setting up the request
+          console.log('Error Message:', error.message);
+          enqueueSnackbar('An error occurred while setting up the request', { variant: 'error' });
+        }
+      
         console.log(error);
       });
+      
 
   }
 

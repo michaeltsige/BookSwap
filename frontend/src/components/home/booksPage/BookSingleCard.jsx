@@ -47,7 +47,7 @@ const UserBookSingleCard = ({ book }) => {
       if (error.response && error.response.status === 409) {
         enqueueSnackbar('A similar request already exists!', { variant: 'warning' });
       } else {
-        console.error('Error handling swap request:', error);
+        console.log('Error handling swap request:', error);
         enqueueSnackbar('Failed to send request', { variant: 'error' });
       }
     } finally {

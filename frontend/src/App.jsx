@@ -7,6 +7,7 @@ import EditBook from './pages/EditBook';
 import DeleteBook from './pages/DeleteBook';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import ProfilePage from './pages/ProfilePage';
 
 const App = () => {
   return (
@@ -19,7 +20,7 @@ const App = () => {
       <Route path='/books/edit/:id' element={<EditBook />} />
       <Route path='/books/delete/:id' element={<DeleteBook />} />
       <Route path='/requestBookSwap/:id' element={<DeleteBook />} />
-      
+      <Route path='/profile' element={<ProfilePage />} />
     </Routes>
   );
 };
