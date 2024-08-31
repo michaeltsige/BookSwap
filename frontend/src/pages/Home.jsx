@@ -264,9 +264,23 @@ const Home = () => {
             }`}
           >
             {showType === 'allBooks' ? (
-              <BooksCard books={books} />
+              books.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-[300px] text-center">
+                  <p className="text-xl font-semibold text-gray-700">No Books Available</p>
+                  <p className="mt-2 text-gray-500">It looks like there are no books available at the moment.</p>
+                </div>
+              ) : (
+                <BooksCard books={books} userBooks={userBooks} />
+              )
             ) : showType === 'myBooks' ? (
-              <UserBooksCard books={userBooks} />
+              userBooks.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-[300px] text-center">
+                  <p className="text-xl font-semibold text-gray-700">User Has No Books to Display</p>
+                  <p className="mt-2 text-gray-500">You haven't added any books to your collection yet.</p>
+                </div>
+              ) : (
+                <UserBooksCard books={userBooks} />
+              )
             ) : showType === 'swaps' ? (
               <SwapPage swapsSent={swapsSent} swapsReceived={swapsReceived} onAccept={onAccept} onReject={onReject} />
             ) : null}
@@ -275,6 +289,8 @@ const Home = () => {
       </div>
     </div>
   );
+  
+  
   
 };
 

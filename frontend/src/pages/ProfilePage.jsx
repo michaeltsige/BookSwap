@@ -89,7 +89,7 @@ const ProfilePage = () => {
         <p className="text-gray-600 mb-4">
           Here you can manage your account logging and deletion. If you want to contact me, Click below.
         </p>
-        <a href="/support" className="text-blue-600 hover:underline">
+        <a href="/" className="text-blue-600 hover:underline">
           Contact Support
         </a>
       </div>

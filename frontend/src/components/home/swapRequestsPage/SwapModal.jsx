@@ -4,28 +4,15 @@ import { RiCloseLine } from 'react-icons/ri';
 import { UserContext } from '../../../context/UserContext';
 import { PiBookOpenTextBold } from "react-icons/pi";
 
-const SwapModal = ({ onClose, onConfirm, visible }) => {
-  const [userBooks, setUserBooks] = useState([]);
+const SwapModal = ({ onClose, onConfirm, visible, userBooks }) => {
+  
   const [selectedBook, setSelectedBook] = useState(null);
-  const [loading, setLoading] = useState(true);
   const { userData } = useContext(UserContext);
 
   useEffect(() => {
     if (visible) {
       // Disable scrolling when modal is visible
       document.body.style.overflow = 'hidden';
-
-      // Fetch user's books when the modal is visible
-      setLoading(true);
-      axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books/user/${userData.username}`)
-        .then((response) => {
-          setUserBooks(response.data.data);
-          setLoading(false);
-        })
-        .catch(error => {
-          console.log('Error fetching books:', error);
-          setLoading(false);
-        });
     } else {
       // Re-enable scrolling when modal is not visible
       document.body.style.overflow = 'auto';
@@ -49,7 +36,7 @@ const SwapModal = ({ onClose, onConfirm, visible }) => {
         <h2 className="text-2xl font-bold mb-6 text-center text-[#2B6CB0]">
           Select a Book to Swap
         </h2>
-        {loading ? (
+        {!userBooks ? (
           <p className="text-center text-gray-600">Loading...</p>
         ) : userBooks.length === 0 ? (
           <p className="text-center text-gray-600">No books available</p>

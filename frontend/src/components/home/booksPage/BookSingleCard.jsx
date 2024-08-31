@@ -10,7 +10,7 @@ import axios from 'axios';
 import { UserContext } from '../../../context/UserContext';
 import { enqueueSnackbar } from 'notistack';
 
-const UserBookSingleCard = ({ book }) => {
+const UserBookSingleCard = ({ book, userBooks }) => {
   const [showBookModal, setShowBookModal] = useState(false);
   const [showSwapModal, setShowSwapModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -114,6 +114,7 @@ const UserBookSingleCard = ({ book }) => {
             setShowSwapModal(false);
           }}
           visible={showSwapModal}
+          userBooks={userBooks}
         />
       )}
     </div>
