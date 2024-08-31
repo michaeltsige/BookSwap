@@ -42,7 +42,7 @@ const CreateBooks = () => {
       <BackButton />
       <h1 className='text-3xl font-bold text-[#2D3748] my-4' style={{ fontFamily: "'Poppins', sans-serif" }}>Create Book</h1>
       {loading && <Spinner />}
-      <div className='flex flex-col border border-[#E2E8F0] rounded-lg shadow-sm w-[600px] p-6 mx-auto bg-white'>
+      <div className='flex flex-col border border-[#E2E8F0] rounded-lg shadow-sm max-w-md w-full p-6 mx-auto bg-white'>
         <div className='my-4'>
           <label className='block text-lg font-medium text-[#2D3748] mb-2' style={{ fontFamily: "'Roboto', sans-serif" }}>Title</label>
           <input

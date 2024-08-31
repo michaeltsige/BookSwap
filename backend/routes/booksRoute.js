@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { response } from 'express';
 import { Book } from '../models/bookModel.js';
 
 const router = express.Router();
@@ -107,7 +107,7 @@ router.delete('/:id', async (request, response) => {
   }
 });
 
-//route for getting all books of a single user
+//route for getting all books of a single user, (books to be given in the trade)
 
 router.get('/user/:username', async (request, response)=>{
   try {
@@ -122,6 +122,25 @@ router.get('/user/:username', async (request, response)=>{
   } catch(error) {
     //console.log(error);
     response.status(500).send({ message: error.message });
+  }
+});
+
+
+//getting books that are not the user's (books to be taken in the trade)
+router.get('/nuser/:username', async(request, response)=>{
+  try {
+
+    const { username } = request.params;
+    const notUserBooks = await Book.find({ ownerUsername: { $ne: username } });
+
+    return response.status(200).json({
+      count: notUserBooks.length,
+      data: notUserBooks,
+    });
+
+  } catch(error) {
+    //may throw error on frontend request if there are no books
+    return response.status(404).json({message: 'nobooks'});
   }
 });
 

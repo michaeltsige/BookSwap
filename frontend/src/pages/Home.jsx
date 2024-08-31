@@ -18,8 +18,12 @@ const Home = () => {
   const [prevShowType, setPrevShowType] = useState('allBooks');
   const { userData, setUserData } = useContext(UserContext);
   const [authChecked, setAuthChecked] = useState(false);
+  const [swapsLoaded, setSwapsLoaded] = useState(false);
+  const [swapsSent, setSwapsSent] = useState([]);
+  const [swapsReceived, setSwapsReceived] = useState([]);
   const navigate = useNavigate();
 
+  // checks sessionStorage for user and uses it if available
   useEffect(() => {
     const token = sessionStorage.getItem('token');
 
@@ -41,7 +45,7 @@ const Home = () => {
     setLoading(true);
 
     axios
-      .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books`)
+      .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books/nuser/${userData.username}`)
       .then((response) => {
         setBooks(response.data.data);
         setLoading(false);
@@ -52,12 +56,13 @@ const Home = () => {
       });
   }, [navigate, setUserData]);
 
+  // load user books if user is found
   useEffect(() => {
     if (userData.username) {
       setLoading(true);
 
       axios
-        .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books/user/${userData.username}`)
+        .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user/${userData.username}`)
         .then((response) => {
           setUserBooks(response.data.data);
           setLoading(false);
@@ -69,19 +74,87 @@ const Home = () => {
     }
   }, [userData.username]);
 
+  // navigating through the different 'tabs'
   useEffect(() => {
     if (showType !== prevShowType) {
       setPrevShowType(showType);
     }
   }, [showType, prevShowType]);
 
+  // Function for fetching swaps related to this user from the server/backend
+  const fetchSwaps = () => {
+    setLoading(true);
+    axios
+      .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/swapRequest`)
+      .then(async (response) => {
+        const allSwaps = response.data.data;
+
+        // Fetch email addresses for the requester and requestee
+        const swapsWithEmails = await Promise.all(
+          allSwaps.map(async (swap) => {
+            const requester = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/auth/getContact/${swap.requester}`);
+            const requestee = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/auth/getContact/${swap.requestee}`);
+            return {
+              ...swap,
+              requesterEmail: requester.data.contact,
+              requesteeEmail: requestee.data.contact,
+            };
+          })
+        );
+
+        setSwapsSent(swapsWithEmails.filter((swap) => swap.requester === userData.username));
+        setSwapsReceived(swapsWithEmails.filter((swap) => swap.requestee === userData.username));
+        setSwapsLoaded(true);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      });
+  };
+
+  // Function for accepting Book Swap Request
+  const onAccept = (swapId) => {
+    setLoading(true);
+    axios
+      .put(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/swapRequest/accept/${swapId}`)
+      .then(() => {
+        fetchSwaps(); // Refetch the data to update UI
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      });
+  };
+
+  // Function for rejecting Book Swap Request
+  const onReject = (swapId) => {
+    setLoading(true);
+    axios
+      .put(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/swapRequest/reject/${swapId}`)
+      .then(() => {
+        fetchSwaps(); // Refetch the data to update UI
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      });
+  };
+
+  // Call fetchSwaps when needed
+  useEffect(() => {
+    if (showType === 'swaps' && !swapsLoaded) {
+      fetchSwaps();
+    }
+  }, [showType, swapsLoaded]);
+
+  //loading spinner
   if (!authChecked || loading) {
     return <Spinner />;
   }
 
-  const filteredBooks = books.filter(
-    (book) => book.ownerUsername !== userData.username
-  );
+  // filter out books that don't belong to the user
+  
 
   return (
     <div className="p-6 bg-[#F5F5F5] min-h-screen flex flex-col">
@@ -96,8 +169,7 @@ const Home = () => {
 
       <div className="flex gap-x-4 mb-6">
         <button
-          className={`flex-1 px-4 py-3 rounded-md transition duration-300
-          ${
+          className={`flex-1 px-4 py-3 rounded-md transition duration-300 ${
             showType === 'allBooks' ? 'bg-[#2B6CB0] text-white' : 'bg-white text-[#2B6CB0]'
           } border border-[#2B6CB0] shadow-md hover:bg-[#2B6CB0] hover:text-white`}
           onClick={() => setShowType('allBooks')}
@@ -140,11 +212,11 @@ const Home = () => {
             }`}
           >
             {showType === 'allBooks' ? (
-              <BooksCard books={filteredBooks} />
+              <BooksCard books={books} />
             ) : showType === 'myBooks' ? (
               <UserBooksCard books={userBooks} />
             ) : showType === 'swaps' ? (
-              <SwapPage />
+              <SwapPage swapsSent={swapsSent} swapsReceived={swapsReceived} onAccept={onAccept} onReject={onReject} />
             ) : null}
           </div>
         )}

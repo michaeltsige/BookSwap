@@ -36,7 +36,7 @@ const DeleteBook = () => {
       <BackButton />
       <h1 className='text-3xl font-bold text-[#2D3748] my-4' style={{ fontFamily: "'Montserrat', sans-serif" }}>Delete Book</h1>
       {loading && <Spinner />}
-      <div className='flex flex-col items-center border border-[#E2E8F0] rounded-lg shadow-lg w-[500px] p-6 mx-auto bg-white'>
+      <div className='flex flex-col items-center border border-[#E2E8F0] rounded-lg shadow-lg max-w-md w-full p-6 mx-auto bg-white'>
         <h3 className='text-xl font-semibold text-[#2D3748] mb-4' style={{ fontFamily: "'Montserrat', sans-serif" }}>Are you sure you want to delete this book?</h3>
         <div className='flex gap-4 w-full'>
           <button

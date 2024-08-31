@@ -1,87 +1,16 @@
-import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import React from 'react';
 import SwapsCard from './SwapsCard';
-import { UserContext } from '../../../context/UserContext';
-import Spinner from '../../Spinner';
 
-const SwapPage = () => {
-  const { userData } = useContext(UserContext);
-  const [swapsSent, setSwapsSent] = useState([]);
-  const [swapsReceived, setSwapsReceived] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchSwaps = () => {
-    setLoading(true);
-    axios
-      .get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/swapRequest`)
-      .then(async (response) => {
-        const allSwaps = response.data.data;
-        const swapsSent = allSwaps.filter((swap) => swap.requester === userData.username);
-        const swapsReceived = allSwaps.filter((swap) => swap.requestee === userData.username);
-  
-        // Fetch email addresses for the requester and requestee
-        const swapsWithEmails = await Promise.all(
-          allSwaps.map(async (swap) => {
-            const requester = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/auth/getContact/${swap.requester}`);
-            const requestee = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/auth/getContact/${swap.requestee}`);
-            return {
-              ...swap,
-              requesterEmail: requester.data.contact,
-              requesteeEmail: requestee.data.contact,
-            };
-          })
-        );
-  
-        setSwapsSent(swapsWithEmails.filter((swap) => swap.requester === userData.username));
-        setSwapsReceived(swapsWithEmails.filter((swap) => swap.requestee === userData.username));
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-        
-      });
-  };
-  
-
-  useEffect(() => {
-    fetchSwaps();
-  }, [userData.username]);
-
-
-  const onAccept = (swapId) => {
-    setLoading(true);
-    axios
-      .put(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/swapRequest/accept/${swapId}`)
-      .then(() => {
-        fetchSwaps(); // Refetch the data to update UI
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-      });
-  };
-
-  const onReject = (swapId) => {
-    setLoading(true);
-    axios
-      .put(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/swapRequest/reject/${swapId}`)
-      .then(() => {
-        fetchSwaps(); // Refetch the data to update UI
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-      });
-  };
-
-  if (loading) return <div><Spinner /></div>;
-
+const SwapPage = ({ swapsSent, swapsReceived, onAccept, onReject }) => {
   return (
-    <div className="p-6  min-h-screen">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <SwapsCard swaps={swapsSent} type="sent" />
-        <SwapsCard swaps={swapsReceived} type="received" onAccept={onAccept} onReject={onReject} />
+    <div className="p-6 min-h-screen">
+      <div className="flex gap-6">
+        <div className="flex-1">
+          <SwapsCard swaps={swapsSent} type="sent" />
+        </div>
+        <div className="flex-1">
+          <SwapsCard swaps={swapsReceived} type="received" onAccept={onAccept} onReject={onReject} />
+        </div>
       </div>
     </div>
   );
