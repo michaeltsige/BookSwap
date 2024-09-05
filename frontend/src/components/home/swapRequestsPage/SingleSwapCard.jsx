@@ -9,16 +9,16 @@ const SingleSwapCard = ({ swap, type, onAccept, onReject }) => {
   const renderActionButtons = () => {
     if (status === 'pending' && type === 'received') {
       return (
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 p-4">
           <button
             onClick={onAccept}
-            className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg"
+            className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg flex-1"
           >
             Accept
           </button>
           <button
             onClick={onReject}
-            className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg"
+            className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg flex-1"
           >
             Reject
           </button>
@@ -29,7 +29,7 @@ const SingleSwapCard = ({ swap, type, onAccept, onReject }) => {
   };
 
   return (
-    <div className="border p-4 rounded-lg shadow-sm bg-white flex justify-between items-center mb-4">
+    <div className="border p-4 rounded-lg shadow-sm bg-white flex flex-col md:flex-row items-center mb-4 overflow-hidden">
       <div className="flex items-center">
         <StatusIcon status={status} />
         <div>

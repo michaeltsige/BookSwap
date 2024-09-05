@@ -141,7 +141,7 @@ const Home = () => {
   }
 
   return (
-    <div className="p-6 bg-[#F5F5F5] min-h-screen flex flex-col relative">
+    <div className="p-6 bg-[#F5F5F5] min-h-screen flex flex-col relative overflow-hidden">
       {/* Sidebar */}
       <div
         className={`fixed top-0 right-0 z-40 h-full bg-white shadow-md transform ${

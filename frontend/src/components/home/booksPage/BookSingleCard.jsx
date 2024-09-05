@@ -68,9 +68,9 @@ const UserBookSingleCard = ({ book, userBooks }) => {
       <div className='p-4'>
         {/* Book Title */}
         <div className='flex items-center mb-2'>
-          <div className='flex items-center gap-x-2 flex-grow' style={{ fontFamily: "'Roboto Slab', sans-serif" }}>
-            <PiBookOpenTextLight className='text-[#1A202C] text-2xl' />
-            <h3 className='text-xl font-semibold text-[#1A202C] truncate' style={{ maxWidth: 'calc(100% - 80px)' }}>
+          <div className='flex items-center gap-x-2 flex-grow max-w-[calc(100%-40px)]' style={{ fontFamily: "'Roboto Slab', sans-serif" }}>
+            <PiBookOpenTextLight className='text-[#1A202C] text-2xl flex-shrink-0' />
+            <h3 className='text-xl font-semibold text-[#1A202C] overflow-hidden whitespace-nowrap text-ellipsis' >
               {book.title}
             </h3>
           </div>
