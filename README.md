@@ -51,22 +51,21 @@ Here are some screenshots of the project:
 
 ### Home Page
 The landing page where users can browse and discover books available for swapping.
-```markdown
+
 ![Home Page](./screenshots/home.png)
-```
+
 
 ### Book Swapping
 A section choose which of your books you will trade.
-```markdown
+
 ![Book Listing](./screenshots/choose-book.png)
 
-```
 
 ### Swap Requests Page
 An interface allowing users to see sent and recieved book requests.
-```markdown
+
 ![Swap Request](./screenshots/swap-requests.png)
-```
+
 
 ## Contributing
 Feel free to fork the repository and open pull requests for new features or bug fixes.
