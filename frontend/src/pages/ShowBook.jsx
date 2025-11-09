@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
+import { PiBookOpenTextLight, PiCalendarLight, PiUserLight, PiClockLight } from 'react-icons/pi';
 
 const ShowBook = () => {
   const [book, setBook] = useState({});
@@ -21,42 +22,152 @@ const ShowBook = () => {
         console.log(error);
         setLoading(false);
       });
-  }, []);
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
-    <div className='p-6 bg-[#F8F8F9] min-h-screen' style={{ fontFamily: "'Roboto', sans-serif" }}>
-      <BackButton />
-      <h1 className='text-4xl font-semibold text-[#111439] mb-6' style={{ fontFamily: "'Poppins', sans-serif" }}>Show Book</h1>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <div className='flex flex-col border border-[#1A237E] rounded-lg shadow-md p-6 bg-[#F1F5F9] w-full max-w-lg mx-auto'>
-          <div className='mb-4'>
-            <span className='text-lg font-medium text-gray-700' style={{ fontFamily: "'Roboto', sans-serif" }}>Id:</span>
-            <span className='ml-2 text-lg text-gray-900' style={{ fontFamily: "'Roboto', sans-serif" }}>{book._id}</span>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
+      <div className="container mx-auto px-4 max-w-4xl">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <BackButton />
+          <h1 className="text-3xl font-bold text-gray-900">Book Details</h1>
+          <Link 
+            to="/" 
+            className="btn btn-outline"
+          >
+            Back to Home
+          </Link>
+        </div>
+
+        {/* Book Card */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Book Cover Section */}
+          <div className="lg:col-span-1">
+            <div className="card-hover bg-white rounded-2xl p-6 text-center">
+              <div className="w-32 h-40 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <PiBookOpenTextLight className="text-4xl text-indigo-400" />
+              </div>
+              <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold text-lg inline-block">
+                {book.publishYear}
+              </div>
+            </div>
           </div>
-          <div className='mb-4'>
-            <span className='text-lg font-medium text-gray-700' style={{ fontFamily: "'Roboto', sans-serif" }}>Title:</span>
-            <span className='ml-2 text-lg text-gray-900' style={{ fontFamily: "'Roboto', sans-serif" }}>{book.title}</span>
-          </div>
-          <div className='mb-4'>
-            <span className='text-lg font-medium text-gray-700' style={{ fontFamily: "'Roboto', sans-serif" }}>Author:</span>
-            <span className='ml-2 text-lg text-gray-900' style={{ fontFamily: "'Roboto', sans-serif" }}>{book.author}</span>
-          </div>
-          <div className='mb-4'>
-            <span className='text-lg font-medium text-gray-700' style={{ fontFamily: "'Roboto', sans-serif" }}>Publish Year:</span>
-            <span className='ml-2 text-lg text-gray-900' style={{ fontFamily: "'Roboto', sans-serif" }}>{book.publishYear}</span>
-          </div>
-          <div className='mb-4'>
-            <span className='text-lg font-medium text-gray-700' style={{ fontFamily: "'Roboto', sans-serif" }}>Create Time:</span>
-            <span className='ml-2 text-lg text-gray-900' style={{ fontFamily: "'Roboto', sans-serif" }}>{new Date(book.createdAt).toLocaleString()}</span>
-          </div>
-          <div className='mb-4'>
-            <span className='text-lg font-medium text-gray-700' style={{ fontFamily: "'Roboto', sans-serif" }}>Last Update Time:</span>
-            <span className='ml-2 text-lg text-gray-900' style={{ fontFamily: "'Roboto', sans-serif" }}>{new Date(book.updatedAt).toLocaleString()}</span>
+
+          {/* Book Details Section */}
+          <div className="lg:col-span-2">
+            <div className="card-hover bg-white rounded-2xl p-8">
+              {/* Main Info */}
+              <div className="space-y-6">
+                {/* Title */}
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">{book.title}</h2>
+                  <div className="w-20 h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full"></div>
+                </div>
+
+                {/* Details Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Author */}
+                  <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                    <PiUserLight className="text-indigo-600 text-xl" />
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Author</p>
+                      <p className="text-lg font-semibold text-gray-900">{book.author}</p>
+                    </div>
+                  </div>
+
+                  {/* Publication Year */}
+                  <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                    <PiCalendarLight className="text-indigo-600 text-xl" />
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Published</p>
+                      <p className="text-lg font-semibold text-gray-900">{book.publishYear}</p>
+                    </div>
+                  </div>
+
+                  {/* Owner */}
+                  <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                    <PiUserLight className="text-green-600 text-xl" />
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Current Owner</p>
+                      <p className="text-lg font-semibold text-gray-900">{book.ownerUsername}</p>
+                    </div>
+                  </div>
+
+                  {/* Book ID */}
+                  <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                    <PiBookOpenTextLight className="text-gray-600 text-xl" />
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Book ID</p>
+                      <p className="text-sm font-mono text-gray-900 truncate">{book._id}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Timestamps */}
+                <div className="border-t border-gray-200 pt-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Activity</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex items-center gap-3">
+                      <PiClockLight className="text-blue-500 text-xl" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-600">Added to Collection</p>
+                        <p className="text-sm text-gray-900">
+                          {book.createdAt ? new Date(book.createdAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          }) : 'N/A'}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <PiClockLight className="text-green-500 text-xl" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-600">Last Updated</p>
+                        <p className="text-sm text-gray-900">
+                          {book.updatedAt ? new Date(book.updatedAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          }) : 'N/A'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-4 pt-6 border-t border-gray-200">
+                  <Link
+                    to="/"
+                    className="flex-1 btn btn-outline py-3 text-center"
+                  >
+                    Browse More Books
+                  </Link>
+                  <Link
+                    to={`/books/edit/${book._id}`}
+                    className="flex-1 btn btn-primary py-3 text-center"
+                  >
+                    Edit Details
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
