@@ -156,12 +156,12 @@ const ShowBook = () => {
                   >
                     Browse More Books
                   </Link>
-                  <Link
+                  {/* <Link
                     to={`/books/edit/${book._id}`}
                     className="flex-1 btn btn-primary py-3 text-center"
                   >
                     Edit Details
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>
