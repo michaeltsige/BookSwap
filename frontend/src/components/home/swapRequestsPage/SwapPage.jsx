@@ -1,8 +1,8 @@
-import React from 'react';
 import SwapsCard from './SwapsCard';
 import { RiExchangeLine } from 'react-icons/ri';
+import Spinner from '../../Spinner';
 
-const SwapPage = ({ swapsSent, swapsReceived, onAccept, onReject }) => {
+const SwapPage = ({ swapsSent, swapsReceived, onAccept, onReject, loading = false }) => {
   const totalPending = 
     swapsSent.filter(swap => swap.status === 'pending').length +
     swapsReceived.filter(swap => swap.status === 'pending').length;
@@ -10,6 +10,32 @@ const SwapPage = ({ swapsSent, swapsReceived, onAccept, onReject }) => {
   const totalAccepted = 
     swapsSent.filter(swap => swap.status === 'accepted').length +
     swapsReceived.filter(swap => swap.status === 'accepted').length;
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 space-y-4">
+        <Spinner />
+        <div className="text-center">
+          <p className="text-gray-600 font-medium">Loading your swap requests</p>
+          <p className="text-sm text-gray-500 mt-1">This may take a moment...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Empty state
+  if (swapsSent.length === 0 && swapsReceived.length === 0) {
+    return (
+      <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-gray-200">
+        <div className="text-6xl mb-4">🔄</div>
+        <h3 className="text-2xl font-semibold text-gray-900 mb-2">No Swap Activity Yet</h3>
+        <p className="text-gray-600 mb-6 max-w-md mx-auto">
+          Start swapping books with other readers! Browse available books and send your first swap request.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -61,17 +87,6 @@ const SwapPage = ({ swapsSent, swapsReceived, onAccept, onReject }) => {
           />
         </div>
       </div>
-
-      {/* Empty State */}
-      {(swapsSent.length === 0 && swapsReceived.length === 0) && (
-        <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-gray-200">
-          <div className="text-6xl mb-4">🔄</div>
-          <h3 className="text-2xl font-semibold text-gray-900 mb-2">No Swap Activity Yet</h3>
-          <p className="text-gray-600 mb-6 max-w-md mx-auto">
-            Start swapping books with other readers! Browse available books and send your first swap request.
-          </p>
-        </div>
-      )}
     </div>
   );
 };
