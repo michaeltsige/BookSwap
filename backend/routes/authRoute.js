@@ -127,4 +127,63 @@ router.delete('/delete/:username', async (req, res) => {
     }
 });
 
+// only returns contacts for user's own swaps
+router.post('/getMySwapContacts', async (request, response) => {
+  try {
+    const { username } = request.body; // Current user's username
+    
+    if (!username) {
+      return response.status(400).json({ message: 'Username required' });
+    }
+
+    // Get all swaps involving this user
+    const userSwaps = await Swap.find({
+      $or: [
+        { requester: username },
+        { requestee: username }
+      ]
+    });
+
+    // Extract unique usernames from user's swaps only
+    const uniqueUsernames = new Set();
+    userSwaps.forEach(swap => {
+      uniqueUsernames.add(swap.requester);
+      uniqueUsernames.add(swap.requestee);
+    });
+
+    // Remove current user (detail already know)
+    uniqueUsernames.delete(username);
+
+    // Get contacts for these usernames
+    const contactPromises = Array.from(uniqueUsernames).map(async (contactUsername) => {
+      try {
+        const user = await User.findOne({ username: contactUsername });
+        return {
+          username: contactUsername,
+          contact: user ? user.email : 'Not available'
+        };
+      } catch (error) {
+        return {
+          username: contactUsername,
+          contact: 'Not available'
+        };
+      }
+    });
+
+    const contacts = await Promise.all(contactPromises);
+    const contactMap = Object.fromEntries(
+      contacts.map(result => [result.username, result.contact])
+    );
+
+    response.status(200).json({ 
+      contacts: contactMap,
+      swapCount: userSwaps.length
+    });
+    
+  } catch (error) {
+    console.error('Error in user swap contact lookup:', error);
+    response.status(500).json({ message: error.message });
+  }
+});
+
 export default router;
