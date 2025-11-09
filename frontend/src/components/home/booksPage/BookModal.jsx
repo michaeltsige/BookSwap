@@ -14,42 +14,91 @@ const BookModal = ({ book, onClose }) => {
     };
   }, []);
 
+  // Handle backdrop click
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  // Handle close button click
+  const handleCloseClick = () => {
+    onClose();
+  };
+
   return (
-    <div
-      className='fixed bg-black bg-opacity-60 top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center'
-      onClick={onClose}
-    >
-      <div
-        onClick={(event) => event.stopPropagation()}
-        className='w-[600px] max-w-full h-[400px] bg-white rounded-xl p-6 flex flex-col relative shadow-lg'
-      >
-        <AiOutlineClose
-          className='absolute right-4 top-4 text-2xl text-gray-700 hover:text-gray-900 cursor-pointer transition-colors'
-          onClick={onClose}
-        />
-        <h2 className='w-fit px-4 py-2 bg-[#E2E8F0] text-[#2D3748] rounded-lg mb-4' style={{ fontFamily: "'Poppins', sans-serif" }}>
-          {book.publishYear}
-        </h2>
-        <div className='flex flex-col gap-y-4'>
-          <div className='flex items-center gap-x-2'>
-            <PiBookOpenTextLight className='text-[#4A5568] text-2xl' />
-            <h2 className='text-xl font-semibold text-[#2D3748]' style={{ fontFamily: "'Roboto Slab', serif" }}>{book.title}</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
+      <div 
+        className="absolute inset-0 bg-black bg-opacity-60"
+        onClick={handleBackdropClick}
+      />
+      
+      {/* Modal Content */}
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <h2 className="text-2xl font-bold text-gray-900">Book Details</h2>
+          <button
+            onClick={handleCloseClick}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <AiOutlineClose className="text-xl text-gray-600" />
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="p-6">
+          {/* Year Badge */}
+          <div className="inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold mb-6">
+            Published: {book.publishYear}
           </div>
-          <div className='flex items-center gap-x-2'>
-            <BiUserCircle className='text-[#4A5568] text-2xl' />
-            <h2 className='text-xl text-gray-700' style={{ fontFamily: "'Roboto', sans-serif" }}>{book.author}</h2>
+
+          {/* Book Info */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <PiBookOpenTextLight className="text-indigo-600 text-2xl flex-shrink-0" />
+              <div>
+                <h3 className="text-lg font-semibold text-gray-700">Title</h3>
+                <p className="text-xl font-bold text-gray-900">{book.title}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <BiUserCircle className="text-gray-600 text-2xl flex-shrink-0" />
+              <div>
+                <h3 className="text-lg font-semibold text-gray-700">Author</h3>
+                <p className="text-xl text-gray-900">{book.author}</p>
+              </div>
+            </div>
+
+            <div className="mt-6 p-4 bg-indigo-50 rounded-lg border border-indigo-100">
+              <h3 className="font-semibold text-indigo-900 mb-2">About this Book</h3>
+              <p className="text-indigo-800 leading-relaxed">
+                This book is available for swapping in the BookSwap community. 
+                Connect with the owner to arrange a book exchange and discover new reading adventures.
+              </p>
+            </div>
+
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="text-sm text-gray-700">
+                <strong>Owner:</strong> <span className="font-semibold text-gray-900">{book.ownerUsername}</span>
+              </p>
+              <p className="text-sm text-gray-600 mt-1">
+                Use the swap feature to request this book from the owner.
+              </p>
+            </div>
           </div>
-          <p className='mt-4 text-gray-700' style={{ fontFamily: "'Roboto', sans-serif" }}>
-            Anything you want to show
-          </p>
-          <p className='mt-2 text-gray-600' style={{ fontFamily: "'Roboto', sans-serif" }}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni quia
-            voluptatum sint. Nisi impedit libero eveniet cum vitae qui expedita
-            necessitatibus assumenda laboriosam, facilis iste cumque a pariatur
-            nesciunt cupiditate voluptas? Quis atque earum voluptate dolor nisi
-            dolorum est? Deserunt placeat cumque quo dicta architecto, dolore
-            vitae voluptate sequi repellat!
-          </p>
+        </div>
+
+        {/* Footer */}
+        <div className="flex justify-end gap-3 p-6 border-t border-gray-200">
+          <button
+            onClick={handleCloseClick}
+            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+          >
+            Close
+          </button>
         </div>
       </div>
     </div>

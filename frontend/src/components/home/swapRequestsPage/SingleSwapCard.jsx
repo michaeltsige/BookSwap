@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import StatusIcon from './StatusIcon';
-import ContactModal from './ContactModal'; // Import the modal component
+import ContactModal from './ContactModal';
+import { PiBookOpenTextLight, PiUserLight } from 'react-icons/pi';
 
 const SingleSwapCard = ({ swap, type, onAccept, onReject }) => {
   const [showModal, setShowModal] = useState(false);
@@ -9,16 +10,16 @@ const SingleSwapCard = ({ swap, type, onAccept, onReject }) => {
   const renderActionButtons = () => {
     if (status === 'pending' && type === 'received') {
       return (
-        <div className="flex space-x-2 p-4">
+        <div className="flex gap-2 mt-4">
           <button
             onClick={onAccept}
-            className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg flex-1"
+            className="flex-1 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
           >
             Accept
           </button>
           <button
             onClick={onReject}
-            className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg flex-1"
+            className="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
           >
             Reject
           </button>
@@ -28,33 +29,78 @@ const SingleSwapCard = ({ swap, type, onAccept, onReject }) => {
     return null;
   };
 
+  const getStatusColor = () => {
+    switch (status) {
+      case 'accepted': return 'border-l-green-500';
+      case 'rejected': return 'border-l-red-500';
+      case 'pending': return 'border-l-amber-500';
+      default: return 'border-l-gray-500';
+    }
+  };
+
   return (
-    <div className="border p-4 rounded-lg shadow-sm bg-white flex flex-col md:flex-row items-center mb-4 overflow-hidden">
-      <div className="flex items-center">
-        <StatusIcon status={status} />
-        <div>
-          <h3 className="text-lg font-semibold mb-2" style={{ fontFamily: "'Roboto Slab', sans-serif" }}>
-            {type === 'sent' ? `Requested: ${bookRequestedName}` : `Offered: ${bookOfferedName}`}
-          </h3>
-          <p className="text-sm text-gray-600 mb-1" style={{ fontFamily: "'Roboto', sans-serif" }}>
-            {type === 'sent' ? `Offered: ${bookOfferedName}` : `Requested: ${bookRequestedName}`}
-          </p>
-          <p className="text-sm text-gray-600" style={{ fontFamily: "'Roboto', sans-serif" }}>
-            {type === 'sent' ? `Requestee: ${requestee}` : `Requester: ${requester}`}
-          </p>
-          {status === 'accepted' && (
-            <button
-              onClick={() => setShowModal(true)}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg mt-2"
-            >
-              View Contact Info
-            </button>
-          )}
+    <>
+      <div className={`bg-white border-l-4 ${getStatusColor()} rounded-r-lg p-4 shadow-sm border border-gray-200 hover:shadow-md transition-shadow`}>
+        <div className="flex items-start gap-4">
+          <StatusIcon status={status} />
+          
+          <div className="flex-1">
+            {/* Books Info */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+              <div className="flex items-start gap-2">
+                <PiBookOpenTextLight className="text-indigo-600 mt-1 flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-medium text-gray-600">
+                    {type === 'sent' ? 'Requested' : 'Offered'}
+                  </p>
+                  <p className="font-semibold text-gray-900">{bookRequestedName}</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-2">
+                <PiBookOpenTextLight className="text-amber-600 mt-1 flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-medium text-gray-600">
+                    {type === 'sent' ? 'Offered' : 'Requested'}
+                  </p>
+                  <p className="font-semibold text-gray-900">{bookOfferedName}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* User Info */}
+            <div className="flex items-center gap-2 mb-3">
+              <PiUserLight className="text-gray-500" />
+              <p className="text-sm text-gray-600">
+                {type === 'sent' ? `With: ${requestee}` : `From: ${requester}`}
+              </p>
+            </div>
+
+            {/* Status Badge */}
+            <div className="flex items-center justify-between">
+              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                status === 'accepted' ? 'bg-green-100 text-green-800' :
+                status === 'rejected' ? 'bg-red-100 text-red-800' :
+                'bg-amber-100 text-amber-800'
+              }`}>
+                {status.charAt(0).toUpperCase() + status.slice(1)}
+              </span>
+
+              {status === 'accepted' && (
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                >
+                  View Contact Info
+                </button>
+              )}
+            </div>
+
+            {renderActionButtons()}
+          </div>
         </div>
       </div>
-      <div className="flex items-center">
-        {renderActionButtons()}
-      </div>
+
       {showModal && (
         <ContactModal
           onClose={() => setShowModal(false)}
@@ -62,7 +108,7 @@ const SingleSwapCard = ({ swap, type, onAccept, onReject }) => {
           requesteeEmail={requesteeEmail}
         />
       )}
-    </div>
+    </>
   );
 };
 

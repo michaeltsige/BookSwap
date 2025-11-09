@@ -10,58 +10,100 @@ import BookModal from './BookModal';
 const UserBookSingleCard = ({ book }) => {
   const [showModal, setShowModal] = useState(false);
 
+  const handlePreviewClick = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
-    <div className='relative border border-gray-300 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out m-4'>
-      
-      {/* Publish Year */}
-      <div className='absolute top-2 right-2 px-3 py-1 bg-[#F9FAFB] text-[#1A202C] rounded-lg shadow-sm text-sm whitespace-nowrap'
-           style={{ fontFamily: "'Lato', sans-serif", zIndex: 10 }}
-      >
-        {book.publishYear}
-      </div>
-  
-      <div className='p-4'>
-        {/* Book Title */}
-        <div className='flex items-center mb-2'>
-          <div className='flex items-center gap-x-2 flex-grow max-w-[calc(100%-40px)]' style={{ fontFamily: "'Roboto Slab', sans-serif" }}>
-            <PiBookOpenTextLight className='text-[#1A202C] text-2xl flex-shrink-0' />
-            <h3 className='text-xl font-semibold text-[#1A202C] overflow-hidden whitespace-nowrap text-ellipsis' >
+    <>
+      <div className="card-hover group relative overflow-hidden">
+        {/* Year Badge */}
+        <div className="absolute top-3 right-3 z-10">
+          <span className="bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
+            {book.publishYear}
+          </span>
+        </div>
+
+        {/* Book Cover Placeholder */}
+        <div className="h-48 bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center relative overflow-hidden">
+          <div className="text-6xl text-green-300 opacity-80">📖</div>
+          <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity"></div>
+        </div>
+
+        {/* Content */}
+        <div className="p-5">
+          {/* Title */}
+          <div className="flex items-start space-x-3 mb-3">
+            <PiBookOpenTextLight className="text-green-600 text-xl mt-1 flex-shrink-0" />
+            <h3 className="text-lg font-bold text-gray-900 line-clamp-2 leading-tight">
               {book.title}
             </h3>
           </div>
-        </div>
-        
-        {/* Book Author */}
-        <div className='flex items-center gap-x-2 mb-4' style={{ fontFamily: "'Roboto', sans-serif" }}>
-          <BiUserCircle className='text-[#1A202C] text-2xl' />
-          <h4 className='text-lg text-gray-700'>{book.author}</h4>
-        </div>
-  
-        {/* Action Icons */}
-        <div className='flex justify-between items-center gap-x-2 mt-4'>
-          <BiShow
-            className='text-3xl text-blue-600 hover:text-blue-800 cursor-pointer'
-            onClick={() => setShowModal(true)}
-          />
-          <Link to={`/books/details/${book._id}`}>
-            <BsInfoCircle className='text-2xl text-green-600 hover:text-green-800' />
-          </Link>
-          <Link to={`/books/edit/${book._id}`}>
-            <AiOutlineEdit className='text-2xl text-yellow-600 hover:text-black' />
-          </Link>
-          <Link to={`/books/delete/${book._id}`}>
-            <MdOutlineDelete className='text-2xl text-red-600 hover:text-black' />
-          </Link>
+
+          {/* Author */}
+          <div className="flex items-center space-x-2 mb-4">
+            <BiUserCircle className="text-gray-500 text-lg" />
+            <p className="text-gray-600 text-sm">{book.author}</p>
+          </div>
+
+          {/* Status */}
+          <div className="mb-4">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              Your Book
+            </span>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+            <button
+              onClick={handlePreviewClick}
+              className="flex items-center space-x-1 text-gray-500 hover:text-blue-600 transition-colors group"
+              title="Quick view"
+            >
+              <BiShow className="text-lg" />
+              <span className="text-xs font-medium">Preview</span>
+            </button>
+
+            <Link
+              to={`/books/details/${book._id}`}
+              className="flex items-center space-x-1 text-gray-500 hover:text-green-600 transition-colors group"
+              title="View details"
+            >
+              <BsInfoCircle className="text-lg" />
+              <span className="text-xs font-medium">Details</span>
+            </Link>
+
+            <Link
+              to={`/books/edit/${book._id}`}
+              className="flex items-center space-x-1 text-gray-500 hover:text-amber-600 transition-colors group"
+              title="Edit book"
+            >
+              <AiOutlineEdit className="text-lg" />
+              <span className="text-xs font-medium">Edit</span>
+            </Link>
+
+            <Link
+              to={`/books/delete/${book._id}`}
+              className="flex items-center space-x-1 text-gray-500 hover:text-red-600 transition-colors group"
+              title="Delete book"
+            >
+              <MdOutlineDelete className="text-lg" />
+              <span className="text-xs font-medium">Delete</span>
+            </Link>
+          </div>
         </div>
       </div>
-  
-      {/* Book Modal */}
+
+      {/* Modal */}
       {showModal && (
-        <BookModal book={book} onClose={() => setShowModal(false)} />
+        <BookModal book={book} onClose={handleCloseModal} />
       )}
-    </div>
+    </>
   );
-  
 };
 
 export default UserBookSingleCard;
