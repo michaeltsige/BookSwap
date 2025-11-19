@@ -1,3 +1,4 @@
+import React from 'react';
 import SwapsCard from './SwapsCard';
 import { RiExchangeLine } from 'react-icons/ri';
 import Spinner from '../../Spinner';
