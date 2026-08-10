@@ -58,32 +58,43 @@ const Home = () => {
   // Authentication & Initial Data
   useEffect(() => {
     const token = sessionStorage.getItem('token');
-    if (!token) {
-      navigate('/login');
-      return;
-    }
-    try {
-      const decodedUser = jwtDecode(token);
-      setUserData(decodedUser);
-    } catch (error) {
-      console.log('Invalid token', error);
-      navigate('/login');
-      return;
+    if (token) {
+      try {
+        const decodedUser = jwtDecode(token);
+        setUserData(decodedUser);
+      } catch (error) {
+        console.log('Invalid token', error);
+        sessionStorage.removeItem('token');
+        setUserData({});
+      }
+    } else {
+      setUserData({});
     }
     setAuthChecked(true);
-    loadInitialData();
-  }, [navigate, setUserData]);
+  }, [setUserData]);
+
+  useEffect(() => {
+    if (authChecked) {
+      loadInitialData();
+    }
+  }, [authChecked, userData?.username]);
 
   const loadInitialData = async () => {
     setLoading(true);
     try {
-      const [booksResponse, userBooksResponse] = await Promise.all([
-        axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books/nuser/${userData.username}`),
-        axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books/user/${userData.username}`)
-      ]);
-      
-      setBooks(booksResponse.data.data);
-      setUserBooks(userBooksResponse.data.data);
+      const baseURL = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
+      if (userData?.username) {
+        const [booksResponse, userBooksResponse] = await Promise.all([
+          axios.get(`${baseURL}/books/nuser/${userData.username}`),
+          axios.get(`${baseURL}/books/user/${userData.username}`)
+        ]);
+        setBooks(booksResponse.data.data || []);
+        setUserBooks(userBooksResponse.data.data || []);
+      } else {
+        const booksResponse = await axios.get(`${baseURL}/books`);
+        setBooks(booksResponse.data.data || []);
+        setUserBooks([]);
+      }
     } catch (error) {
       console.log(error);
       enqueueSnackbar('Error loading books', { variant: 'error' });
@@ -178,6 +189,14 @@ const Home = () => {
     }
   }, [showType, swapsLoaded, swapLoading]);
 
+  const handleSetShowType = (tabId) => {
+    if ((tabId === 'myBooks' || tabId === 'swaps') && !userData?.username) {
+      navigate('/login');
+      return;
+    }
+    setShowType(tabId);
+  };
+
   if (!authChecked || loading) {
     return <Spinner />;
   }
@@ -210,7 +229,7 @@ const Home = () => {
 
         <NavigationTabs 
           showType={showType}
-          setShowType={setShowType}
+          setShowType={handleSetShowType}
           userBooks={userBooks}
           books={books}
         />
@@ -234,6 +253,7 @@ const Home = () => {
           showType={showType}
           userBooks={userBooks}
           books={books}
+          userData={userData}
         />
       </main>
     </div>

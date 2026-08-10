@@ -29,10 +29,16 @@ const Header = ({ sidebarOpen, setSidebarOpen, showType, userData }) => {
               <HiOutlineMail className="text-lg" />
               <span className="text-sm font-medium">Contact</span>
             </Link>
-            <Link to="/profile" className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors">
-              <FaUserCircle className="text-lg" />
-              <span className="text-sm font-medium">Profile</span>
-            </Link>
+            {userData?.username ? (
+              <Link to="/profile" className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors">
+                <FaUserCircle className="text-lg" />
+                <span className="text-sm font-medium">Profile</span>
+              </Link>
+            ) : (
+              <Link to="/login" className="flex items-center space-x-2 px-4 py-1.5 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors shadow-sm">
+                <span>Login / Sign Up</span>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}

@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import { LuBookPlus } from 'react-icons/lu';
 
-const AddBookFAB = ({ showType, userBooks, books }) => {
+const AddBookFAB = ({ showType, userBooks, books, userData }) => {
   if (showType === 'swaps') return null;
 
   const getTooltipText = () => {
-    return showType === 'myBooks' ? 'Add to Collection' : 'Add Book to Community';
+    return !userData?.username ? 'Login to Add Book' : showType === 'myBooks' ? 'Add to Collection' : 'Add Book to Community';
   };
 
   const showPulse = (showType === 'myBooks' && userBooks.length === 0) || 
@@ -13,7 +13,7 @@ const AddBookFAB = ({ showType, userBooks, books }) => {
 
   return (
     <Link 
-      to="/books/create" 
+      to={userData?.username ? "/books/create" : "/login"} 
       className="fixed bottom-8 right-8 z-30 bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-5 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 group"
       title={getTooltipText()}
     >
