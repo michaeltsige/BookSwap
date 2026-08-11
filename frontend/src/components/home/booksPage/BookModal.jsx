@@ -54,9 +54,14 @@ const BookModal = ({ book, onClose }) => {
               <img src={book.coverUrl} alt={book.title} className="h-64 object-contain shadow-sm" />
             </div>
           )}
-          {/* Year Badge */}
-          <div className="inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold mb-6">
-            Published: {book.publishYear}
+          {/* Year & Condition Badges */}
+          <div className="flex flex-wrap items-center gap-3 mb-6">
+            <div className="inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold">
+              Published: {book.publishYear}
+            </div>
+            <div className="inline-block bg-indigo-50 text-indigo-700 border border-indigo-200 px-4 py-2 rounded-lg font-semibold">
+              Condition: {book.condition || 'Good'}
+            </div>
           </div>
 
           {/* Book Info */}
@@ -84,6 +89,17 @@ const BookModal = ({ book, onClose }) => {
                 Connect with the owner to arrange a book exchange and discover new reading adventures.
               </p>
             </div>
+
+            {book.conditionPhoto && (
+              <div className="p-4 bg-white rounded-lg border border-gray-200 text-center">
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                  Owner's Photo of Physical Copy
+                </p>
+                <div className="rounded-lg overflow-hidden max-h-56 flex justify-center bg-gray-50 p-2">
+                  <img src={book.conditionPhoto} alt="Physical copy condition" className="h-56 object-contain shadow-sm" />
+                </div>
+              </div>
+            )}
 
             <div className="p-4 bg-gray-50 rounded-lg">
               <p className="text-sm text-gray-700">

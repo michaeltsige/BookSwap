@@ -5,14 +5,17 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import { UserContext } from '../context/UserContext';
-import { LuBookPlus } from 'react-icons/lu';
+import { LuBookPlus, LuCamera } from 'react-icons/lu';
 
 const CreateBooks = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [publishYear, setPublishYear] = useState('');
   const [coverUrl, setCoverUrl] = useState('');
+  const [condition, setCondition] = useState('Good');
+  const [conditionPhoto, setConditionPhoto] = useState('');
   const [searching, setSearching] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
@@ -49,6 +52,38 @@ const CreateBooks = () => {
     }
   };
 
+  const handlePhotoUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'bookswap_preset';
+
+    if (!cloudName) {
+      enqueueSnackbar('Cloudinary cloud name missing in Vercel .env settings', { variant: 'error' });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', uploadPreset);
+
+    setUploadingPhoto(true);
+    try {
+      const res = await axios.post(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        formData
+      );
+      setConditionPhoto(res.data.secure_url);
+      enqueueSnackbar('Physical book photo uploaded successfully! 📷', { variant: 'success' });
+    } catch (err) {
+      console.error('Photo upload failed:', err);
+      enqueueSnackbar('Failed to upload condition photo (check unsigned preset)', { variant: 'error' });
+    } finally {
+      setUploadingPhoto(false);
+    }
+  };
+
   const handleSaveBook = (e) => {
     e.preventDefault();
     
@@ -64,6 +99,8 @@ const CreateBooks = () => {
       publishYear,
       ownerUsername,
       coverUrl,
+      condition,
+      conditionPhoto,
     };
     
     setLoading(true);
@@ -165,6 +202,24 @@ const CreateBooks = () => {
               </p>
             </div>
 
+            {/* Condition Dropdown */}
+            <div>
+              <label htmlFor="condition" className="form-label">
+                Book Condition *
+              </label>
+              <select
+                id="condition"
+                value={condition}
+                onChange={(e) => setCondition(e.target.value)}
+                className="form-input bg-white"
+              >
+                <option value="Like New">Like New (No visible wear or markings)</option>
+                <option value="Very Good">Very Good (Minimal wear, clean pages)</option>
+                <option value="Good">Good (Standard reading wear)</option>
+                <option value="Acceptable">Acceptable (Visible wear/notes)</option>
+              </select>
+            </div>
+
             {/* Cover URL Field */}
             <div>
               <label htmlFor="coverUrl" className="form-label">
@@ -185,6 +240,40 @@ const CreateBooks = () => {
               )}
             </div>
 
+            {/* Upload Physical Copy Photo (Cloudinary) */}
+            <div>
+              <label className="form-label">
+                Upload Photo of Your Physical Copy (Optional)
+              </label>
+              <div className="flex flex-wrap items-center gap-4">
+                <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg text-sm font-semibold transition-colors border border-indigo-200 shadow-sm">
+                  <LuCamera className="text-lg" />
+                  <span>{uploadingPhoto ? 'Uploading to Cloudinary...' : 'Upload Physical Copy Photo'}</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handlePhotoUpload}
+                    disabled={uploadingPhoto}
+                    className="hidden"
+                  />
+                </label>
+                {conditionPhoto && (
+                  <button
+                    type="button"
+                    onClick={() => setConditionPhoto('')}
+                    className="text-xs text-red-600 hover:text-red-800 underline font-medium"
+                  >
+                    Remove Photo
+                  </button>
+                )}
+              </div>
+              {conditionPhoto && (
+                <div className="mt-3 h-40 flex justify-center bg-gray-50 rounded-lg border border-gray-200 p-2">
+                  <img src={conditionPhoto} alt="Physical copy condition" className="h-full object-contain shadow-sm" />
+                </div>
+              )}
+            </div>
+
             {/* Owner Info */}
             <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-100">
               <p className="text-sm text-indigo-700">
@@ -198,7 +287,7 @@ const CreateBooks = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || uploadingPhoto}
               className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
               Add Book to Library

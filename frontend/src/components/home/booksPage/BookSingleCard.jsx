@@ -112,6 +112,13 @@ const BookSingleCard = ({ book, userBooks }) => {
             <p className="text-gray-600 text-sm">{book.author}</p>
           </div>
 
+          {/* Condition Badge */}
+          <div className="mb-3">
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100">
+              Condition: {book.condition || 'Good'}
+            </span>
+          </div>
+
           {/* Owner */}
           <div className="mb-4">
             <span className="text-xs font-medium text-gray-500">Owner:</span>

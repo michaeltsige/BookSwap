@@ -54,8 +54,11 @@ const UserBookSingleCard = ({ book }) => {
             <p className="text-gray-600 text-sm">{book.author}</p>
           </div>
 
-          {/* Status */}
-          <div className="mb-4">
+          {/* Condition & Status */}
+          <div className="flex items-center gap-2 mb-4">
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-gray-100 text-gray-700">
+              {book.condition || 'Good'}
+            </span>
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
               Your Book
             </span>
