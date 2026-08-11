@@ -16,7 +16,7 @@ const sampleBooks = [
     publishYear: 2017,
     ownerUsername: "michaeltsige",
     condition: "Like New",
-    coverUrl: "https://covers.openlibrary.org/b/id/10291771-L.jpg"
+    coverUrl: "https://covers.openlibrary.org/b/isbn/9781449373320-L.jpg"
   },
   {
     title: "Clean Code: A Handbook of Agile Software Craftsmanship",
@@ -24,7 +24,7 @@ const sampleBooks = [
     publishYear: 2008,
     ownerUsername: "elias",
     condition: "Very Good",
-    coverUrl: "https://covers.openlibrary.org/b/id/8316261-L.jpg"
+    coverUrl: "https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg"
   },
   {
     title: "Dune",
@@ -32,7 +32,7 @@ const sampleBooks = [
     publishYear: 1965,
     ownerUsername: "sara",
     condition: "Good",
-    coverUrl: "https://covers.openlibrary.org/b/id/13141251-L.jpg"
+    coverUrl: "https://covers.openlibrary.org/b/isbn/9780441172719-L.jpg"
   },
   {
     title: "The Pragmatic Programmer: Your Journey to Mastery",
@@ -40,15 +40,15 @@ const sampleBooks = [
     publishYear: 2019,
     ownerUsername: "michaeltsige",
     condition: "Like New",
-    coverUrl: "https://covers.openlibrary.org/b/id/10134440-L.jpg"
+    coverUrl: "https://covers.openlibrary.org/b/isbn/9780135957059-L.jpg"
   },
   {
-    title: "Fikr Eske Mekabir (Love Unto Crypt)",
-    author: "Haddis Alemayehu",
-    publishYear: 1968,
+    title: "Refactoring: Improving the Design of Existing Code",
+    author: "Martin Fowler",
+    publishYear: 2018,
     ownerUsername: "abebe",
     condition: "Very Good",
-    coverUrl: "https://covers.openlibrary.org/b/id/12839441-L.jpg"
+    coverUrl: "https://covers.openlibrary.org/b/isbn/9780134757599-L.jpg"
   },
   {
     title: "1984",
@@ -56,7 +56,7 @@ const sampleBooks = [
     publishYear: 1949,
     ownerUsername: "sara",
     condition: "Good",
-    coverUrl: "https://covers.openlibrary.org/b/id/12652159-L.jpg"
+    coverUrl: "https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg"
   },
   {
     title: "Introduction to Algorithms (3rd Edition)",
@@ -64,7 +64,7 @@ const sampleBooks = [
     publishYear: 2009,
     ownerUsername: "michaeltsige",
     condition: "Very Good",
-    coverUrl: "https://covers.openlibrary.org/b/id/12547141-L.jpg"
+    coverUrl: "https://covers.openlibrary.org/b/isbn/9780262033848-L.jpg"
   },
   {
     title: "System Design Interview – An Insider's Guide",
@@ -72,7 +72,7 @@ const sampleBooks = [
     publishYear: 2020,
     ownerUsername: "elias",
     condition: "Like New",
-    coverUrl: "https://covers.openlibrary.org/b/id/10415307-L.jpg"
+    coverUrl: "https://covers.openlibrary.org/b/isbn/9798664653403-L.jpg"
   },
   {
     title: "The Alchemist",
@@ -80,7 +80,7 @@ const sampleBooks = [
     publishYear: 1988,
     ownerUsername: "abebe",
     condition: "Good",
-    coverUrl: "https://covers.openlibrary.org/b/id/12845872-L.jpg"
+    coverUrl: "https://covers.openlibrary.org/b/isbn/9780062315007-L.jpg"
   },
   {
     title: "Structure and Interpretation of Computer Programs (SICP)",
@@ -88,15 +88,15 @@ const sampleBooks = [
     publishYear: 1996,
     ownerUsername: "sara",
     condition: "Very Good",
-    coverUrl: "https://covers.openlibrary.org/b/id/6423985-L.jpg"
+    coverUrl: "https://covers.openlibrary.org/b/isbn/9780262510875-L.jpg"
   },
   {
-    title: "Oromay",
-    author: "Bealu Girma",
-    publishYear: 1983,
+    title: "The Great Gatsby",
+    author: "F. Scott Fitzgerald",
+    publishYear: 1925,
     ownerUsername: "elias",
     condition: "Good",
-    coverUrl: "https://covers.openlibrary.org/b/id/12738914-L.jpg"
+    coverUrl: "https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg"
   },
   {
     title: "To Kill a Mockingbird",
@@ -104,7 +104,7 @@ const sampleBooks = [
     publishYear: 1960,
     ownerUsername: "abebe",
     condition: "Acceptable",
-    coverUrl: "https://covers.openlibrary.org/b/id/8225266-L.jpg"
+    coverUrl: "https://covers.openlibrary.org/b/isbn/9780060935467-L.jpg"
   }
 ];
 
@@ -123,7 +123,7 @@ const seedBooks = async () => {
     console.log(`Cleared ${deleteResult.deletedCount} old books.`);
 
     const inserted = await Book.insertMany(sampleBooks);
-    console.log(`Successfully seeded ${inserted.length} classic books with high-res cover photography!`);
+    console.log(`Successfully seeded ${inserted.length} classic books with verified ISBN high-res cover photography!`);
 
     await mongoose.disconnect();
     process.exit(0);
