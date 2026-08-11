@@ -49,6 +49,11 @@ const BookModal = ({ book, onClose }) => {
 
         {/* Content */}
         <div className="p-6">
+          {book.coverUrl && (
+            <div className="mb-6 rounded-lg overflow-hidden max-h-64 flex justify-center bg-gray-50 border border-gray-100">
+              <img src={book.coverUrl} alt={book.title} className="h-64 object-contain shadow-sm" />
+            </div>
+          )}
           {/* Year Badge */}
           <div className="inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold mb-6">
             Published: {book.publishYear}

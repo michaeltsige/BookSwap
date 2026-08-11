@@ -30,7 +30,11 @@ const UserBookSingleCard = ({ book }) => {
 
         {/* Book Cover Placeholder */}
         <div className="h-48 bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center relative overflow-hidden">
-          <div className="text-6xl text-green-300 opacity-80">📖</div>
+          {book.coverUrl ? (
+            <img src={book.coverUrl} alt={book.title} className="w-full h-full object-cover" />
+          ) : (
+            <div className="text-6xl text-green-300 opacity-80">📖</div>
+          )}
           <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity"></div>
         </div>
 

@@ -11,10 +11,43 @@ const CreateBooks = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [publishYear, setPublishYear] = useState('');
+  const [coverUrl, setCoverUrl] = useState('');
+  const [searching, setSearching] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { userData } = useContext(UserContext);
+
+  const handleSearchGoogleBooks = async () => {
+    if (!title) {
+      enqueueSnackbar('Please enter a book title to search', { variant: 'warning' });
+      return;
+    }
+    setSearching(true);
+    try {
+      const res = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(title)}`);
+      const item = res.data.items?.[0]?.volumeInfo;
+      if (item) {
+        if (item.title) setTitle(item.title);
+        if (item.authors?.[0]) setAuthor(item.authors[0]);
+        if (item.publishedDate) {
+          const year = parseInt(item.publishedDate.substring(0, 4), 10);
+          if (!isNaN(year)) setPublishYear(year);
+        }
+        if (item.imageLinks?.thumbnail) {
+          setCoverUrl(item.imageLinks.thumbnail.replace('http://', 'https://'));
+        }
+        enqueueSnackbar('Book details auto-filled from Google Books!', { variant: 'success' });
+      } else {
+        enqueueSnackbar('No book found with that title', { variant: 'info' });
+      }
+    } catch (err) {
+      console.error(err);
+      enqueueSnackbar('Error searching Google Books', { variant: 'error' });
+    } finally {
+      setSearching(false);
+    }
+  };
 
   const handleSaveBook = (e) => {
     e.preventDefault();
@@ -30,6 +63,7 @@ const CreateBooks = () => {
       author,
       publishYear,
       ownerUsername,
+      coverUrl,
     };
     
     setLoading(true);
@@ -70,16 +104,26 @@ const CreateBooks = () => {
           <form onSubmit={handleSaveBook} className="space-y-6">
             {/* Title Field */}
             <div>
-              <label htmlFor="title" className="form-label">
-                Book Title *
-              </label>
+              <div className="flex items-center justify-between mb-1">
+                <label htmlFor="title" className="form-label mb-0">
+                  Book Title *
+                </label>
+                <button
+                  type="button"
+                  onClick={handleSearchGoogleBooks}
+                  disabled={searching || !title}
+                  className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 disabled:opacity-50 underline transition-colors"
+                >
+                  {searching ? 'Searching Google Books...' : '✨ Search Google Books to Auto-Fill'}
+                </button>
+              </div>
               <input
                 type="text"
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 className="form-input"
-                placeholder="Enter the book title"
+                placeholder="Enter title (or type & click Auto-Fill above)"
                 required
               />
             </div>
@@ -113,12 +157,32 @@ const CreateBooks = () => {
                 className="form-input"
                 placeholder="Enter publication year"
                 min="1000"
-                max="2024"
+                max="2026"
                 required
               />
               <p className="text-sm text-gray-500 mt-1">
                 This helps others find books from specific time periods
               </p>
+            </div>
+
+            {/* Cover URL Field */}
+            <div>
+              <label htmlFor="coverUrl" className="form-label">
+                Cover Image URL (Optional)
+              </label>
+              <input
+                type="url"
+                id="coverUrl"
+                value={coverUrl}
+                onChange={(e) => setCoverUrl(e.target.value)}
+                className="form-input"
+                placeholder="https://covers.openlibrary.org/..."
+              />
+              {coverUrl && (
+                <div className="mt-3 h-40 flex justify-center bg-gray-50 rounded-lg border border-gray-200 p-2">
+                  <img src={coverUrl} alt="Cover preview" className="h-full object-contain shadow-sm" />
+                </div>
+              )}
             </div>
 
             {/* Owner Info */}
@@ -132,40 +196,14 @@ const CreateBooks = () => {
             </div>
 
             {/* Submit Button */}
-            <div className="flex gap-4 pt-4">
-              <button
-                type="button"
-                onClick={() => navigate('/')}
-                className="flex-1 btn btn-outline py-3"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="flex-1 btn btn-primary py-3"
-                disabled={loading}
-              >
-                {loading ? (
-                  <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    Adding Book...
-                  </>
-                ) : (
-                  <>
-                    <LuBookPlus className="text-lg" />
-                    Add to Collection
-                  </>
-                )}
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              Add Book to Library
+            </button>
           </form>
-        </div>
-
-        {/* Help Text */}
-        <div className="text-center mt-8">
-          <p className="text-gray-600 text-sm">
-            Make sure the book is in good condition before listing it for swapping
-          </p>
         </div>
       </div>
     </div>
