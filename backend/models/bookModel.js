@@ -17,6 +17,18 @@ const bookSchema = mongoose.Schema(
     ownerUsername:{
       type: String,
     },
+    coverUrl: {
+      type: String,
+      default: '',
+    },
+    condition: {
+      type: String,
+      default: 'Good',
+    },
+    conditionPhoto: {
+      type: String,
+      default: '',
+    },
   },
   {
     timestamps: true,
