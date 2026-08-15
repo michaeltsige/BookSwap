@@ -41,7 +41,7 @@ const SwapPage = ({ swapsSent, swapsReceived, onAccept, onReject, loading = fals
   }
 
   return (
-    <div className="space-y-8 select-none">
+    <div className="max-w-4xl mx-auto space-y-8 select-none">
       {/* Header Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white p-5 rounded-2xl border border-[#E8EDE5] shadow-sm flex items-center gap-4">

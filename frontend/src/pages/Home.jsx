@@ -300,8 +300,8 @@ const Home = () => {
     setShowType(tabId);
   };
 
-  if (!authChecked || loading) {
-    return <Spinner />;
+  if (!authChecked) {
+    return null;
   }
 
   return (
@@ -321,8 +321,8 @@ const Home = () => {
       <main className="container mx-auto px-6 py-12">
         <WelcomeSection userData={userData} />
         
-        {/* Search Bar */}
-        <div className="mb-8">
+        {/* Search Bar - constrained to a compact, nicer centered width */}
+        <div className="mb-8 max-w-md mx-auto">
           <SearchBar 
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
@@ -330,12 +330,14 @@ const Home = () => {
           />
         </div>
 
-        <NavigationTabs 
-          showType={showType}
-          setShowType={handleSetShowType}
-          userBooks={userBooks}
-          books={books}
-        />
+        <div className="max-w-md mx-auto mb-2">
+          <NavigationTabs 
+            showType={showType}
+            setShowType={handleSetShowType}
+            userBooks={userBooks}
+            books={books}
+          />
+        </div>
 
         <ContentArea 
           loading={loading}

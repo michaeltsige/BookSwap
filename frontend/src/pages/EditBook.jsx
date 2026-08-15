@@ -141,18 +141,18 @@ const EditBook = () => {
               <button
                 type="button"
                 onClick={() => navigate('/')}
-                className="flex-1 btn btn-outline py-3"
+                className="flex-1 border border-[#E3EAE3] text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium py-3 text-xs font-mono font-bold uppercase tracking-wider active:scale-95 duration-150"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 btn bg-amber-500 hover:bg-amber-600 text-white py-3"
+                className="flex-1 bg-[#9A3412] hover:bg-[#7c2a0f] text-white rounded-lg transition-colors font-medium py-3 text-xs font-mono font-bold uppercase tracking-wider flex items-center justify-center gap-2 active:scale-95 duration-150"
                 disabled={loading}
               >
                 {loading ? (
                   <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                     Updating...
                   </>
                 ) : (

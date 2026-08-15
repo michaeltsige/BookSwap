@@ -1,8 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { BsArrowLeft } from 'react-icons/bs';
-import { HiOutlineArrowLeft } from 'react-icons/hi';
 
-const BackButton = ({ destination = '/', label = 'Back', variant = 'primary' }) => {
+const BackButton = ({ destination = '/', label = 'Return' }) => {
   const navigate = useNavigate();
 
   const handleClick = (e) => {
@@ -12,37 +11,13 @@ const BackButton = ({ destination = '/', label = 'Back', variant = 'primary' }) 
     }
   };
 
-  const getVariantStyles = () => {
-    switch (variant) {
-      case 'primary':
-        return 'bg-[#9A3412] text-white hover:from-indigo-700 hover:to-purple-700 shadow-sm hover:shadow-sm';
-      case 'secondary':
-        return 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-[#E8EDE5]';
-      case 'outline':
-        return 'bg-white text-gray-700 border border-[#E8EDE5] hover:bg-gray-50 shadow-sm';
-      case 'ghost':
-        return 'bg-transparent text-gray-600 hover:bg-gray-100 border border-transparent';
-      default:
-        return 'bg-[#9A3412] text-white hover:from-indigo-700 hover:to-purple-700';
-    }
-  };
-
   return (
     <Link
       to={destination === 'goBack' ? '#' : destination}
       onClick={handleClick}
-      className={`
-        inline-flex items-center gap-2 px-4 py-3 rounded-xl font-medium
-        transition-all duration-200 transform hover:-translate-x-0.5
-        focus:outline-none focus:ring-2 focus:ring-[#9A3412] focus:ring-offset-2
-        ${getVariantStyles()}
-      `}
+      className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-[#E3EAE3] bg-white rounded-lg text-xs font-mono font-bold uppercase text-slate-600 hover:text-slate-900 hover:bg-slate-50 hover:-translate-x-0.5 transition-all shadow-sm active:scale-95 select-none"
     >
-      {variant === 'primary' ? (
-        <BsArrowLeft className="text-lg" />
-      ) : (
-        <HiOutlineArrowLeft className="text-lg" />
-      )}
+      <BsArrowLeft className="text-sm shrink-0" />
       <span>{label}</span>
     </Link>
   );

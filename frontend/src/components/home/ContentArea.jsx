@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { LuBookPlus, LuBookOpen } from 'react-icons/lu';
-import Spinner from '../Spinner';
 import BooksCard from '../home/booksPage/BooksCard';
 import UserBooksCard from '../home/booksPage/UserBooksCard';
 import SwapPage from '../home/swapRequestsPage/SwapPage';
@@ -21,10 +20,21 @@ const ContentArea = ({
   filteredUserBooks,
   swapLoading 
 }) => {
+  // Premium Pulsing Skeleton Cards for beautiful non-blocking loads
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <Spinner />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse select-none">
+        {[...Array(6)].map((_, i) => (
+          <div key={i} className="bg-white border border-[#E3EAE3] rounded-2xl p-5 space-y-4">
+            <div className="h-40 bg-slate-100 rounded-xl w-full"></div>
+            <div className="h-4 bg-slate-100 rounded w-2/3"></div>
+            <div className="h-3 bg-slate-100 rounded w-1/2"></div>
+            <div className="pt-4 border-t border-slate-100 flex justify-between">
+              <div className="h-3 bg-slate-100 rounded w-1/4"></div>
+              <div className="h-3 bg-slate-100 rounded w-1/4"></div>
+            </div>
+          </div>
+        ))}
       </div>
     );
   }
@@ -42,20 +52,20 @@ const ContentArea = ({
     );
   }
 
-  // Regular content based on tab
-  switch (showType) {
-    case 'allBooks':
-      return (
-        <AllBooksContent books={books} />
-      );
-    
-    case 'myBooks':
-      return (
+  return (
+    <div>
+      {/* Browse Books Tab Content - Preserved in DOM to keep images cached and 0ms switch time! */}
+      <div className={showType === 'allBooks' ? '' : 'hidden'}>
+        <AllBooksContent books={books} userBooks={userBooks} />
+      </div>
+
+      {/* My Books Tab Content - Preserved in DOM */}
+      <div className={showType === 'myBooks' ? '' : 'hidden'}>
         <MyBooksContent userBooks={userBooks} />
-      );
-    
-    case 'swaps':
-      return (
+      </div>
+
+      {/* Swap Requests Tab Content - Preserved in DOM */}
+      <div className={showType === 'swaps' ? '' : 'hidden'}>
         <SwapPage 
           swapsSent={swapsSent} 
           swapsReceived={swapsReceived} 
@@ -63,18 +73,16 @@ const ContentArea = ({
           onReject={onReject}
           loading={swapLoading}
         />
-      );
-    
-    default:
-      return null;
-  }
+      </div>
+    </div>
+  );
 };
 
 // Sub-components for better organization
-const AllBooksContent = ({ books }) => (
+const AllBooksContent = ({ books, userBooks }) => (
   <div>
-    <div className="flex items-center justify-between mb-6">
-      <h3 className="text-xl font-bold text-slate-900 font-serif tracking-tight">Available Books</h3>
+    <div className="flex items-center justify-between mb-6 select-none">
+      <h3 className="text-lg font-bold text-slate-900 font-serif tracking-tight">Available Books</h3>
       <span className="text-xs text-slate-500 bg-white border border-[#E3EAE3] px-3 py-1 rounded-full font-semibold">
         {books.length} books available
       </span>
@@ -86,15 +94,15 @@ const AllBooksContent = ({ books }) => (
         buttonText="Add Your First Book"
       />
     ) : (
-      <BooksCard books={books} userBooks={[]} />
+      <BooksCard books={books} userBooks={userBooks} />
     )}
   </div>
 );
 
 const MyBooksContent = ({ userBooks }) => (
   <div>
-    <div className="flex items-center justify-between mb-6">
-      <h3 className="text-xl font-bold text-slate-900 font-serif tracking-tight">My Collection</h3>
+    <div className="flex items-center justify-between mb-6 select-none">
+      <h3 className="text-lg font-bold text-slate-900 font-serif tracking-tight">My Collection</h3>
       <span className="text-xs text-slate-500 bg-white border border-[#E3EAE3] px-3 py-1 rounded-full font-semibold">
         {userBooks.length} books
       </span>

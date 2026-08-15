@@ -28,7 +28,7 @@ const CreateBooks = () => {
     }
     setSearching(true);
     try {
-      const res = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(title)}`);
+      const res = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(title)}`);
       const item = res.data.items?.[0]?.volumeInfo;
       if (item) {
         if (item.title) setTitle(item.title);
@@ -39,6 +39,8 @@ const CreateBooks = () => {
         }
         if (item.imageLinks?.thumbnail) {
           setCoverUrl(item.imageLinks.thumbnail.replace('http://', 'https://'));
+        } else if (item.imageLinks?.smallThumbnail) {
+          setCoverUrl(item.imageLinks.smallThumbnail.replace('http://', 'https://'));
         }
         enqueueSnackbar('Book details auto-filled from Google Books!', { variant: 'success' });
       } else {
@@ -248,7 +250,7 @@ const CreateBooks = () => {
               <div className="flex flex-wrap items-center gap-4">
                 <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg text-sm font-semibold transition-colors border border-indigo-200 shadow-sm">
                   <LuCamera className="text-lg" />
-                  <span>{uploadingPhoto ? 'Uploading to Cloudinary...' : 'Upload Physical Copy Photo'}</span>
+                  <span>{uploadingPhoto ? 'Uploading...' : 'Upload Physical Copy Photo'}</span>
                   <input
                     type="file"
                     accept="image/*"
