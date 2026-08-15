@@ -12,7 +12,12 @@ const Header = ({ sidebarOpen, setSidebarOpen, showType, userData }) => {
           {/* Logo - Elegant Serif Typography paired with custom matte badge */}
           <Link to="/" class="flex items-center space-x-3 group">
             <div class="w-9 h-9 border border-[#9A3412]/15 bg-[#9A3412]/5 rounded-lg flex items-center justify-center transition-colors group-hover:bg-[#9A3412]/10">
-              <SiBookstack class="text-[#9A3412] text-base" />
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[#9A3412]">
+                <rect x="4" y="3" width="10" height="15" rx="1.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+                <rect x="10" y="6" width="10" height="15" rx="1.5" fill="white" stroke="#2E6F40" strokeWidth="2.2" strokeLinecap="round" />
+                <path d="M7 8h2m-2 3h1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                <path d="M13 11h2m-2 3h1" stroke="#2E6F40" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
             </div>
             <h1 class="text-xl font-bold font-serif text-slate-900 tracking-tight group-hover:text-[#9A3412] transition-colors">
               BookSwap

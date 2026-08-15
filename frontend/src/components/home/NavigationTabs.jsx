@@ -1,29 +1,22 @@
 import React from 'react';
-import { SiBookstack } from 'react-icons/si';
-import { LuBookPlus } from 'react-icons/lu';
-import { HiOutlineMail } from 'react-icons/hi';
-import { BsArrowRight as ArrowIcon } from 'react-icons/bs';
 
 const NavigationTabs = ({ showType, setShowType, userBooks, books }) => {
   const tabs = [
     {
       id: 'allBooks',
       label: 'Browse Books',
-      icon: SiBookstack,
       color: 'terracotta',
       count: books.length
     },
     {
       id: 'myBooks',
       label: 'My Books',
-      icon: LuBookPlus,
       color: 'teal',
       count: userBooks.length
     },
     {
       id: 'swaps',
       label: 'Swap Requests',
-      icon: HiOutlineMail,
       color: 'pine'
     }
   ];
@@ -51,7 +44,6 @@ const NavigationTabs = ({ showType, setShowType, userBooks, books }) => {
           className={getTabClasses(tab, showType === tab.id)}
           onClick={() => setShowType(tab.id)}
         >
-          <tab.icon className="text-sm" />
           <span>{tab.label}</span>
           {tab.count !== undefined && (
             <span className={`text-[10px] px-2 py-0.5 rounded-full ${
@@ -60,7 +52,6 @@ const NavigationTabs = ({ showType, setShowType, userBooks, books }) => {
               {tab.count}
             </span>
           )}
-          {showType === tab.id && <ArrowIcon className="text-sm ml-1" />}
         </button>
       ))}
     </div>

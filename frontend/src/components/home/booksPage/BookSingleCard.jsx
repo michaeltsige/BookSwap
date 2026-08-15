@@ -89,7 +89,12 @@ const BookSingleCard = ({ book, userBooks }) => {
         {/* Book Cover Placeholder */}
         <div className="h-48 bg-slate-50 border border-slate-100 flex items-center justify-center relative overflow-hidden">
           {book.coverUrl ? (
-            <img src={book.coverUrl} alt={book.title} className="w-full h-full object-cover" />
+            <img 
+              src={book.coverUrl.includes('covers.openlibrary.org') && book.coverUrl.endsWith('-L.jpg') ? book.coverUrl.replace('-L.jpg', '-M.jpg') : book.coverUrl} 
+              alt={book.title} 
+              className="w-full h-full object-cover transition-opacity duration-300" 
+              loading="lazy"
+            />
           ) : (
             <div className="text-6xl text-indigo-300 opacity-80"></div>
           )}

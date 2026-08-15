@@ -51,7 +51,12 @@ const BookModal = ({ book, onClose }) => {
         <div className="p-6">
           {book.coverUrl && (
             <div className="mb-6 rounded-lg overflow-hidden max-h-64 flex justify-center bg-gray-50 border border-gray-100">
-              <img src={book.coverUrl} alt={book.title} className="h-64 object-contain shadow-sm" />
+              <img 
+                src={book.coverUrl.includes('covers.openlibrary.org') && book.coverUrl.endsWith('-L.jpg') ? book.coverUrl.replace('-L.jpg', '-M.jpg') : book.coverUrl} 
+                alt={book.title} 
+                className="h-64 object-contain shadow-sm transition-opacity duration-300" 
+                loading="lazy"
+              />
             </div>
           )}
           {/* Year & Condition Badges */}

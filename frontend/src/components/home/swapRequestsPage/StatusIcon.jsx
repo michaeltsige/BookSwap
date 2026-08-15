@@ -6,16 +6,15 @@ const StatusIcon = ({ status }) => {
     <div>
         {
             status === 'accepted'? 
-                <FaCheckCircle className="text-green-500 text-2xl mr-4" />
+                <FaCheckCircle className="text-[#115E59] text-2xl mr-4 animate-pulse" />
             : 
                 status === 'pending'? 
-                    <FaClock className="text-yellow-500 text-2xl mr-4" />
+                    <FaClock className="text-[#D97706] text-2xl mr-4" />
                 :
-                    <FaTimesCircle className="text-red-500 text-2xl mr-4" />
+                    <FaTimesCircle className="text-[#9A3412] text-2xl mr-4" />
         }
     </div>
   )
 }
 
 export default StatusIcon
-
