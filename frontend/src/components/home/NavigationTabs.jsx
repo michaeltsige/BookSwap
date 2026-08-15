@@ -2,7 +2,6 @@ import React from 'react';
 import { SiBookstack } from 'react-icons/si';
 import { LuBookPlus } from 'react-icons/lu';
 import { HiOutlineMail } from 'react-icons/hi';
-import { BsArrowRight } from 'react-icons/all'; // Modified import just in case, wait, let's keep BsArrowRight from 'react-icons/bs' as it was!
 import { BsArrowRight as ArrowIcon } from 'react-icons/bs';
 
 const NavigationTabs = ({ showType, setShowType, userBooks, books }) => {
