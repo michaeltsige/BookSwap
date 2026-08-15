@@ -34,7 +34,7 @@ const SearchBar = ({
       
       {/* Search tips */}
       {searchQuery && (
-        <div className="absolute top-full left-0 right-0 bg-white border border-[#E3EAE3] rounded-lg shadow-lg mt-1.5 p-2.5 z-10 animate-fadeIn">
+        <div className="absolute top-full left-0 right-0 bg-white border border-[#E3EAE3] rounded-lg shadow-sm mt-1.5 p-2.5 z-10 animate-fadeIn">
           <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400">
             Filtering by title, author, or publication year
           </p>

@@ -67,10 +67,10 @@ const AccountDeleteModal = ({ onDelete, onCancel }) => {
         </div>
 
         {/* Footer */}
-        <div className="flex gap-3 p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
+        <div className="flex gap-3 p-6 border-t border-[#E8EDE5] bg-gray-50 rounded-b-2xl">
           <button
             onClick={onCancel}
-            className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors font-medium"
+            className="flex-1 px-4 py-3 border border-[#E8EDE5] text-gray-700 rounded-lg hover:bg-gray-100 transition-colors font-medium"
           >
             Cancel
           </button>

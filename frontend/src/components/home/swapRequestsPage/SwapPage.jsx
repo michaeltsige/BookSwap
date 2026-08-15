@@ -28,7 +28,7 @@ const SwapPage = ({ swapsSent, swapsReceived, onAccept, onReject, loading = fals
   // Empty state
   if (swapsSent.length === 0 && swapsReceived.length === 0) {
     return (
-      <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-gray-200">
+      <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-[#E8EDE5]">
         <div className="text-6xl mb-4">🔄</div>
         <h3 className="text-2xl font-semibold text-gray-900 mb-2">No Swap Activity Yet</h3>
         <p className="text-gray-600 mb-6 max-w-md mx-auto">
@@ -43,7 +43,7 @@ const SwapPage = ({ swapsSent, swapsReceived, onAccept, onReject, loading = fals
       {/* Header Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="card-hover bg-white p-6 rounded-2xl text-center">
-          <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-3">
+          <div className="w-12 h-12 bg-[#164E63] rounded-xl flex items-center justify-center mx-auto mb-3">
             <RiExchangeLine className="text-white text-xl" />
           </div>
           <h3 className="text-2xl font-bold text-gray-900">{swapsSent.length + swapsReceived.length}</h3>
@@ -51,7 +51,7 @@ const SwapPage = ({ swapsSent, swapsReceived, onAccept, onReject, loading = fals
         </div>
 
         <div className="card-hover bg-white p-6 rounded-2xl text-center">
-          <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-3">
+          <div className="w-12 h-12 bg-[#9A3412] rounded-xl flex items-center justify-center mx-auto mb-3">
             <RiExchangeLine className="text-white text-xl" />
           </div>
           <h3 className="text-2xl font-bold text-gray-900">{totalPending}</h3>
@@ -59,7 +59,7 @@ const SwapPage = ({ swapsSent, swapsReceived, onAccept, onReject, loading = fals
         </div>
 
         <div className="card-hover bg-white p-6 rounded-2xl text-center">
-          <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center mx-auto mb-3">
+          <div className="w-12 h-12 bg-[#115E59] rounded-xl flex items-center justify-center mx-auto mb-3">
             <RiExchangeLine className="text-white text-xl" />
           </div>
           <h3 className="text-2xl font-bold text-gray-900">{totalAccepted}</h3>

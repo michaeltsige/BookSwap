@@ -13,7 +13,7 @@ const SingleSwapCard = ({ swap, type, onAccept, onReject }) => {
         <div className="flex gap-2 mt-4">
           <button
             onClick={onAccept}
-            className="flex-1 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+            className="flex-1 bg-green-500 hover:bg-[#115E59] text-white px-4 py-2 rounded-lg font-medium transition-colors"
           >
             Accept
           </button>
@@ -40,7 +40,7 @@ const SingleSwapCard = ({ swap, type, onAccept, onReject }) => {
 
   return (
     <>
-      <div className={`bg-white border-l-4 ${getStatusColor()} rounded-r-lg p-4 shadow-sm border border-gray-200 hover:shadow-md transition-shadow`}>
+      <div className={`bg-white border-l-4 ${getStatusColor()} rounded-r-lg p-4 shadow-sm border border-[#E8EDE5] hover:shadow-md transition-shadow`}>
         <div className="flex items-start gap-4">
           <StatusIcon status={status} />
           
@@ -48,7 +48,7 @@ const SingleSwapCard = ({ swap, type, onAccept, onReject }) => {
             {/* Books Info */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
               <div className="flex items-start gap-2">
-                <PiBookOpenTextLight className="text-indigo-600 mt-1 flex-shrink-0" />
+                <PiBookOpenTextLight className="text-[#9A3412] mt-1 flex-shrink-0" />
                 <div>
                   <p className="text-sm font-medium text-gray-600">
                     {type === 'sent' ? 'Requested' : 'Offered'}

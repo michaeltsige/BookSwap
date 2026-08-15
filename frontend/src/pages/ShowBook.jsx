@@ -26,14 +26,14 @@ const ShowBook = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#F8F7F4] flex items-center justify-center">
         <Spinner />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
+    <div className="min-h-screen bg-[#F8F7F4] py-8">
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -52,10 +52,10 @@ const ShowBook = () => {
           {/* Book Cover Section */}
           <div className="lg:col-span-1">
             <div className="card-hover bg-white rounded-2xl p-6 text-center">
-              <div className="w-32 h-40 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <div className="w-32 h-40 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <PiBookOpenTextLight className="text-4xl text-indigo-400" />
               </div>
-              <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold text-lg inline-block">
+              <div className="bg-[#9A3412] text-white px-4 py-2 rounded-lg font-semibold text-lg inline-block">
                 {book.publishYear}
               </div>
             </div>
@@ -69,14 +69,14 @@ const ShowBook = () => {
                 {/* Title */}
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">{book.title}</h2>
-                  <div className="w-20 h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full"></div>
+                  <div className="w-20 h-1 bg-[#9A3412] rounded-full"></div>
                 </div>
 
                 {/* Details Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Author */}
                   <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                    <PiUserLight className="text-indigo-600 text-xl" />
+                    <PiUserLight className="text-[#9A3412] text-xl" />
                     <div>
                       <p className="text-sm font-medium text-gray-600">Author</p>
                       <p className="text-lg font-semibold text-gray-900">{book.author}</p>
@@ -85,7 +85,7 @@ const ShowBook = () => {
 
                   {/* Publication Year */}
                   <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                    <PiCalendarLight className="text-indigo-600 text-xl" />
+                    <PiCalendarLight className="text-[#9A3412] text-xl" />
                     <div>
                       <p className="text-sm font-medium text-gray-600">Published</p>
                       <p className="text-lg font-semibold text-gray-900">{book.publishYear}</p>
@@ -94,7 +94,7 @@ const ShowBook = () => {
 
                   {/* Owner */}
                   <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                    <PiUserLight className="text-green-600 text-xl" />
+                    <PiUserLight className="text-[#115E59] text-xl" />
                     <div>
                       <p className="text-sm font-medium text-gray-600">Current Owner</p>
                       <p className="text-lg font-semibold text-gray-900">{book.ownerUsername}</p>
@@ -112,7 +112,7 @@ const ShowBook = () => {
                 </div>
 
                 {/* Timestamps */}
-                <div className="border-t border-gray-200 pt-6">
+                <div className="border-t border-[#E8EDE5] pt-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Activity</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex items-center gap-3">
@@ -149,7 +149,7 @@ const ShowBook = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-4 pt-6 border-t border-gray-200">
+                <div className="flex gap-4 pt-6 border-t border-[#E8EDE5]">
                   <Link
                     to="/"
                     className="flex-1 btn btn-outline py-3 text-center"

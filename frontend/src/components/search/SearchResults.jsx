@@ -16,7 +16,7 @@ const SearchResults = ({
   return (
     <div className="space-y-8">
       {/* Search Header */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+      <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#E8EDE5]">
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
           Search Results
         </h2>
@@ -47,7 +47,7 @@ const SearchResults = ({
 
       {/* No Results */}
       {totalResults === 0 && (
-        <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-gray-200">
+        <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-[#E8EDE5]">
           <div className="text-6xl mb-4">🔍</div>
           <h3 className="text-xl font-semibold text-gray-900 mb-2">No results found</h3>
           <p className="text-gray-600">

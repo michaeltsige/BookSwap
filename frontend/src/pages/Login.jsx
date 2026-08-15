@@ -43,7 +43,7 @@ const Login = () => {
           const { userPageData, token } = response.data;
           setUserData(userPageData);
           sessionStorage.setItem('token', token);
-          enqueueSnackbar('Welcome back! 📚', { variant: 'success'});
+          enqueueSnackbar('Welcome back!', { variant: 'success'});
           navigate('/');
         }
       })
@@ -55,17 +55,17 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#F8F7F4] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       {loading && <Spinner />}
       
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
           <Link to="/" className="inline-flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-[#9A3412] rounded-xl flex items-center justify-center">
               <SiBookstack className="text-white text-2xl" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold bg-[#9A3412] bg-clip-text text-transparent">
               BookSwap
             </span>
           </Link>
@@ -77,7 +77,7 @@ const Login = () => {
         </div>
 
         {/* Login Form */}
-        <div className="card-hover bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+        <div className="card-hover bg-white rounded-2xl shadow-sm border border-[#E8EDE5] p-8">
           <form className="space-y-6" onSubmit={handleLogin}>
             {/* Username Field */}
             <div>
@@ -138,14 +138,14 @@ const Login = () => {
                 <input
                   id="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-[#9A3412] focus:ring-[#9A3412] border-[#E8EDE5] rounded"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                   Remember me
                 </label>
               </div>
               <div className="text-sm">
-                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <a href="#" className="font-medium text-[#9A3412] hover:text-[#7C2D12]">
                   Forgot your password?
                 </a>
               </div>
@@ -174,7 +174,7 @@ const Login = () => {
               Don't have an account?{' '}
               <Link 
                 to="/signup" 
-                className="font-semibold text-indigo-600 hover:text-indigo-500 transition-colors"
+                className="font-semibold text-[#9A3412] hover:text-[#7C2D12] transition-colors"
               >
                 Create one now
               </Link>

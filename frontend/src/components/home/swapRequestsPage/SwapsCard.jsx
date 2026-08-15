@@ -10,7 +10,7 @@ const SwapsCard = ({ swaps, type, onAccept, onReject, title, description }) => {
   const getIcon = () => {
     return type === 'sent' ? 
       <RiSendPlaneLine className="text-blue-600 text-xl" /> : 
-      <RiInboxLine className="text-green-600 text-xl" />;
+      <RiInboxLine className="text-[#115E59] text-xl" />;
   };
 
   const getHeaderColor = () => {
@@ -18,7 +18,7 @@ const SwapsCard = ({ swaps, type, onAccept, onReject, title, description }) => {
   };
 
   return (
-    <div className="card-hover bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+    <div className="card-hover bg-white rounded-2xl shadow-sm border border-[#E8EDE5] overflow-hidden">
       {/* Header */}
       <div className={`bg-gradient-to-r ${getHeaderColor()} p-6 text-white`}>
         <div className="flex items-center gap-3 mb-2">

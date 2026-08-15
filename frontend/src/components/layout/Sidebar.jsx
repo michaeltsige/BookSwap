@@ -8,7 +8,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
   return (
     <div className="lg:hidden fixed inset-0 z-50 bg-black bg-opacity-50">
-      <div className="absolute right-0 top-0 h-full w-64 bg-white shadow-xl">
+      <div className="absolute right-0 top-0 h-full w-64 bg-white shadow-sm">
         <div className="p-6">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-lg font-semibold">Menu</h2>

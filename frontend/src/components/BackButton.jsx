@@ -15,15 +15,15 @@ const BackButton = ({ destination = '/', label = 'Back', variant = 'primary' }) 
   const getVariantStyles = () => {
     switch (variant) {
       case 'primary':
-        return 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl';
+        return 'bg-[#9A3412] text-white hover:from-indigo-700 hover:to-purple-700 shadow-sm hover:shadow-sm';
       case 'secondary':
-        return 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300';
+        return 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-[#E8EDE5]';
       case 'outline':
-        return 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 shadow-sm';
+        return 'bg-white text-gray-700 border border-[#E8EDE5] hover:bg-gray-50 shadow-sm';
       case 'ghost':
         return 'bg-transparent text-gray-600 hover:bg-gray-100 border border-transparent';
       default:
-        return 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700';
+        return 'bg-[#9A3412] text-white hover:from-indigo-700 hover:to-purple-700';
     }
   };
 
@@ -34,7 +34,7 @@ const BackButton = ({ destination = '/', label = 'Back', variant = 'primary' }) 
       className={`
         inline-flex items-center gap-2 px-4 py-3 rounded-xl font-medium
         transition-all duration-200 transform hover:-translate-x-0.5
-        focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
+        focus:outline-none focus:ring-2 focus:ring-[#9A3412] focus:ring-offset-2
         ${getVariantStyles()}
       `}
     >

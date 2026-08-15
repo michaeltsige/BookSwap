@@ -37,7 +37,7 @@ const BookModal = ({ book, onClose }) => {
       {/* Modal Content */}
       <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-6 border-b border-[#E8EDE5]">
           <h2 className="text-2xl font-bold text-gray-900">Book Details</h2>
           <button
             onClick={handleCloseClick}
@@ -56,7 +56,7 @@ const BookModal = ({ book, onClose }) => {
           )}
           {/* Year & Condition Badges */}
           <div className="flex flex-wrap items-center gap-3 mb-6">
-            <div className="inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold">
+            <div className="inline-block bg-[#9A3412] text-white px-4 py-2 rounded-lg font-semibold">
               Published: {book.publishYear}
             </div>
             <div className="inline-block bg-indigo-50 text-indigo-700 border border-indigo-200 px-4 py-2 rounded-lg font-semibold">
@@ -67,7 +67,7 @@ const BookModal = ({ book, onClose }) => {
           {/* Book Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <PiBookOpenTextLight className="text-indigo-600 text-2xl flex-shrink-0" />
+              <PiBookOpenTextLight className="text-[#9A3412] text-2xl flex-shrink-0" />
               <div>
                 <h3 className="text-lg font-semibold text-gray-700">Title</h3>
                 <p className="text-xl font-bold text-gray-900">{book.title}</p>
@@ -91,7 +91,7 @@ const BookModal = ({ book, onClose }) => {
             </div>
 
             {book.conditionPhoto && (
-              <div className="p-4 bg-white rounded-lg border border-gray-200 text-center">
+              <div className="p-4 bg-white rounded-lg border border-[#E8EDE5] text-center">
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
                   Owner's Photo of Physical Copy
                 </p>
@@ -113,10 +113,10 @@ const BookModal = ({ book, onClose }) => {
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-3 p-6 border-t border-gray-200">
+        <div className="flex justify-end gap-3 p-6 border-t border-[#E8EDE5]">
           <button
             onClick={handleCloseClick}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+            className="px-6 py-2 border border-[#E8EDE5] text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
           >
             Close
           </button>

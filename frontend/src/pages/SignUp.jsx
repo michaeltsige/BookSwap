@@ -39,7 +39,7 @@ const SignUp = () => {
       .post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/auth/signup`, data)
       .then(() => {
         setLoading(false);
-        enqueueSnackbar('Account created successfully! Welcome to BookSwap 🎉', { variant: 'success' });
+        enqueueSnackbar('Account created successfully! Welcome to BookSwap ', { variant: 'success' });
         navigate('/login');
       })
       .catch((error) => {
@@ -69,17 +69,17 @@ const SignUp = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#F8F7F4] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       {loading && <Spinner />}
       
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
           <Link to="/" className="inline-flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 bg-gradient-to-r from-green-600 to-blue-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-[#164E63] rounded-xl flex items-center justify-center">
               <SiBookstack className="text-white text-2xl" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold bg-[#164E63] bg-clip-text text-transparent">
               BookSwap
             </span>
           </Link>
@@ -91,7 +91,7 @@ const SignUp = () => {
         </div>
 
         {/* Signup Form */}
-        <div className="card-hover bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+        <div className="card-hover bg-white rounded-2xl shadow-sm border border-[#E8EDE5] p-8">
           <form className="space-y-6" onSubmit={handleSignUp}>
             {/* Username Field */}
             <div>
@@ -179,16 +179,16 @@ const SignUp = () => {
               <input
                 id="terms"
                 type="checkbox"
-                className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                className="h-4 w-4 text-[#115E59] focus:ring-green-500 border-[#E8EDE5] rounded"
                 required
               />
               <label htmlFor="terms" className="ml-2 block text-sm text-gray-900">
                 I agree to the{' '}
-                <a href="#" className="text-green-600 hover:text-green-500 font-medium">
+                <a href="#" className="text-[#115E59] hover:text-[#115E59] font-medium">
                   Terms of Service
                 </a>{' '}
                 and{' '}
-                <a href="#" className="text-green-600 hover:text-green-500 font-medium">
+                <a href="#" className="text-[#115E59] hover:text-[#115E59] font-medium">
                   Privacy Policy
                 </a>
               </label>
@@ -197,7 +197,7 @@ const SignUp = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-green-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-blue-700 transform hover:-translate-y-0.5 transition-all duration-200 shadow-lg"
+              className="w-full bg-[#164E63] text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-blue-700 transform hover:-translate-y-0.5 transition-all duration-200 shadow-sm"
               disabled={loading}
             >
               {loading ? (
@@ -217,7 +217,7 @@ const SignUp = () => {
               Already have an account?{' '}
               <Link 
                 to="/login" 
-                className="font-semibold text-green-600 hover:text-green-500 transition-colors"
+                className="font-semibold text-[#115E59] hover:text-[#115E59] transition-colors"
               >
                 Sign in here
               </Link>
@@ -226,7 +226,7 @@ const SignUp = () => {
         </div>
 
         {/* Benefits */}
-        <div className="card-hover bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+        <div className="card-hover bg-white rounded-2xl shadow-sm border border-[#E8EDE5] p-6">
           <h3 className="font-semibold text-gray-900 mb-3">Why Join BookSwap?</h3>
           <ul className="space-y-2 text-sm text-gray-600">
             <li className="flex items-center gap-2">

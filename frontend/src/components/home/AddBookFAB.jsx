@@ -14,12 +14,12 @@ const AddBookFAB = ({ showType, userBooks, books, userData }) => {
   return (
     <Link 
       to={userData?.username ? "/books/create" : "/login"} 
-      className="fixed bottom-8 right-8 z-30 bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-5 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 group"
+      className="fixed bottom-8 right-8 z-30 bg-[#9A3412] text-white p-5 rounded-full shadow-sm hover:shadow-sm transform hover:scale-110 transition-all duration-300 group"
       title={getTooltipText()}
     >
       <LuBookPlus className="text-2xl" />
       
-      <span className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-lg">
+      <span className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-sm">
         {getTooltipText()}
         <div className="absolute top-1/2 right-0 transform translate-x-1 -translate-y-1/2 w-2 h-2 bg-gray-900 rotate-45"></div>
       </span>

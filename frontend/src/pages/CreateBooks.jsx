@@ -107,7 +107,7 @@ const CreateBooks = () => {
     axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books`, data)
       .then(() => {
         setLoading(false);
-        enqueueSnackbar('Book created successfully! 📚', { variant: 'success' });
+        enqueueSnackbar('Book created successfully! ', { variant: 'success' });
         navigate('/');
       })
       .catch((error) => {
@@ -118,13 +118,13 @@ const CreateBooks = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
+    <div className="min-h-screen bg-[#F8F7F4] py-8">
       <div className="container mx-auto px-4 max-w-2xl">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <BackButton />
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-[#9A3412] rounded-xl flex items-center justify-center">
               <LuBookPlus className="text-white text-2xl" />
             </div>
             <div>
@@ -137,7 +137,7 @@ const CreateBooks = () => {
         {loading && <Spinner />}
 
         {/* Form Card */}
-        <div className="card-hover bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+        <div className="card-hover bg-white rounded-2xl shadow-sm border border-[#E8EDE5] p-8">
           <form onSubmit={handleSaveBook} className="space-y-6">
             {/* Title Field */}
             <div>
@@ -149,7 +149,7 @@ const CreateBooks = () => {
                   type="button"
                   onClick={handleSearchGoogleBooks}
                   disabled={searching || !title}
-                  className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 disabled:opacity-50 underline transition-colors"
+                  className="text-xs font-semibold text-[#9A3412] hover:text-indigo-800 disabled:opacity-50 underline transition-colors"
                 >
                   {searching ? 'Searching Google Books...' : '✨ Search Google Books to Auto-Fill'}
                 </button>
@@ -234,7 +234,7 @@ const CreateBooks = () => {
                 placeholder="https://covers.openlibrary.org/..."
               />
               {coverUrl && (
-                <div className="mt-3 h-40 flex justify-center bg-gray-50 rounded-lg border border-gray-200 p-2">
+                <div className="mt-3 h-40 flex justify-center bg-gray-50 rounded-lg border border-[#E8EDE5] p-2">
                   <img src={coverUrl} alt="Cover preview" className="h-full object-contain shadow-sm" />
                 </div>
               )}
@@ -268,7 +268,7 @@ const CreateBooks = () => {
                 )}
               </div>
               {conditionPhoto && (
-                <div className="mt-3 h-40 flex justify-center bg-gray-50 rounded-lg border border-gray-200 p-2">
+                <div className="mt-3 h-40 flex justify-center bg-gray-50 rounded-lg border border-[#E8EDE5] p-2">
                   <img src={conditionPhoto} alt="Physical copy condition" className="h-full object-contain shadow-sm" />
                 </div>
               )}
@@ -279,7 +279,7 @@ const CreateBooks = () => {
               <p className="text-sm text-indigo-700">
                 <strong>This book will be listed under:</strong> {userData.username}
               </p>
-              <p className="text-sm text-indigo-600 mt-1">
+              <p className="text-sm text-[#9A3412] mt-1">
                 Other users will be able to request swaps for this book
               </p>
             </div>
@@ -288,7 +288,7 @@ const CreateBooks = () => {
             <button
               type="submit"
               disabled={loading || uploadingPhoto}
-              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="w-full bg-[#9A3412] text-white font-semibold py-3 px-6 rounded-xl shadow-sm hover:shadow-sm transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
               Add Book to Library
             </button>

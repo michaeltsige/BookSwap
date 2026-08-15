@@ -58,13 +58,13 @@ const EditBook = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
+    <div className="min-h-screen bg-[#F8F7F4] py-8">
       <div className="container mx-auto px-4 max-w-2xl">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <BackButton />
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-[#9A3412] rounded-xl flex items-center justify-center">
               <AiOutlineEdit className="text-white text-2xl" />
             </div>
             <div>
@@ -77,7 +77,7 @@ const EditBook = () => {
         {loading && <Spinner />}
 
         {/* Form Card */}
-        <div className="card-hover bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+        <div className="card-hover bg-white rounded-2xl shadow-sm border border-[#E8EDE5] p-8">
           <form onSubmit={handleEditBook} className="space-y-6">
             {/* Title Field */}
             <div>

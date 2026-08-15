@@ -66,7 +66,7 @@ const ProfilePage = () => {
   // Add safety check for userData
   if (!userData || !userData.username) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#F8F7F4] flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">🔒</div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Session Expired</h2>
@@ -83,7 +83,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
+    <div className="min-h-screen bg-[#F8F7F4] py-8">
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -95,11 +95,11 @@ const ProfilePage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Profile Card */}
           <div className="lg:col-span-2">
-            <div className="card-hover bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+            <div className="card-hover bg-white rounded-2xl shadow-sm border border-[#E8EDE5] p-8">
               {/* Profile Header */}
               <div className="flex items-center gap-6 mb-8">
                 <div className="relative">
-                  <div className="w-20 h-20 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center">
+                  <div className="w-20 h-20 bg-[#9A3412] rounded-2xl flex items-center justify-center">
                     <FaUserCircle className="text-white text-4xl" />
                   </div>
                   <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-white flex items-center justify-center">
@@ -126,7 +126,7 @@ const ProfilePage = () => {
                   {/* Username */}
                   <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
                     <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
-                      <AiOutlineUser className="text-indigo-600 text-xl" />
+                      <AiOutlineUser className="text-[#9A3412] text-xl" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-600">Username</p>
@@ -147,15 +147,15 @@ const ProfilePage = () => {
                 </div>
 
                 {/* Account Stats */}
-                <div className="p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
+                <div className="p-6 bg-[#FAF9F6] border border-[#E8EDE5] rounded-xl border border-indigo-100">
                   <h3 className="font-semibold text-indigo-900 mb-3">Account Overview</h3>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div className="text-center">
-                      <p className="text-2xl font-bold text-indigo-600">0</p>
+                      <p className="text-2xl font-bold text-[#9A3412]">0</p>
                       <p className="text-indigo-700">Books Listed</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-2xl font-bold text-indigo-600">0</p>
+                      <p className="text-2xl font-bold text-[#9A3412]">0</p>
                       <p className="text-indigo-700">Swaps Made</p>
                     </div>
                   </div>
@@ -167,7 +167,7 @@ const ProfilePage = () => {
           {/* Actions Sidebar */}
           <div className="space-y-6">
             {/* Quick Actions */}
-            <div className="card-hover bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+            <div className="card-hover bg-white rounded-2xl shadow-sm border border-[#E8EDE5] p-6">
               <h3 className="font-semibold text-gray-900 mb-4">Quick Actions</h3>
               <div className="space-y-3">
                 <button
@@ -189,7 +189,7 @@ const ProfilePage = () => {
             </div>
 
             {/* Support Card */}
-            <div className="card-hover bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl p-6 text-white">
+            <div className="card-hover bg-[#164E63] rounded-2xl p-6 text-white">
               <h3 className="font-semibold mb-2">Need Help?</h3>
               <p className="text-blue-100 text-sm mb-4">
                 Contact our support team for assistance with your account.
@@ -202,7 +202,7 @@ const ProfilePage = () => {
         </div>
 
         {/* Additional Info */}
-        <div className="mt-8 card-hover bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+        <div className="mt-8 card-hover bg-white rounded-2xl shadow-sm border border-[#E8EDE5] p-6">
           <h3 className="font-semibold text-gray-900 mb-4">About Your Account</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-600">
             <div>
@@ -215,7 +215,7 @@ const ProfilePage = () => {
             </div>
             <div>
               <p className="font-medium text-gray-700 mb-2">Swapping Status</p>
-              <p className="text-green-600 font-medium">Active</p>
+              <p className="text-[#115E59] font-medium">Active</p>
             </div>
             <div>
               <p className="font-medium text-gray-700 mb-2">Community Rating</p>

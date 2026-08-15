@@ -81,17 +81,17 @@ const BookSingleCard = ({ book, userBooks }) => {
       <div className="card-hover group relative overflow-hidden">
         {/* Year Badge */}
         <div className="absolute top-3 right-3 z-10">
-          <span className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
+          <span className="bg-[#9A3412] text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
             {book.publishYear}
           </span>
         </div>
 
         {/* Book Cover Placeholder */}
-        <div className="h-48 bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center relative overflow-hidden">
+        <div className="h-48 bg-slate-50 border border-slate-100 flex items-center justify-center relative overflow-hidden">
           {book.coverUrl ? (
             <img src={book.coverUrl} alt={book.title} className="w-full h-full object-cover" />
           ) : (
-            <div className="text-6xl text-indigo-300 opacity-80">📚</div>
+            <div className="text-6xl text-indigo-300 opacity-80"></div>
           )}
           <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity"></div>
         </div>
@@ -100,7 +100,7 @@ const BookSingleCard = ({ book, userBooks }) => {
         <div className="p-5">
           {/* Title */}
           <div className="flex items-start space-x-3 mb-3">
-            <PiBookOpenTextLight className="text-indigo-600 text-xl mt-1 flex-shrink-0" />
+            <PiBookOpenTextLight className="text-[#9A3412] text-xl mt-1 flex-shrink-0" />
             <h3 className="text-lg font-bold text-gray-900 line-clamp-2 leading-tight">
               {book.title}
             </h3>
@@ -129,7 +129,7 @@ const BookSingleCard = ({ book, userBooks }) => {
           <div className="flex items-center justify-between pt-4 border-t border-gray-100">
             <button
               onClick={handlePreviewClick}
-              className="flex items-center space-x-1 text-gray-500 hover:text-indigo-600 transition-colors group"
+              className="flex items-center space-x-1 text-gray-500 hover:text-[#9A3412] transition-colors group"
               title="Quick view"
             >
               <BiShow className="text-lg" />
@@ -148,7 +148,7 @@ const BookSingleCard = ({ book, userBooks }) => {
 
             <Link
               to={`/books/details/${book._id}`}
-              className="flex items-center space-x-1 text-gray-500 hover:text-green-600 transition-colors group"
+              className="flex items-center space-x-1 text-gray-500 hover:text-[#115E59] transition-colors group"
               title="View details"
             >
               <BsInfoCircle className="text-lg" />

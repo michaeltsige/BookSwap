@@ -5,7 +5,7 @@ import { BsExclamationCircle } from "react-icons/bs";
 const ContactModal = ({ onClose, requesterEmail, requesteeEmail }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg relative" style={{ fontFamily: "'Open Sans', sans-serif" }}>
+      <div className="bg-white p-6 rounded-lg shadow-sm relative" style={{ fontFamily: "'Open Sans', sans-serif" }}>
         <RiCloseLine
           className="absolute top-2 right-2 text-2xl cursor-pointer"
           onClick={onClose}

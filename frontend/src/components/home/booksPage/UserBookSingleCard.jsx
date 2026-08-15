@@ -23,17 +23,17 @@ const UserBookSingleCard = ({ book }) => {
       <div className="card-hover group relative overflow-hidden">
         {/* Year Badge */}
         <div className="absolute top-3 right-3 z-10">
-          <span className="bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
+          <span className="bg-[#115E59] text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
             {book.publishYear}
           </span>
         </div>
 
         {/* Book Cover Placeholder */}
-        <div className="h-48 bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center relative overflow-hidden">
+        <div className="h-48 bg-emerald-50 border border-emerald-100 flex items-center justify-center relative overflow-hidden">
           {book.coverUrl ? (
             <img src={book.coverUrl} alt={book.title} className="w-full h-full object-cover" />
           ) : (
-            <div className="text-6xl text-green-300 opacity-80">📖</div>
+            <div className="text-6xl text-green-300 opacity-80"></div>
           )}
           <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity"></div>
         </div>
@@ -42,7 +42,7 @@ const UserBookSingleCard = ({ book }) => {
         <div className="p-5">
           {/* Title */}
           <div className="flex items-start space-x-3 mb-3">
-            <PiBookOpenTextLight className="text-green-600 text-xl mt-1 flex-shrink-0" />
+            <PiBookOpenTextLight className="text-[#115E59] text-xl mt-1 flex-shrink-0" />
             <h3 className="text-lg font-bold text-gray-900 line-clamp-2 leading-tight">
               {book.title}
             </h3>
@@ -77,7 +77,7 @@ const UserBookSingleCard = ({ book }) => {
 
             <Link
               to={`/books/details/${book._id}`}
-              className="flex items-center space-x-1 text-gray-500 hover:text-green-600 transition-colors group"
+              className="flex items-center space-x-1 text-gray-500 hover:text-[#115E59] transition-colors group"
               title="View details"
             >
               <BsInfoCircle className="text-lg" />

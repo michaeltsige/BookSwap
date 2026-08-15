@@ -35,7 +35,7 @@ const DeleteBook = () => {
       .delete(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/books/${id}`)
       .then(() => {
         setDeleting(false);
-        enqueueSnackbar('Book deleted successfully 📚', { variant: 'success' });
+        enqueueSnackbar('Book deleted successfully ', { variant: 'success' });
         navigate('/');
       })
       .catch((error) => {
@@ -51,7 +51,7 @@ const DeleteBook = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#F8F7F4] flex items-center justify-center">
         <Spinner size="lg" centered />
       </div>
     );
@@ -59,7 +59,7 @@ const DeleteBook = () => {
 
   if (!book) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#F8F7F4] flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">😕</div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Book Not Found</h2>
@@ -71,13 +71,13 @@ const DeleteBook = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
+    <div className="min-h-screen bg-[#F8F7F4] py-8">
       <div className="container mx-auto px-4 max-w-2xl">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <BackButton />
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-[#EF4444] rounded-xl flex items-center justify-center">
               <AiOutlineDelete className="text-white text-2xl" />
             </div>
             <div>
@@ -103,9 +103,9 @@ const DeleteBook = () => {
         </div>
 
         {/* Book Details Card */}
-        <div className="card-hover bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-8">
+        <div className="card-hover bg-white rounded-2xl shadow-sm border border-[#E8EDE5] p-8 mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-gradient-to-br from-red-100 to-pink-100 rounded-xl flex items-center justify-center">
+            <div className="w-16 h-16 bg-red-50 border border-red-100 rounded-xl flex items-center justify-center">
               <AiOutlineBook className="text-red-600 text-2xl" />
             </div>
             <div>
@@ -142,7 +142,7 @@ const DeleteBook = () => {
           </div>
 
           {/* Impact Information */}
-          <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+          <div className="p-4 bg-gray-50 rounded-lg border border-[#E8EDE5]">
             <h4 className="font-semibold text-gray-900 mb-2">What happens when you delete this book?</h4>
             <ul className="text-sm text-gray-600 space-y-1">
               <li className="flex items-center gap-2">
@@ -165,7 +165,7 @@ const DeleteBook = () => {
         <div className="flex flex-col sm:flex-row gap-4">
           <button
             onClick={handleCancel}
-            className="flex-1 flex items-center justify-center gap-2 px-6 py-4 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-semibold"
+            className="flex-1 flex items-center justify-center gap-2 px-6 py-4 border border-[#E8EDE5] text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-semibold"
             disabled={deleting}
           >
             <AiOutlineBook />
@@ -175,7 +175,7 @@ const DeleteBook = () => {
           <button
             onClick={handleDeleteBook}
             disabled={deleting}
-            className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-xl hover:from-red-600 hover:to-pink-700 transform hover:-translate-y-0.5 transition-all duration-200 font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-[#EF4444] text-white rounded-xl hover:from-red-600 hover:to-pink-700 transform hover:-translate-y-0.5 transition-all duration-200 font-semibold shadow-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
             {deleting ? (
               <>
@@ -197,7 +197,7 @@ const DeleteBook = () => {
             Changed your mind?{' '}
             <Link 
               to={`/books/edit/${book._id}`} 
-              className="text-indigo-600 hover:text-indigo-700 font-medium"
+              className="text-[#9A3412] hover:text-indigo-700 font-medium"
             >
               Edit this book instead
             </Link>
