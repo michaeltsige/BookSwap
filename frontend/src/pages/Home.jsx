@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useContext, useMemo } from 'react';
+import React, { useEffect, useState, useContext, useMemo, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import { UserContext } from '../context/UserContext';
+import { BookCacheContext } from '../context/BookCacheContext';
 import { jwtDecode } from 'jwt-decode';
 
 // Components
@@ -30,6 +31,7 @@ const Home = () => {
 
   // Context & Hooks
   const { userData, setUserData } = useContext(UserContext);
+  const { getCache, setCacheValue } = useContext(BookCacheContext);
   const [authChecked, setAuthChecked] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
@@ -73,14 +75,8 @@ const Home = () => {
     setAuthChecked(true);
   }, [setUserData]);
 
-  useEffect(() => {
-    if (authChecked) {
-      loadInitialData();
-    }
-  }, [authChecked, userData?.username]);
-
-  const loadInitialData = async () => {
-    setLoading(true);
+  // Background Quiet Update (Stale-While-Revalidate)
+  const refreshDataBackground = useCallback(async (cacheKeyAll, cacheKeyUser) => {
     try {
       const baseURL = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
       if (userData?.username) {
@@ -88,12 +84,67 @@ const Home = () => {
           axios.get(`${baseURL}/books/nuser/${userData.username}`),
           axios.get(`${baseURL}/books/user/${userData.username}`)
         ]);
-        setBooks(booksResponse.data.data || []);
-        setUserBooks(userBooksResponse.data.data || []);
+        
+        const freshBooks = booksResponse.data.data || [];
+        const freshUserBooks = userBooksResponse.data.data || [];
+        
+        setBooks(freshBooks);
+        setUserBooks(freshUserBooks);
+        
+        setCacheValue(cacheKeyAll, freshBooks);
+        setCacheValue(cacheKeyUser, freshUserBooks);
       } else {
         const booksResponse = await axios.get(`${baseURL}/books`);
-        setBooks(booksResponse.data.data || []);
-        setUserBooks([]);
+        const freshBooks = booksResponse.data.data || [];
+        setBooks(freshBooks);
+        setCacheValue(cacheKeyAll, freshBooks);
+      }
+    } catch (err) {
+      console.log('Background sync failed:', err.message);
+    }
+  }, [userData?.username, setCacheValue]);
+
+  const loadInitialData = async () => {
+    const cacheKeyAll = userData?.username ? `allBooks_${userData.username}` : 'allBooks_anonymous';
+    const cacheKeyUser = userData?.username ? `myBooks_${userData.username}` : null;
+
+    const cachedAll = getCache(cacheKeyAll);
+    const cachedUser = cacheKeyUser ? getCache(cacheKeyUser) : null;
+
+    // SWR Cache Hit: serve immediately and refresh silently in background (0ms latency!)
+    if (cachedAll) {
+      setBooks(cachedAll);
+      if (cachedUser) {
+        setUserBooks(cachedUser);
+      }
+      setLoading(false);
+      refreshDataBackground(cacheKeyAll, cacheKeyUser);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const baseURL = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
+      if (userData?.username) {
+        // Parallelizing requests using Promise.all to completely eliminate sequential waterfalls!
+        const [booksResponse, userBooksResponse] = await Promise.all([
+          axios.get(`${baseURL}/books/nuser/${userData.username}`),
+          axios.get(`${baseURL}/books/user/${userData.username}`)
+        ]);
+        
+        const freshBooks = booksResponse.data.data || [];
+        const freshUserBooks = userBooksResponse.data.data || [];
+        
+        setBooks(freshBooks);
+        setUserBooks(freshUserBooks);
+        
+        setCacheValue(cacheKeyAll, freshBooks);
+        setCacheValue(cacheKeyUser, freshUserBooks);
+      } else {
+        const booksResponse = await axios.get(`${baseURL}/books`);
+        const freshBooks = booksResponse.data.data || [];
+        setBooks(freshBooks);
+        setCacheValue(cacheKeyAll, freshBooks);
       }
     } catch (error) {
       console.log(error);
@@ -103,24 +154,42 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    if (authChecked) {
+      loadInitialData();
+    }
+  }, [authChecked, userData?.username]);
+
   // Swap functionality
   const fetchSwaps = async () => {
     if (swapLoading || !userData.username) return;
     
+    // Check cache for swaps
+    const cacheKeySwaps = `swaps_${userData.username}`;
+    const cachedSwaps = getCache(cacheKeySwaps);
+    
+    if (cachedSwaps) {
+      setSwapsSent(cachedSwaps.sent);
+      setSwapsReceived(cachedSwaps.received);
+      setSwapsLoaded(true);
+      // Quiet background update
+      refreshSwapsBackground(cacheKeySwaps);
+      return;
+    }
+
     setSwapLoading(true);
     try {
-      const contactsResponse = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/auth/getMySwapContacts`,
-        { username: userData.username }
-      );
+      const baseURL = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
+      
+      // Parallelize fetching of swap data and contacts to eliminate waterfalls
+      const [contactsResponse, swapsResponse] = await Promise.all([
+        axios.post(`${baseURL}/auth/getMySwapContacts`, { username: userData.username }),
+        axios.get(`${baseURL}/swapRequest`)
+      ]);
 
       const contactMap = contactsResponse.data.contacts;
-      
-      const swapsResponse = await axios.get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/swapRequest`
-      );
-      
       const allSwaps = swapsResponse.data.data;
+      
       const userSentSwaps = allSwaps.filter((swap) => swap.requester === userData.username);
       const userReceivedSwaps = allSwaps.filter((swap) => swap.requestee === userData.username);
 
@@ -130,13 +199,16 @@ const Home = () => {
         requesteeEmail: contactMap[swap.requestee] || 'Contact not available',
       }));
 
-      setSwapsSent(enhanceSwaps(userSentSwaps));
-      setSwapsReceived(enhanceSwaps(userReceivedSwaps));
+      const sent = enhanceSwaps(userSentSwaps);
+      const received = enhanceSwaps(userReceivedSwaps);
+
+      setSwapsSent(sent);
+      setSwapsReceived(received);
       setSwapsLoaded(true);
       
+      setCacheValue(cacheKeySwaps, { sent, received });
     } catch (error) {
       console.error('Error fetching swaps:', error);
-      // Fallback implementation
       try {
         const swapsResponse = await axios.get(
           `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/swapRequest`
@@ -154,6 +226,37 @@ const Home = () => {
       }
     } finally {
       setSwapLoading(false);
+    }
+  };
+
+  const refreshSwapsBackground = async (cacheKeySwaps) => {
+    try {
+      const baseURL = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
+      const [contactsResponse, swapsResponse] = await Promise.all([
+        axios.post(`${baseURL}/auth/getMySwapContacts`, { username: userData.username }),
+        axios.get(`${baseURL}/swapRequest`)
+      ]);
+
+      const contactMap = contactsResponse.data.contacts;
+      const allSwaps = swapsResponse.data.data;
+      
+      const userSentSwaps = allSwaps.filter((swap) => swap.requester === userData.username);
+      const userReceivedSwaps = allSwaps.filter((swap) => swap.requestee === userData.username);
+
+      const enhanceSwaps = (swaps) => swaps.map(swap => ({
+        ...swap,
+        requesterEmail: contactMap[swap.requester] || 'Contact not available',
+        requesteeEmail: contactMap[swap.requestee] || 'Contact not available',
+      }));
+
+      const sent = enhanceSwaps(userSentSwaps);
+      const received = enhanceSwaps(userReceivedSwaps);
+
+      setSwapsSent(sent);
+      setSwapsReceived(received);
+      setCacheValue(cacheKeySwaps, { sent, received });
+    } catch (err) {
+      console.log('Background swap sync failed:', err.message);
     }
   };
 
@@ -202,7 +305,7 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4]">
+    <div className="min-h-screen bg-[#F8F7F4] text-slate-800">
       <Header 
         sidebarOpen={sidebarOpen} 
         setSidebarOpen={setSidebarOpen}
@@ -215,11 +318,11 @@ const Home = () => {
         setSidebarOpen={setSidebarOpen} 
       />
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-6 py-12">
         <WelcomeSection userData={userData} />
         
         {/* Search Bar */}
-        <div className="mb-6">
+        <div className="mb-8">
           <SearchBar 
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}

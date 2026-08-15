@@ -5,24 +5,16 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import { UserProvider } from './context/UserContext.jsx';
+import { BookCacheProvider } from './context/BookCacheContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <UserProvider>
-    <BrowserRouter>
-      <SnackbarProvider>
-        <App />
-      </SnackbarProvider>
-    </BrowserRouter>
+    <BookCacheProvider>
+      <BrowserRouter>
+        <SnackbarProvider>
+          <App />
+        </SnackbarProvider>
+      </BrowserRouter>
+    </BookCacheProvider>
   </UserProvider>
 );
-
-
-// ReactDOM.createRoot(document.getElementById('root')).render(
-//   <React.StrictMode>
-//     <BrowserRouter>
-//       <SnackbarProvider>
-//         <App />
-//       </SnackbarProvider>
-//     </BrowserRouter>
-//   </React.StrictMode>
-// );
