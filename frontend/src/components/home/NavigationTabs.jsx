@@ -1,6 +1,6 @@
 import React from 'react';
 
-const NavigationTabs = ({ showType, setShowType, userBooks, books }) => {
+const NavigationTabs = ({ showType, setShowType, userBooks, books, pendingSwapsCount }) => {
   const tabs = [
     {
       id: 'allBooks',
@@ -17,7 +17,8 @@ const NavigationTabs = ({ showType, setShowType, userBooks, books }) => {
     {
       id: 'swaps',
       label: 'Swap Requests',
-      color: 'pine'
+      color: 'pine',
+      count: pendingSwapsCount > 0 ? pendingSwapsCount : undefined
     }
   ];
 
@@ -47,7 +48,11 @@ const NavigationTabs = ({ showType, setShowType, userBooks, books }) => {
           <span>{tab.label}</span>
           {tab.count !== undefined && (
             <span className={`text-[10px] px-2 py-0.5 rounded-full ${
-              showType === tab.id ? 'bg-white/25 text-white font-extrabold' : 'bg-slate-100 text-slate-500'
+              showType === tab.id 
+                ? 'bg-white/25 text-white font-extrabold' 
+                : tab.id === 'swaps' 
+                  ? 'bg-amber-500 text-white font-extrabold animate-pulse' 
+                  : 'bg-slate-100 text-slate-500'
             }`}>
               {tab.count}
             </span>

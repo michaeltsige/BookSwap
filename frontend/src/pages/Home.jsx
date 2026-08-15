@@ -14,7 +14,6 @@ import NavigationTabs from '../components/home/NavigationTabs';
 import AddBookFAB from '../components/home/AddBookFAB';
 import ContentArea from '../components/home/ContentArea';
 import SearchBar from '../components/search/SearchBar';
-import Spinner from '../components/Spinner';
 
 const Home = () => {
   // State
@@ -57,6 +56,11 @@ const Home = () => {
     );
   }, [userBooks, searchQuery]);
 
+  // Compute dynamic pending received swaps count
+  const pendingSwapsCount = useMemo(() => {
+    return swapsReceived.filter(swap => swap.status === 'pending').length;
+  }, [swapsReceived]);
+
   // Authentication & Initial Data
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -76,13 +80,15 @@ const Home = () => {
   }, [setUserData]);
 
   // Background Quiet Update (Stale-While-Revalidate)
-  const refreshDataBackground = useCallback(async (cacheKeyAll, cacheKeyUser) => {
+  const refreshDataBackground = useCallback(async (cacheKeyAll, cacheKeyUser, cacheKeySwaps) => {
     try {
       const baseURL = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
       if (userData?.username) {
-        const [booksResponse, userBooksResponse] = await Promise.all([
+        const [booksResponse, userBooksResponse, contactsResponse, swapsResponse] = await Promise.all([
           axios.get(`${baseURL}/books/nuser/${userData.username}`),
-          axios.get(`${baseURL}/books/user/${userData.username}`)
+          axios.get(`${baseURL}/books/user/${userData.username}`),
+          axios.post(`${baseURL}/auth/getMySwapContacts`, { username: userData.username }),
+          axios.get(`${baseURL}/swapRequest`)
         ]);
         
         const freshBooks = booksResponse.data.data || [];
@@ -93,6 +99,25 @@ const Home = () => {
         
         setCacheValue(cacheKeyAll, freshBooks);
         setCacheValue(cacheKeyUser, freshUserBooks);
+
+        // Process Swaps in background
+        const contactMap = contactsResponse.data.contacts || {};
+        const allSwaps = swapsResponse.data.data || [];
+        const userSentSwaps = allSwaps.filter((swap) => swap.requester === userData.username);
+        const userReceivedSwaps = allSwaps.filter((swap) => swap.requestee === userData.username);
+
+        const enhanceSwaps = (swaps) => swaps.map(swap => ({
+          ...swap,
+          requesterEmail: contactMap[swap.requester] || 'Contact not available',
+          requesteeEmail: contactMap[swap.requestee] || 'Contact not available',
+        }));
+
+        const sent = enhanceSwaps(userSentSwaps);
+        const received = enhanceSwaps(userReceivedSwaps);
+
+        setSwapsSent(sent);
+        setSwapsReceived(received);
+        setCacheValue(cacheKeySwaps, { sent, received });
       } else {
         const booksResponse = await axios.get(`${baseURL}/books`);
         const freshBooks = booksResponse.data.data || [];
@@ -107,9 +132,11 @@ const Home = () => {
   const loadInitialData = async () => {
     const cacheKeyAll = userData?.username ? `allBooks_${userData.username}` : 'allBooks_anonymous';
     const cacheKeyUser = userData?.username ? `myBooks_${userData.username}` : null;
+    const cacheKeySwaps = userData?.username ? `swaps_${userData.username}` : null;
 
     const cachedAll = getCache(cacheKeyAll);
     const cachedUser = cacheKeyUser ? getCache(cacheKeyUser) : null;
+    const cachedSwaps = cacheKeySwaps ? getCache(cacheKeySwaps) : null;
 
     // SWR Cache Hit: serve immediately and refresh silently in background (0ms latency!)
     if (cachedAll) {
@@ -117,8 +144,13 @@ const Home = () => {
       if (cachedUser) {
         setUserBooks(cachedUser);
       }
+      if (cachedSwaps) {
+        setSwapsSent(cachedSwaps.sent);
+        setSwapsReceived(cachedSwaps.received);
+        setSwapsLoaded(true);
+      }
       setLoading(false);
-      refreshDataBackground(cacheKeyAll, cacheKeyUser);
+      refreshDataBackground(cacheKeyAll, cacheKeyUser, cacheKeySwaps);
       return;
     }
 
@@ -126,10 +158,12 @@ const Home = () => {
     try {
       const baseURL = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
       if (userData?.username) {
-        // Parallelizing requests using Promise.all to completely eliminate sequential waterfalls!
-        const [booksResponse, userBooksResponse] = await Promise.all([
+        // Parallelizing ALL initial requests (books, userBooks, swaps) using Promise.all to completely eliminate sequential waterfalls!
+        const [booksResponse, userBooksResponse, contactsResponse, swapsResponse] = await Promise.all([
           axios.get(`${baseURL}/books/nuser/${userData.username}`),
-          axios.get(`${baseURL}/books/user/${userData.username}`)
+          axios.get(`${baseURL}/books/user/${userData.username}`),
+          axios.post(`${baseURL}/auth/getMySwapContacts`, { username: userData.username }),
+          axios.get(`${baseURL}/swapRequest`)
         ]);
         
         const freshBooks = booksResponse.data.data || [];
@@ -140,6 +174,26 @@ const Home = () => {
         
         setCacheValue(cacheKeyAll, freshBooks);
         setCacheValue(cacheKeyUser, freshUserBooks);
+
+        // Process Swaps
+        const contactMap = contactsResponse.data.contacts || {};
+        const allSwaps = swapsResponse.data.data || [];
+        const userSentSwaps = allSwaps.filter((swap) => swap.requester === userData.username);
+        const userReceivedSwaps = allSwaps.filter((swap) => swap.requestee === userData.username);
+
+        const enhanceSwaps = (swaps) => swaps.map(swap => ({
+          ...swap,
+          requesterEmail: contactMap[swap.requester] || 'Contact not available',
+          requesteeEmail: contactMap[swap.requestee] || 'Contact not available',
+        }));
+
+        const sent = enhanceSwaps(userSentSwaps);
+        const received = enhanceSwaps(userReceivedSwaps);
+
+        setSwapsSent(sent);
+        setSwapsReceived(received);
+        setSwapsLoaded(true);
+        setCacheValue(cacheKeySwaps, { sent, received });
       } else {
         const booksResponse = await axios.get(`${baseURL}/books`);
         const freshBooks = booksResponse.data.data || [];
@@ -148,7 +202,7 @@ const Home = () => {
       }
     } catch (error) {
       console.log(error);
-      enqueueSnackbar('Error loading books', { variant: 'error' });
+      enqueueSnackbar('Error loading library data', { variant: 'error' });
     } finally {
       setLoading(false);
     }
@@ -172,7 +226,6 @@ const Home = () => {
       setSwapsSent(cachedSwaps.sent);
       setSwapsReceived(cachedSwaps.received);
       setSwapsLoaded(true);
-      // Quiet background update
       refreshSwapsBackground(cacheKeySwaps);
       return;
     }
@@ -180,8 +233,6 @@ const Home = () => {
     setSwapLoading(true);
     try {
       const baseURL = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
-      
-      // Parallelize fetching of swap data and contacts to eliminate waterfalls
       const [contactsResponse, swapsResponse] = await Promise.all([
         axios.post(`${baseURL}/auth/getMySwapContacts`, { username: userData.username }),
         axios.get(`${baseURL}/swapRequest`)
@@ -336,6 +387,7 @@ const Home = () => {
             setShowType={handleSetShowType}
             userBooks={userBooks}
             books={books}
+            pendingSwapsCount={pendingSwapsCount}
           />
         </div>
 
