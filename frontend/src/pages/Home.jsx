@@ -369,11 +369,11 @@ const Home = () => {
         setSidebarOpen={setSidebarOpen} 
       />
 
-      <main className="container mx-auto px-6 py-12">
+      <main className="max-w-5xl mx-auto px-6 py-6 space-y-6">
         <WelcomeSection userData={userData} />
         
         {/* Search Bar - constrained to a compact, nicer centered width */}
-        <div className="mb-8 max-w-md mx-auto">
+        <div className="max-w-md mx-auto">
           <SearchBar 
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
@@ -381,7 +381,7 @@ const Home = () => {
           />
         </div>
 
-        <div className="max-w-md mx-auto mb-2">
+        <div className="max-w-md mx-auto">
           <NavigationTabs 
             showType={showType}
             setShowType={handleSetShowType}
