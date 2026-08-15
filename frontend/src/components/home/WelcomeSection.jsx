@@ -2,14 +2,14 @@ import React from 'react';
 
 const WelcomeSection = ({ userData }) => {
   return (
-    <div className="text-center mb-8 fade-in select-none">
-      <h2 className="text-3xl font-medium text-slate-900 mb-2 font-serif tracking-tight">
+    <div class="text-center mb-10 fade-in select-none bg-[#FAF9F6] border border-[#E8EDE5] rounded-2xl py-12 px-6 max-w-3xl mx-auto shadow-sm">
+      <h2 class="text-2xl md:text-3xl font-medium text-slate-900 mb-3.5 font-serif tracking-tight leading-tight">
         {userData?.username ? `Welcome back, ${userData.username}` : 'Welcome to BookSwap'}
       </h2>
-      <p className="text-sm text-slate-500 max-w-xl mx-auto font-light leading-relaxed tracking-wide">
+      <p class="text-xs md:text-sm text-slate-500 max-w-xl mx-auto font-light leading-relaxed tracking-wide">
         {userData?.username 
-          ? 'Discover new books, manage your collection, and connect with fellow readers across the community.'
-          : 'Browse available books from the community. Sign in or create an account to request trades and share your collection.'}
+          ? 'Discover fresh additions, manage your collection, and connect with fellow readers across our secure book trading platform.'
+          : 'Browse available titles from our community. Sign in or create an account to publish listings, manage requests, and swap books.'}
       </p>
     </div>
   );
