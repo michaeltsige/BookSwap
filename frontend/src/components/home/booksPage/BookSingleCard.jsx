@@ -80,9 +80,9 @@ const BookSingleCard = ({ book, userBooks }) => {
       {/* h-full and flex flex-col enforce absolute layout uniformity across all cards! */}
       <div className="group relative overflow-hidden select-none bg-white border border-[#E8EDE5] rounded-2xl p-5 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 h-full flex flex-col justify-between">
         <div>
-          {/* Year Badge */}
+          {/* Year Badge - Clean, squarer modern corner tag */}
           <div className="absolute top-3 right-3 z-10">
-            <span className="bg-[#9A3412] text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
+            <span className="bg-[#9A3412] text-white text-[10px] font-mono font-bold px-2.5 py-1 rounded shadow-sm">
               {book.publishYear}
             </span>
           </div>
@@ -104,33 +104,33 @@ const BookSingleCard = ({ book, userBooks }) => {
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity"></div>
           </div>
 
-          {/* Content */}
+          {/* Content - Vertically locked element heights to guarantee identical horizontal alignment (x-axis) */}
           <div className="pt-5">
-            {/* Title */}
-            <div className="flex items-start space-x-3 mb-2.5">
-              <PiBookOpenTextLight className="text-[#9A3412] text-xl mt-1 flex-shrink-0" />
-              <h3 className="text-base font-bold text-gray-900 line-clamp-2 leading-snug font-serif">
+            {/* Title - Locked h-11 */}
+            <div className="flex items-start space-x-3 mb-2.5 h-11 overflow-hidden">
+              <PiBookOpenTextLight className="text-[#9A3412] text-xl mt-0.5 flex-shrink-0" />
+              <h3 className="text-sm font-bold text-gray-900 line-clamp-2 leading-tight font-serif">
                 {book.title}
               </h3>
             </div>
 
-            {/* Author */}
-            <div className="flex items-center space-x-2 mb-3.5">
-              <BiUserCircle className="text-gray-400 text-lg shrink-0" />
-              <p className="text-gray-500 text-xs font-medium">{book.author}</p>
+            {/* Author - Locked h-4 */}
+            <div className="flex items-center space-x-2 h-4 mb-3.5">
+              <BiUserCircle className="text-gray-400 text-base shrink-0" />
+              <p className="text-gray-500 text-xs font-medium truncate">{book.author}</p>
             </div>
 
-            {/* Condition Badge */}
-            <div className="mb-3 select-none">
+            {/* Condition Badge - Locked h-5 */}
+            <div className="h-5 mb-3.5 flex items-center">
               <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-gray-50 text-slate-600 border border-gray-100 uppercase tracking-tight">
                 Condition: {book.condition || 'Good'}
               </span>
             </div>
 
-            {/* Owner */}
-            <div className="mb-4 select-none">
-              <span className="text-[10px] uppercase tracking-wider font-extrabold text-slate-400">Owner</span>
-              <p className="text-xs text-slate-700 font-bold leading-none mt-0.5">{book.ownerUsername}</p>
+            {/* Owner - Locked h-8 */}
+            <div className="h-8 mb-2 flex flex-col justify-center">
+              <span className="text-[9px] uppercase tracking-wider font-extrabold text-slate-400 leading-none">Owner</span>
+              <p className="text-xs text-slate-700 font-bold leading-none mt-1 truncate">{book.ownerUsername}</p>
             </div>
           </div>
         </div>
