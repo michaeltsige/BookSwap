@@ -71,42 +71,38 @@ const UserBookSingleCard = ({ book }) => {
             </span>
           </div>
 
-          {/* Action Buttons - Fully responsive text hiding to prevent box overflowing! */}
-          <div className="flex items-center justify-between pt-4 border-t border-slate-100 gap-1 select-none">
+          {/* Action Buttons - Premium Circular Icon Buttons to Completely Eliminate Layout Overflows */}
+          <div className="flex items-center justify-between pt-3 border-t border-slate-100 select-none">
             <button
               onClick={handlePreviewClick}
-              className="flex items-center gap-1 text-slate-400 hover:text-blue-600 transition-colors"
-              title="Quick view"
+              className="flex items-center justify-center w-8 h-8 rounded-full text-slate-400 hover:bg-blue-50 hover:text-blue-600 transition-all active:scale-90"
+              title="Quick Preview"
             >
               <BiShow className="text-lg shrink-0" />
-              <span className="text-[10px] uppercase font-bold tracking-tight hidden sm:inline">Preview</span>
             </button>
 
             <Link
               to={`/books/details/${book._id}`}
-              className="flex items-center gap-1 text-slate-400 hover:text-[#115E59] transition-colors"
-              title="View details"
+              className="flex items-center justify-center w-8 h-8 rounded-full text-slate-400 hover:bg-teal-50 hover:text-[#115E59] transition-all active:scale-90"
+              title="View Details"
             >
-              <BsInfoCircle className="text-md shrink-0" />
-              <span className="text-[10px] uppercase font-bold tracking-tight hidden sm:inline">Details</span>
+              <BsInfoCircle className="text-[17px] shrink-0" />
             </Link>
 
             <Link
               to={`/books/edit/${book._id}`}
-              className="flex items-center gap-1 text-slate-400 hover:text-amber-600 transition-colors"
-              title="Edit book"
+              className="flex items-center justify-center w-8 h-8 rounded-full text-slate-400 hover:bg-amber-50 hover:text-amber-600 transition-all active:scale-90"
+              title="Edit Book Info"
             >
               <AiOutlineEdit className="text-lg shrink-0" />
-              <span className="text-[10px] uppercase font-bold tracking-tight hidden sm:inline">Edit</span>
             </Link>
 
             <Link
               to={`/books/delete/${book._id}`}
-              className="flex items-center gap-1 text-slate-400 hover:text-red-600 transition-colors"
-              title="Delete book"
+              className="flex items-center justify-center w-8 h-8 rounded-full text-slate-400 hover:bg-red-50 hover:text-red-600 transition-all active:scale-90"
+              title="Delete Book"
             >
               <MdOutlineDelete className="text-lg shrink-0" />
-              <span className="text-[10px] uppercase font-bold tracking-tight hidden sm:inline">Delete</span>
             </Link>
           </div>
         </div>
