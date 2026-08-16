@@ -19,7 +19,7 @@ const WelcomeSection = ({ userData }) => {
   if (!isVisible) return null;
 
   return (
-    <div class="relative bg-[#FAF9F6] border border-[#E8EDE5] rounded-xl py-3 px-4 max-w-3xl mx-auto mb-6 flex items-center justify-between shadow-sm select-none">
+    <div class="relative bg-[#FAF9F6] border border-[#E8EDE5] rounded-xl py-3 px-4 w-full flex items-center justify-between shadow-sm select-none">
       <div class="flex-grow pr-6 text-left">
         <p class="text-sm text-slate-700 leading-normal font-serif">
           <span class="font-bold text-[#9A3412]">

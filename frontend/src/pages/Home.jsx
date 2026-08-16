@@ -372,24 +372,20 @@ const Home = () => {
       <main className="max-w-5xl mx-auto px-6 py-6 space-y-6">
         <WelcomeSection userData={userData} />
         
-        {/* Search Bar - constrained to a compact, nicer centered width */}
-        <div className="max-w-md mx-auto">
-          <SearchBar 
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            placeholder={`Search ${showType === 'allBooks' ? 'available books' : showType === 'myBooks' ? 'your books' : 'swaps'}...`}
-          />
-        </div>
+        {/* Search Bar - expands to fill the unified container width */}
+        <SearchBar 
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          placeholder={`Search ${showType === 'allBooks' ? 'available books' : showType === 'myBooks' ? 'your books' : 'swaps'}...`}
+        />
 
-        <div className="max-w-md mx-auto">
-          <NavigationTabs 
-            showType={showType}
-            setShowType={handleSetShowType}
-            userBooks={userBooks}
-            books={books}
-            pendingSwapsCount={pendingSwapsCount}
-          />
-        </div>
+        <NavigationTabs 
+          showType={showType}
+          setShowType={handleSetShowType}
+          userBooks={userBooks}
+          books={books}
+          pendingSwapsCount={pendingSwapsCount}
+        />
 
         <ContentArea 
           loading={loading}
