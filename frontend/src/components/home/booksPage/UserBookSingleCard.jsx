@@ -20,7 +20,7 @@ const UserBookSingleCard = ({ book }) => {
 
   return (
     <>
-      <div className="card-hover group relative overflow-hidden">
+      <div className="card-hover group relative overflow-hidden select-none bg-white border border-[#E8EDE5] rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-300">
         {/* Year Badge */}
         <div className="absolute top-3 right-3 z-10">
           <span className="bg-[#115E59] text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
@@ -29,7 +29,7 @@ const UserBookSingleCard = ({ book }) => {
         </div>
 
         {/* Book Cover Placeholder */}
-        <div className="h-48 bg-emerald-50 border border-emerald-100 flex items-center justify-center relative overflow-hidden">
+        <div className="h-48 bg-emerald-50 border border-emerald-100 flex items-center justify-center relative overflow-hidden rounded-xl">
           {book.coverUrl || book.conditionPhoto ? (
             <img 
               src={book.coverUrl ? (book.coverUrl.includes('covers.openlibrary.org') && book.coverUrl.endsWith('-L.jpg') ? book.coverUrl.replace('-L.jpg', '-M.jpg') : book.coverUrl) : book.conditionPhoto} 
@@ -46,67 +46,67 @@ const UserBookSingleCard = ({ book }) => {
         </div>
 
         {/* Content */}
-        <div className="p-5">
+        <div className="pt-5">
           {/* Title */}
-          <div className="flex items-start space-x-3 mb-3">
+          <div className="flex items-start space-x-3 mb-2.5">
             <PiBookOpenTextLight className="text-[#115E59] text-xl mt-1 flex-shrink-0" />
-            <h3 className="text-lg font-bold text-gray-900 line-clamp-2 leading-tight">
+            <h3 className="text-base font-bold text-gray-900 line-clamp-2 leading-snug font-serif">
               {book.title}
             </h3>
           </div>
 
           {/* Author */}
-          <div className="flex items-center space-x-2 mb-4">
-            <BiUserCircle className="text-gray-500 text-lg" />
-            <p className="text-gray-600 text-sm">{book.author}</p>
+          <div className="flex items-center space-x-2 mb-3.5">
+            <BiUserCircle className="text-gray-400 text-lg shrink-0" />
+            <p className="text-gray-500 text-xs font-medium">{book.author}</p>
           </div>
 
           {/* Condition & Status */}
-          <div className="flex items-center gap-2 mb-4">
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-gray-100 text-gray-700">
+          <div className="flex items-center gap-2 mb-4 select-none">
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-gray-50 text-gray-600 border border-gray-100 uppercase tracking-tight">
               {book.condition || 'Good'}
             </span>
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-green-50 text-[#115E59]">
               Your Book
             </span>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+          {/* Action Buttons - Fully responsive text hiding to prevent box overflowing! */}
+          <div className="flex items-center justify-between pt-4 border-t border-slate-100 gap-1 select-none">
             <button
               onClick={handlePreviewClick}
-              className="flex items-center space-x-1 text-gray-500 hover:text-blue-600 transition-colors group"
+              className="flex items-center gap-1 text-slate-400 hover:text-blue-600 transition-colors"
               title="Quick view"
             >
-              <BiShow className="text-lg" />
-              <span className="text-xs font-medium">Preview</span>
+              <BiShow className="text-lg shrink-0" />
+              <span className="text-[10px] uppercase font-bold tracking-tight hidden sm:inline">Preview</span>
             </button>
 
             <Link
               to={`/books/details/${book._id}`}
-              className="flex items-center space-x-1 text-gray-500 hover:text-[#115E59] transition-colors group"
+              className="flex items-center gap-1 text-slate-400 hover:text-[#115E59] transition-colors"
               title="View details"
             >
-              <BsInfoCircle className="text-lg" />
-              <span className="text-xs font-medium">Details</span>
+              <BsInfoCircle className="text-md shrink-0" />
+              <span className="text-[10px] uppercase font-bold tracking-tight hidden sm:inline">Details</span>
             </Link>
 
             <Link
               to={`/books/edit/${book._id}`}
-              className="flex items-center space-x-1 text-gray-500 hover:text-amber-600 transition-colors group"
+              className="flex items-center gap-1 text-slate-400 hover:text-amber-600 transition-colors"
               title="Edit book"
             >
-              <AiOutlineEdit className="text-lg" />
-              <span className="text-xs font-medium">Edit</span>
+              <AiOutlineEdit className="text-lg shrink-0" />
+              <span className="text-[10px] uppercase font-bold tracking-tight hidden sm:inline">Edit</span>
             </Link>
 
             <Link
               to={`/books/delete/${book._id}`}
-              className="flex items-center space-x-1 text-gray-500 hover:text-red-600 transition-colors group"
+              className="flex items-center gap-1 text-slate-400 hover:text-red-600 transition-colors"
               title="Delete book"
             >
-              <MdOutlineDelete className="text-lg" />
-              <span className="text-xs font-medium">Delete</span>
+              <MdOutlineDelete className="text-lg shrink-0" />
+              <span className="text-[10px] uppercase font-bold tracking-tight hidden sm:inline">Delete</span>
             </Link>
           </div>
         </div>
